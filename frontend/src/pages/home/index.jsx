@@ -62,7 +62,7 @@ const LandingPage = () => {
 
       {/* Footer Section */}
       <footer className="bg-blue-600 text-white py-6 text-center">
-        <p>© 2025 Your Personal SDE Prep Tracker. All rights reserved.</p>
+        <p>© 2025 CODEMATE All rights reserved.</p>
       </footer>
     </div>
   );
