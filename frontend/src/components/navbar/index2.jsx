@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { NavLink ,Link} from 'react-router-dom'
 
 
-const pages = ['Home', 'Problems', 'About Us'];
+const pages = ['Home', 'Problems', 'About Us','dsasheets'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
