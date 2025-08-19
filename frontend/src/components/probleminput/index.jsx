@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addproblem } from "../../slices/problemInputSlice";
+import { addproblem } from "../../slices/problemSlice";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
 
