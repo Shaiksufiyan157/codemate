@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
-import { setDSValue ,setAlgoValue,OnAllClick} from "../../slices/problemInputSlice";
+import { setDSValue ,setAlgoValue} from "../../slices/problemSlice";
 export const Filter = () => {
   const navigate = useNavigate()
   const OnAddProblemClick = () => {
@@ -17,9 +17,7 @@ export const Filter = () => {
   const OnAlgoChange=(e)=>{
     dispatch(setAlgoValue(e.target.value))
   }
-  const OnresetClick=()=>{
 
-  }
   return (
     <>
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

@@ -1,4 +1,4 @@
-const revisionDSA = [
+export const revisionDSA = [
   {
     ProblemStatement: "Sort a dataset efficiently using the most optimal technique for the given data size and nature.",
     Approach: [
@@ -109,5 +109,11 @@ const revisionDSA = [
   }
 ];
 
-
-export default revisionDSA
+export const dsasheetdata = {
+  id: '1',
+  name: 'shaik dsa sheet-1',
+  problems: [
+    { probname: "word ladder 1", link: "www.leetcode.com" },
+    { probname: "word ladder 2", link: "www.leetcode.com" }
+  ]
+}

@@ -7,6 +7,7 @@ import Navbar from './components/navbar/index2'
 import { InputData } from './components/probleminput/index'
 import {Route,Routes} from 'react-router-dom'
 import LandingPage from './pages/home'
+import { Dsasheets } from './components/dsasheetComps/content-table/index'
 function App() {
 
   return (
@@ -17,6 +18,7 @@ function App() {
     <Route path='/' element={<LandingPage/>}></Route>
     <Route path='/problems' element={<Problems/>}></Route>
     <Route path='/addproblem' element={<InputData/>}></Route>
+    <Route path='/dsasheets' element={<Dsasheets/>}></Route>
   </Routes>
   
     </>
