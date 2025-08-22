@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { dsasheetdata } from "../db";
 const initialState={
-    sheets:  []
+    sheets: JSON.parse(localStorage.getItem('dsasheets')) || []
 }
 
 const DsaSheetSlice=createSlice({
@@ -9,7 +8,9 @@ const DsaSheetSlice=createSlice({
     initialState,
     reducers:{
         addsheet:(state,action)=>{
-            state.sheets.push(action.payload)
+            state.sheets=action.payload;
+            localStorage.setItem('dsasheets', JSON.stringify(state.sheets));
+            alert("dsa sheets added successfully")
         }
     }
 })
@@ -17,3 +18,12 @@ const DsaSheetSlice=createSlice({
 export const {addsheet}=DsaSheetSlice.actions;
 
 export default DsaSheetSlice.reducer;
+
+
+
+
+        // addproblem:(state,action)=>{
+        //     state.problems=[...state.problems,action.payload]
+        //     localStorage.setItem('problems', JSON.stringify(state.problems));
+        //     alert("new problem added successfully") 
+        // },

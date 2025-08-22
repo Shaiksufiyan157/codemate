@@ -1,4 +1,4 @@
-import {v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid'
 export const revisionDSA = [
   {
     ProblemStatement: "Sort a dataset efficiently using the most optimal technique for the given data size and nature.",
@@ -112,25 +112,114 @@ export const revisionDSA = [
 
 export const dsasheetdata = [{
   _id: uuid(),
-  name: 'shaik dsa sheet-1',
+  name: 'shaik\'s dsa sheet-1',
   problems: [
-    { probname: "word ladder 1", link: "www.leetcode.com" },
-    { probname: "word ladder 2", link: "www.leetcode.com" }
+      {
+        probname: "Check if Array Is Sorted and Rotated",
+        link: "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated"
+      },
+      {
+        probname: "Remove Duplicates from Sorted Array",
+        link: "https://leetcode.com/problems/remove-duplicates-from-sorted-array"
+      },
+      {
+        probname: "Two Sum",
+        link: "https://leetcode.com/problems/two-sum"
+      },
+      {
+        probname: "Longest Substring Without Repeating Characters",
+        link: "https://leetcode.com/problems/longest-substring-without-repeating-characters"
+      },
+      {
+        probname: "Merge Intervals",
+        link: "https://leetcode.com/problems/merge-intervals"
+      }
   ]
 },
-{  _id: uuid(),
-  name: 'shaik dsa sheet-2',
+{
+  _id: uuid(),
+  name: 'shaik\'s dsa sheet-2',
   problems: [
-    { probname: "word ladder 1", link: "www.leetcode.com" },
-    { probname: "word ladder 2", link: "www.leetcode.com" }
+    {
+      probname: "Remove Duplicates from Sorted Array",
+      link: "https://leetcode.com/problems/remove-duplicates-from-sorted-array"
+    },
+
+    {
+      probname: "Two Sum",
+      link: "https://leetcode.com/problems/two-sum"
+    },
+
+    {
+      probname: "Longest Substring Without Repeating Characters",
+      link: "https://leetcode.com/problems/longest-substring-without-repeating-characters"
+    },
+
+    {
+      probname: "Container With Most Water",
+      link: "https://leetcode.com/problems/container-with-most-water"
+    }
+    ,
+    {
+      probname: "Merge Intervals",
+      link: "https://leetcode.com/problems/merge-intervals"
+    }
   ]
 }
-,
-{  _id: uuid(),
-  name: 'shaik dsa sheet-2',
+  ,
+{
+  _id: uuid(),
+  name: 'shaik\'s dsa sheet-3',
   problems: [
-    { probname: "word ladder 1", link: "www.leetcode.com" },
-    { probname: "word ladder 2", link: "www.leetcode.com" }
+    {
+      probname: "Valid Parentheses",
+      link: "https://leetcode.com/problems/valid-parentheses"
+    },
+
+    {
+      probname: "Search in Rotated Sorted Array",
+      link: "https://leetcode.com/problems/search-in-rotated-sorted-array"
+    },
+
+    {
+      probname: "Maximum Subarray",
+      link: "https://leetcode.com/problems/maximum-subarray"
+    },
+
+    {
+      probname: "Climbing Stairs",
+      link: "https://leetcode.com/problems/climbing-stairs"
+    },
+
+    {
+      probname: "Best Time to Buy and Sell Stock",
+      link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock"
+    },
+    {
+      probname: "Valid Parentheses",
+      link: "https://leetcode.com/problems/valid-parentheses"
+    },
+
+
+    {
+      probname: "Search in Rotated Sorted Array",
+      link: "https://leetcode.com/problems/search-in-rotated-sorted-array"
+    },
+
+    {
+      probname: "Maximum Subarray",
+      link: "https://leetcode.com/problems/maximum-subarray"
+    },
+
+    {
+      probname: "Climbing Stairs",
+      link: "https://leetcode.com/problems/climbing-stairs"
+    },
+
+    {
+      probname: "Best Time to Buy and Sell Stock",
+      link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock"
+    }
   ]
 }
 ]
