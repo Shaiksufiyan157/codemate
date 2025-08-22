@@ -1,3 +1,4 @@
+import {v4 as uuid } from 'uuid'
 export const revisionDSA = [
   {
     ProblemStatement: "Sort a dataset efficiently using the most optimal technique for the given data size and nature.",
@@ -109,11 +110,27 @@ export const revisionDSA = [
   }
 ];
 
-export const dsasheetdata = {
-  id: '1',
+export const dsasheetdata = [{
+  _id: uuid(),
   name: 'shaik dsa sheet-1',
   problems: [
     { probname: "word ladder 1", link: "www.leetcode.com" },
     { probname: "word ladder 2", link: "www.leetcode.com" }
   ]
+},
+{  _id: uuid(),
+  name: 'shaik dsa sheet-2',
+  problems: [
+    { probname: "word ladder 1", link: "www.leetcode.com" },
+    { probname: "word ladder 2", link: "www.leetcode.com" }
+  ]
 }
+,
+{  _id: uuid(),
+  name: 'shaik dsa sheet-2',
+  problems: [
+    { probname: "word ladder 1", link: "www.leetcode.com" },
+    { probname: "word ladder 2", link: "www.leetcode.com" }
+  ]
+}
+]

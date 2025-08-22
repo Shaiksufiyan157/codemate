@@ -11,11 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { NavLink ,Link} from 'react-router-dom'
+import CodeOffIcon from '@mui/icons-material/CodeOff';
+import{NavLink ,Link} from 'react-router-dom'
 
 
-const pages = ['Home', 'Problems', 'About Us','dsasheets'];
+const pages = ['Home', 'Problems', 'About Us','Sheets'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
@@ -37,11 +37,15 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  const getStyle=({isActive})=>{
+   return isActive?'border-b-2 ':''
+  }
+
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <CodeOffIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
           <Typography
             variant="h6"
             noWrap
@@ -90,13 +94,13 @@ function Navbar() {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
           
-                    <Typography to="/problems" sx={{ textAlign: 'center' }} ><Link to={`/${page==='Home'?'':page.toLowerCase()}`}>{page}</Link></Typography>
+                    <Typography to="/problems" sx={{ textAlign: 'center' }} ><NavLink to={`/${page==='Home'?'':page.toLowerCase()}`} style={{}}>{page}</NavLink></Typography>
                  
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+         <CodeOffIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -122,7 +126,7 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link to={`/${page==='Home'?'':page.toLowerCase().split(' ').join('')}`}>{page}</Link>
+                <NavLink to={`/${page==='Home'?'':page.toLowerCase().split(' ').join('')}`} className={getStyle}>{page}</NavLink>
               </Button>
             ))}
           </Box>
@@ -158,6 +162,7 @@ function Navbar() {
         </Toolbar>
       </Container>
     </AppBar>
+    
   );
 }
 export default Navbar;

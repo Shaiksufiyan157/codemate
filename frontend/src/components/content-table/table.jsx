@@ -8,6 +8,7 @@ export const Table = () => {
 
   const FilterByDs = getFilterByDs(problems, datastructure)
   const FilterByAlgo = getFilterByAlgo(FilterByDs, algo)
+  console.log(FilterByAlgo)
   return (
     <>
       <div className="hidden md:block mt-4 overflow-x-auto border border-gray-200 rounded-lg bg-white">
