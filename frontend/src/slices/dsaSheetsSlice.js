@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { dsasheetdata } from "../db";
 const initialState={
-    id:'',
-    problems:[],
-    name:''
+    sheets:  []
 }
 
 const DsaSheetSlice=createSlice({
@@ -11,9 +9,11 @@ const DsaSheetSlice=createSlice({
     initialState,
     reducers:{
         addsheet:(state,action)=>{
-            // state.\
+            state.sheets.push(action.payload)
         }
     }
 })
+
+export const {addsheet}=DsaSheetSlice.actions;
 
 export default DsaSheetSlice.reducer;
