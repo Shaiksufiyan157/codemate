@@ -42,11 +42,3 @@ export const ProblemReducer=(state,action)=>{
             }
     }
 }
-
-//  const initialState={
-//     approach1:'',
-//     approach2:'',
-//     ds:'',
-//     algo:'',
-//     problemStatement:''
-//  }
