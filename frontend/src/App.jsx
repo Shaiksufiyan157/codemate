@@ -14,10 +14,10 @@ function App() {
   const showNavbar = pathname !== "/";
   return (
     <>
-
+ <Navbar />
   <div className="bg-gray-100 h-screen flex flex-col justify-between">
       
- {showNavbar && <Navbar />}
+
   <Routes>
     <Route path='/' element={<LandingPage/>}></Route>
     <Route path='/problems' element={<Problems/>}></Route>

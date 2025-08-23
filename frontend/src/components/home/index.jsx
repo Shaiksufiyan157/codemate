@@ -1,6 +1,7 @@
 import { useState ,useEffect, use} from "react"
 import { Link } from "react-router-dom";
 import Navbar from "../navbar/index2";
+import {useLocation} from 'react-router-dom'
 export const Hero=()=>{
   const [headerText,setHeaderText]=useState('');
   let idx=1;
@@ -14,11 +15,11 @@ export const Hero=()=>{
 
     setTimeout(showText,100)
 }
+
     return(
         <>
          {/* Header Section */}
          <div>
-          <Navbar/>
         <header className="bg-blue-600 text-white py-5 text-center">
         <h1 className="text-4xl font-semibold">CODEMATE</h1>
         <p className="mt-4 text-lg">
