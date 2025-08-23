@@ -1,20 +1,23 @@
 import { Problems } from './components/content-table'
 import Navbar from './components/navbar/index2'
 import { Footer } from './components/footer/index'
-import {Route,Routes} from 'react-router-dom'
+import {Route,Routes, useLocation} from 'react-router-dom'
 import LandingPage from './pages/home'
-import { ProblemsTable } from './components/dsasheetComps/content-table/problemstable'
 import { InputData } from './components/probleminput/index'
 import DsaSheetsPage from './pages/sheets/index'
 import { SheetProblemsPage } from './pages/sheets/sheetproblems'
-function App() {
 
+
+
+function App() {
+  const { pathname } = useLocation();
+  const showNavbar = pathname !== "/";
   return (
     <>
-      <Navbar/>
-  <div className="bg-gray-100 min-h-screen flex flex-col justify-between">
 
-
+  <div className="bg-gray-100 h-screen flex flex-col justify-between">
+      
+ {showNavbar && <Navbar />}
   <Routes>
     <Route path='/' element={<LandingPage/>}></Route>
     <Route path='/problems' element={<Problems/>}></Route>

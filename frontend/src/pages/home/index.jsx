@@ -3,6 +3,7 @@ const LandingPage = () => {
   return (
 
 <>
+
       <Hero/>
 
       {/* Productivity Tracker Section */}

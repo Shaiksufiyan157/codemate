@@ -99,7 +99,7 @@ export const InputData = () => {
                     ref={ProbStatemRef}
                     onChange={(e) =>{
                         dispatchProblem({
-                            type: "ADDPROBLEMSTATE",
+                            type: "ADD_PROBLEM_STATEMENT",
                             payload: e.target.value
                         })
                      if (errors.ds) setErrors((x) => ({ ...x, probstate: "" }));
@@ -123,7 +123,7 @@ export const InputData = () => {
                     ref={approach1Ref}
                     value={approach1}
                     onChange={(e) =>{ dispatchProblem({
-                        type: "ADDAPPROACH1",
+                        type: "ADD_APPROACH1",
                         payload: e.target.value
                     })
                     if (errors.approach) setErrors((x) => ({ ...x,approach: "" }));
@@ -145,7 +145,7 @@ export const InputData = () => {
                     rows={2}
                     value={approach2}
                     onChange={(e) => dispatchProblem({
-                        type: "ADDAPPROACH2",
+                        type: "ADD_APPROACH2",
                         payload: e.target.value
                     })}
                     placeholder="Second paragraph (optional)..."
