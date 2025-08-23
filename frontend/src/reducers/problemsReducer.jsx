@@ -1,18 +1,18 @@
 export const ProblemReducer=(state,action)=>{
     switch(action.type){
         
-        case 'ADDPROBLEMSTATE':
+        case 'ADD_PROBLEM_STATEMENT':
             return{
                 ...state,
                 problemStatement:action.payload
             }
         
-        case 'ADDAPPROACH1':
+        case 'ADD_APPROACH1':
             return{
                 ...state,
                 approach1:action.payload    
             }
-        case 'ADDAPPROACH2':
+        case 'ADD_APPROACH2':
             return{
                 ...state,
                 approach2:action.payload    
