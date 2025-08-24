@@ -10,8 +10,6 @@ import { SheetProblemsPage } from './pages/sheets/sheetproblems'
 
 
 function App() {
-  const { pathname } = useLocation();
-  const showNavbar = pathname !== "/";
   return (
     <>
  <Navbar />
@@ -25,10 +23,10 @@ function App() {
     <Route path='/sheets' element={<DsaSheetsPage/>}></Route>
     <Route path='/sheets/:id' element={<SheetProblemsPage/>}></Route>
   </Routes>
-  
-   <Footer/>
+   <Footer className="flex-"/>
   </div>
- 
+   
+
     </>
   )
 }
