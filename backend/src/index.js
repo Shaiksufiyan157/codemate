@@ -62,6 +62,6 @@ const PORT=process.env.PORT
 console.log(PORT)
 
 app.listen(PORT,()=>{
-    ConnectDB()
+    // ConnectDB()
     console.log(`serving on port ${PORT}`)
 })
