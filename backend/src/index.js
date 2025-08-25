@@ -65,10 +65,5 @@ const PORT=process.env.PORT
 // console.log(data)
 
     ConnectDB()
-// app.listen(PORT,()=>{
-
-//     console.log(`serving on port ${PORT}`)
-// })
-
 
 module.exports = serverless(app);
