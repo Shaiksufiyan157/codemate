@@ -64,7 +64,6 @@ const PORT=process.env.PORT
 // const data=DsaSheet.findOne({_id:'68ab54767fe164993f09c827'});
 // console.log(data)
 
-console.log(PORT)
 
 app.listen(PORT,()=>{
     ConnectDB()
