@@ -65,4 +65,4 @@ const PORT=process.env.PORT
 
     ConnectDB()
 
-module.exports = serverless(app);
+export default serverless(app);
