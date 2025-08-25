@@ -4,22 +4,27 @@ import { ConnectDB } from "./lib/db.js"
 import DsaSheet from "./models/dsasheet.js"
 import Problem from "./models/problems.js"
 import { dsasheetdata } from "../../frontend/src/db/index.js"
-import { seedSheets ,seedProblems} from "./seed/data.js"
-// import
+import { seedSheets ,problemDetails} from "./seed/data.js"
+import cors from "cors"
 
 dotenv.config()
-
+// console.log(process.env.FRONTEND_URL)
 const app=express()
+const corsOptions = {
+   origin : process.env.FRONTEND_URL,
+   methods:['GET','PUT','POST','DELETE'],
+   allowedHeaders:["Content-Type","Authorization"]
+}
 
+
+app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
-    res.status(200).json({
-        "name":"shaik sufiyan"
-    })
+  res.send("welcome codemates api")
 })
 
 app.get('/sheets', async (req, res) => {
   try {
-    const allsheet = await DsaSheet.find({});
+    const allsheet =seedSheets;
     res.status(200).json(allsheet);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch sheets' });
@@ -34,18 +39,17 @@ app.get('/problems', async (req, res) => {
   }
 });
 const seedDb=async()=>{
-    DsaSheet.deleteMany({})
     for(let i=0;i<3;i++){
         const newSheet=new DsaSheet(seedSheets[i]);
-        newSheet.save()
+       await newSheet.save()
     }
     console.log("data seeded successfully")
 }
+// console.log(problemDetails.length)
 const seedProblems_todb=async()=>{
-    Problem.deleteMany({})
-    for(let i=0;i<3;i++){
-        const newProblem=new Problem(seedProblems[i]);
-        newProblem.save()
+    for(let i=0;i<problemDetails.length;i++){
+        const newProblem=new Problem(problemDetails[i]);
+       await newProblem.save()
     }
     console.log("problems data seeded successfully")
 }
