@@ -6,7 +6,7 @@ import Problem from "./models/problems.js"
 import { dsasheetdata } from "../../frontend/src/db/index.js"
 import { seedSheets ,problemDetails} from "./seed/data.js"
 import cors from "cors"
-
+import serverless from "serverless-http"
 dotenv.config()
 // console.log(process.env.FRONTEND_URL)
 const app=express()
@@ -64,10 +64,6 @@ const PORT=process.env.PORT
 // const data=DsaSheet.findOne({_id:'68ab54767fe164993f09c827'});
 // console.log(data)
 
+    ConnectDB()
 
-app.listen(PORT,()=>{
-    // ConnectDB()
-    console.log(`serving on port ${PORT}`)
-})
-
-
+module.exports = serverless(app);
