@@ -31,7 +31,7 @@ frontend/*.sw?
 # 📁 BACKEND IGNORE
 # ===================
 backend/node_modules/
-backend/.env
+backend/src/.env
 
 # Backend Logs
 backend/logs
