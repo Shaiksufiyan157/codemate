@@ -9,6 +9,8 @@ import serverless from "serverless-http"
 dotenv.config()
 // console.log(process.env.FRONTEND_URL)
 const app=express()
+console.log("Starting Express app...");
+
 const corsOptions = {
    origin : process.env.FRONTEND_URL,
    methods:['GET','PUT','POST','DELETE'],
@@ -62,7 +64,9 @@ const deleteDb=async()=>{
 const PORT=process.env.PORT
 // const data=DsaSheet.findOne({_id:'68ab54767fe164993f09c827'});
 // console.log(data)
+ConnectDB()
+  .then(() => console.log("Database connected"))
+  .catch(err => console.error("DB connection error:", err));
 
-    ConnectDB()
 
 export default serverless(app);
