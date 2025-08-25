@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 
-dotenv.config()
+dotenv.config({ quiet: true })
 const dburl=process.env.DB_URI
-
+// console.log(dburl)
 export const ConnectDB=async()=>{
 try{
     const conn=await mongoose.connect(dburl)

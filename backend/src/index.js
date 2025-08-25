@@ -6,7 +6,7 @@ import Problem from "./models/problems.js"
 import { seedSheets ,problemDetails} from "./seed/data.js"
 import cors from "cors"
 import serverless from "serverless-http"
-dotenv.config()
+dotenv.config({ quiet: true })
 // console.log(process.env.FRONTEND_URL)
 const app=express()
 console.log("Starting Express app...");
@@ -65,10 +65,13 @@ const PORT=process.env.PORT
 // const data=DsaSheet.findOne({_id:'68ab54767fe164993f09c827'});
 // console.log(data)
 
-console.log("any thing")
-ConnectDB()
-  .then(() => console.log("Database connected"))
-  .catch(err => console.error("DB connection error:", err));
+// ConnectDB()
+//   .then(() => console.log("Database connected"))
+//   .catch(err => console.error("DB connection error:", err));
 
 
-export default serverless(app);
+// export default serverless(app);
+app.listen(PORT,()=>{
+  ConnectDB()
+  console.log("listening on 3000")
+})
