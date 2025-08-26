@@ -6,7 +6,21 @@ import LandingPage from './pages/home'
 import { InputData } from './components/probleminput/index'
 import DsaSheetsPage from './pages/sheets/index'
 import { SheetProblemsPage } from './pages/sheets/sheetproblems'
+import axios from "axios"
 
+
+
+console.log(import.meta.env.VITE_BACKEND_URL);
+async function fetchData() {
+  try {
+    const response = await axios.get(import.meta.env.VITE_BACKEND_URL);
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+fetchData();
 
 
 function App() {
