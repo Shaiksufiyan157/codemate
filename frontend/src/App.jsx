@@ -13,7 +13,7 @@ import axios from "axios"
 console.log(import.meta.env.VITE_BACKEND_URL);
 async function fetchData() {
   try {
-    const response = await axios.get(import.meta.env.VITE_BACKEND_URL);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/sheets`);
     console.log(response.data);
   } catch (error) {
     console.error('Error fetching data:', error);
