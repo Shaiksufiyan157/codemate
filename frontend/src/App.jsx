@@ -4,10 +4,10 @@ import { Footer } from './components/footer/index'
 import {Route,Routes, useLocation} from 'react-router-dom'
 import LandingPage from './pages/home'
 import { InputData } from './components/probleminput/index'
-import DsaSheetsPage from './pages/sheets/index'
+import {DsaSheetsPage} from './pages/sheets/index'
 import { SheetProblemsPage } from './pages/sheets/sheetproblems'
 import axios from "axios"
-
+import { useSelector } from 'react-redux'
 
 
 console.log(import.meta.env.VITE_BACKEND_URL);
@@ -20,10 +20,13 @@ async function fetchData() {
   }
 }
 
-fetchData();
+// fetchData();
 
 
 function App() {
+
+  const {sheets}=useSelector(state=>state.dsasheet)
+  console.log(sheets)
   return (
     <>
  <Navbar />
