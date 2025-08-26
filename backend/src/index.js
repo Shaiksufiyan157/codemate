@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db.js"
 import DsaSheet from "./models/dsasheet.js"
 import Problem from "./models/problems.js"
-import { seedSheets ,problemDetails} from "./seed/data.js"
+import { seedSheets ,seedSheetsWithIds,problemDetails} from "./seed/data.js"
 import cors from "cors"
 dotenv.config({ quiet: true })
 const app=express()
@@ -23,12 +23,22 @@ app.get('/',(req,res)=>{
 
 app.get('/sheets', async (req, res) => {
   try {
-    const allsheet =seedSheets;
+    const allsheet = await DsaSheet.find({});
     res.status(200).json(allsheet);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch sheets' });
   }
 });
+app.get('/test', async (req, res) => {
+  try {
+    // const allsheet =seedSheets;
+    res.status(200).json(seedSheetsWithIds);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch sheets' });
+  }
+});
+
+
 app.get('/problems', async (req, res) => {
   try {
     const allProblems = await Problem.find({});
@@ -38,8 +48,9 @@ app.get('/problems', async (req, res) => {
   }
 });
 const seedDb=async()=>{
-    for(let i=0;i<3;i++){
-        const newSheet=new DsaSheet(seedSheets[i]);
+  await DsaSheet.deleteMany({})
+    for(let i=0;i<seedSheetsWithIds.length;i++){
+        const newSheet=new DsaSheet(seedSheetsWithIds[i]);
        await newSheet.save()
     }
     console.log("data seeded successfully")

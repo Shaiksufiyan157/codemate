@@ -1,3 +1,4 @@
+import {v4 as uuid} from "uuid"
 export const seedSheets = [
     {
         "name": "Codemate's SDE Sheet 1",
@@ -1074,3 +1075,14 @@ export const problemDetails = [
     link: "https://leetcode.com/problems/total-hamming-distance/"
   }
 ];
+
+
+export const seedSheetsWithIds = seedSheets.map(sheet => ({
+    ...sheet,
+    id: uuid(),
+    problems: sheet.problems.map(problem => ({
+        ...problem,
+        id: uuid()
+    }))
+}));
+
