@@ -27,7 +27,7 @@ app.get('/sheets', async (req, res) => {
     const allsheets = await DsaSheet.find({});
     // console.log("Fetched all sheets:", allsheet);
 
-    res.status(200).json({ allsheets });
+    res.status(200).json(allsheets );
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch sheets why' });
   }
