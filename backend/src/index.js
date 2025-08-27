@@ -75,6 +75,7 @@ const deleteDb=async()=>{
 const PORT=process.env.PORT
 
 app.listen(PORT,()=>{
+  console.log(`server is running on port ${PORT}`)
   ConnectDB()
   console.log("listening on 3000")
 })
