@@ -6,7 +6,7 @@ export const SheetProblemCard = ({ problem,_id }) => {
         <React.Fragment >
             <tr className="">
                 <td className="align-top px-6 py-6 border- border-gray-300">
-                    <h1 className="text-base mb-3 text-black-600 font-medium">{problem.probname} </h1>
+                    <h1 className="text-base mb-3 text-black-600 font-medium">{problem.problem_statement} </h1>
                 </td>
                 <td className=" px-6 py-6 border- border-gray-300">
                     <div className="flex flex-wrap gap-3 items-center">

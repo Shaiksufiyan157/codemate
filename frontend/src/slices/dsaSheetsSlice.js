@@ -8,10 +8,7 @@ const DsaSheetSlice=createSlice({
     initialState,
     reducers:{
         setSheets:(state,action)=>{
-            console.log("dsa sheets added successfully")
             state.sheets=action.payload;
-            // console
-            console.log("dsa sheets added successfully")
         }
     }
 })

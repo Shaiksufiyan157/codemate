@@ -6,14 +6,12 @@ import { SheetProblemCard } from "../../../components/dsasheetComps/content-tabl
 
 export const SheetProblemsPage = () => {
     const params = useParams();
-    console.log(params.id)
+    console.log(params.sid)
     const {sheets}=useSelector(state=>state.dsasheet)
     console.log(sheets)
-    const  dsasheet = sheets.find(({ _id }) => _id === params.id)
-    // const dsasheet=dsasheets.sheets
-    console.log(dsasheet)
-    const {problems}=dsasheet
-    // console.log(problems)
+    const  dsasheet = sheets.find(({ id }) => id === params.sid)
+     console.log(dsasheet)
+     const problems = dsasheet?.problems || [];
     return (
         <>
             <div className="mt-4 mx-5 overflow-x-auto border border-gray-200 rounded-lg bg-white">

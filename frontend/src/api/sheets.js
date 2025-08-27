@@ -8,7 +8,6 @@ export const getsheets=()=>async dispatch=>{
     try{
         const {data}=await axios.get(baseurl)
         dispatch(setSheets(data))
-        console.log(data)
     }catch(err){  
         return err
      }

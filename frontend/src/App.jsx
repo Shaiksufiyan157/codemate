@@ -25,8 +25,6 @@ async function fetchData() {
 
 function App() {
 
-  const {sheets}=useSelector(state=>state.dsasheet)
-  console.log(sheets)
   return (
     <>
  <Navbar />
@@ -38,7 +36,7 @@ function App() {
     <Route path='/problems' element={<Problems/>}></Route>
     <Route path='/addproblem' element={<InputData/>}></Route>
     <Route path='/sheets' element={<DsaSheetsPage/>}></Route>
-    <Route path='/sheets/:id' element={<SheetProblemsPage/>}></Route>
+    <Route path='/sheets/:sid' element={<SheetProblemsPage/>}></Route>
   </Routes>
    <Footer className="flex-"/>
   </div>

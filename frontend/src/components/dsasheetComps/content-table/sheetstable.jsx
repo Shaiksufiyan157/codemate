@@ -2,10 +2,8 @@ import { useNavigate } from "react-router-dom"
 export const SheetCard= ({ sheet,id }) => {
     const navigate = useNavigate()
 
-    console.log(id)
-
     const OnSheetClick = () => {
-        navigate(`${sheet._id}`)
+        navigate(`${id}`)
     }
 
     return (
