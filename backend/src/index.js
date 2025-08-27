@@ -24,10 +24,10 @@ console.log(process.env.FRONTEND_URL)
 app.get('/sheets', async (req, res) => {
   try {
     console.log("Fetched all sheets:");
-    // const allsheet = await DsaSheet.find({});
+    const allsheets = await DsaSheet.find({});
     // console.log("Fetched all sheets:", allsheet);
 
-    res.status(200).json({ seedSheetsWithIds });
+    res.status(200).json({ allsheets });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch sheets why' });
   }
