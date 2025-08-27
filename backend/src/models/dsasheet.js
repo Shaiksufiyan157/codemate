@@ -4,25 +4,25 @@ const Schema = mongoose.Schema;
 const SheetsProblemsSchema = new Schema({
     id: {
         type: String,
-        require: true
+        required: true
     },
     problem_statement: {
         type: String,
-        require: true
+        required: true
     },
     link: {
         type: String,
-        require: true
+        required: true
     }
 })
 const DsaSheetSchema = new Schema({
     id: {
         type: String,
-        require: true
+        required: true
     },
     name: {
         type: String,
-        require: true
+        required: true
     },
     problems: [SheetsProblemsSchema]
 }, {

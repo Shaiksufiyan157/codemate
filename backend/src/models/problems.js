@@ -3,25 +3,29 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema
 
 const ProblemSchema = new Schema({
-    problme_statement: {
+    id:{
+        type:String,
+        required: true
+    },
+    problem_statement: {
         type: String,
-        require: true
+        required: true
     },
     approach_1: {
         type: String,
-        require: true
+        required: true
     },
     approach_2: {
         type: String,
-        require: true
+        required: true
     },
     ds: {
         type: String,
-        require: true
+        required: true
     },
     algo: {
         type: String,
-        require: true
+        required: true
     }
 }, { timestamps: true })
 

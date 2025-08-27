@@ -1086,3 +1086,7 @@ export const seedSheetsWithIds = seedSheets.map(sheet => ({
     }))
 }));
 
+export const seedProblemsWithIds = problemDetails.map(problem => ({
+    ...problem,
+    id: uuid()
+}));

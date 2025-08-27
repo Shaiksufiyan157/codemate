@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db.js"
 import DsaSheet from "./models/dsasheet.js"
 import Problem from "./models/problems.js"
-import { seedSheets ,seedSheetsWithIds,problemDetails} from "./seed/data.js"
+import { seedSheets ,seedSheetsWithIds,seedProblemsWithIds,problemDetails} from "./seed/data.js"
 import cors from "cors"
 dotenv.config({ quiet: true })
 const app=express()
@@ -15,33 +15,22 @@ const corsOptions = {
    allowedHeaders:["Content-Type","Authorization"]
 }
 
-console.log(process.env.FRONTEND_URL)
 app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
   res.send("welcome codemates api")
 })
-console.log(process.env.FRONTEND_URL)
+
 app.get('/sheets', async (req, res) => {
   try {
     console.log("Fetched all sheets:");
     const allsheets = await DsaSheet.find({});
-    // console.log("Fetched all sheets:", allsheet);
 
     res.status(200).json(allsheets );
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch sheets why' });
   }
 });
-console.log(process.env.FRONTEND_URL)
-app.get('/test', async (req, res) => {
-  try {
-    // const allsheet =seedSheets;
-    res.status(200).json(seedSheetsWithIds);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch sheets' });
-  }
-});
-console.log(process.env.FRONTEND_URL)
+
 
 app.get('/problems', async (req, res) => {
   try {
@@ -51,7 +40,6 @@ app.get('/problems', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch sheets' });
   }
 });
-console.log(process.env.FRONTEND_URL)
 const seedDb=async()=>{
   await DsaSheet.deleteMany({})
     for(let i=0;i<seedSheetsWithIds.length;i++){
@@ -61,8 +49,10 @@ const seedDb=async()=>{
     console.log("data seeded successfully")
 }
 const seedProblems_todb=async()=>{
-    for(let i=0;i<problemDetails.length;i++){
-        const newProblem=new Problem(problemDetails[i]);
+    await Problem.deleteMany({})
+    console.log("problems data deleted successfully")
+    for(let i=0;i<seedProblemsWithIds.length;i++){
+        const newProblem=new Problem(seedProblemsWithIds[i]);
        await newProblem.save()
     }
     console.log("problems data seeded successfully")
@@ -75,24 +65,17 @@ const deleteDb=async()=>{
 // deleteDb()
 // seedProblems_todb()
 const PORT=process.env.PORT
-// console.log(process.env.FRONTEND_URL)
-// app.listen(PORT,async()=>{
-//   console.log("something is not running")
-//   console.log(`server is running on port ${PORT}`)
-//   await  ConnectDB()
-//   console.log("listening on 3000")
-// })
 
 
 const startServer = async () => {
   try {
-    await ConnectDB();  // wait for DB connection
+    await ConnectDB();  
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Failed to connect to DB:", error);
-    process.exit(1); // exit if DB connection fails
+    process.exit(1); 
   }
 };
 
