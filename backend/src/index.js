@@ -15,23 +15,24 @@ const corsOptions = {
    allowedHeaders:["Content-Type","Authorization"]
 }
 
-
+console.log(process.env.FRONTEND_URL)
 app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
   res.send("welcome codemates api")
 })
-
+console.log(process.env.FRONTEND_URL)
 app.get('/sheets', async (req, res) => {
   try {
-    // console.log("Fetched all sheets:");
+    console.log("Fetched all sheets:");
     // const allsheet = await DsaSheet.find({});
     // console.log("Fetched all sheets:", allsheet);
-    
-    res.status(200).json(seedSheetsWithIds);
+
+    res.status(200).json({ seedSheetsWithIds });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch sheets' });
+    res.status(500).json({ error: 'Failed to fetch sheets why' });
   }
 });
+console.log(process.env.FRONTEND_URL)
 app.get('/test', async (req, res) => {
   try {
     // const allsheet =seedSheets;
@@ -40,7 +41,7 @@ app.get('/test', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch sheets' });
   }
 });
-
+console.log(process.env.FRONTEND_URL)
 
 app.get('/problems', async (req, res) => {
   try {
@@ -50,6 +51,7 @@ app.get('/problems', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch sheets' });
   }
 });
+console.log(process.env.FRONTEND_URL)
 const seedDb=async()=>{
   await DsaSheet.deleteMany({})
     for(let i=0;i<seedSheetsWithIds.length;i++){
@@ -73,7 +75,7 @@ const deleteDb=async()=>{
 // deleteDb()
 // seedProblems_todb()
 const PORT=process.env.PORT
-
+console.log(process.env.FRONTEND_URL)
 app.listen(PORT,()=>{
   console.log(`server is running on port ${PORT}`)
   ConnectDB()
