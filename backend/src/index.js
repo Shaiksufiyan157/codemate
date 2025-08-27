@@ -75,10 +75,25 @@ const deleteDb=async()=>{
 // deleteDb()
 // seedProblems_todb()
 const PORT=process.env.PORT
-console.log(process.env.FRONTEND_URL)
-app.listen(PORT,()=>{
-  console.log("something is not running")
-  console.log(`server is running on port ${PORT}`)
-  ConnectDB()
-  console.log("listening on 3000")
-})
+// console.log(process.env.FRONTEND_URL)
+// app.listen(PORT,async()=>{
+//   console.log("something is not running")
+//   console.log(`server is running on port ${PORT}`)
+//   await  ConnectDB()
+//   console.log("listening on 3000")
+// })
+
+
+const startServer = async () => {
+  try {
+    await ConnectDB();  // wait for DB connection
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect to DB:", error);
+    process.exit(1); // exit if DB connection fails
+  }
+};
+
+startServer();
