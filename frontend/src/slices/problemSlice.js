@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit"
 
 const initialState={
-   problems: JSON.parse(localStorage.getItem('problems')) || [],
+   problems:[],
    datastructure:'',
    algo:'',
 }
@@ -14,6 +14,9 @@ const PoblemSlice=createSlice({
             state.problems=[...state.problems,action.payload]
             localStorage.setItem('problems', JSON.stringify(state.problems));
             alert("new problem added successfully") 
+        },
+        setProblems:(state,action)=>{
+            state.problems=action.payload
         },
         setDSValue:(state,action)=>{
             state.datastructure=action.payload
@@ -28,6 +31,6 @@ const PoblemSlice=createSlice({
     }
 })
 
-export const {addproblem,setDSValue,setAlgoValue,OnAllClick}=PoblemSlice.actions
+export const {addproblem,setDSValue,setAlgoValue,OnAllClick,setProblems}=PoblemSlice.actions
 
 export default PoblemSlice.reducer;

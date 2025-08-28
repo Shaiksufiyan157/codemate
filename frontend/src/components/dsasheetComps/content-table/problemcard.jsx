@@ -1,7 +1,7 @@
 import React from "react"
 export const SheetProblemCard = ({ problem,_id }) => {
-    console.log(problem)
-    console.log(_id)
+    // console.log(problem)
+    // console.log(_id)
     return (
         <React.Fragment >
             <tr className="">

@@ -15,6 +15,7 @@ const corsOptions = {
    allowedHeaders:["Content-Type","Authorization"]
 }
 
+let count=0;
 app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
   res.send("welcome codemates api")
@@ -23,6 +24,7 @@ app.get('/',(req,res)=>{
 app.get('/sheets', async (req, res) => {
   try {
     console.log("Fetched all sheets:");
+    console.log(count++)
     const allsheets = await DsaSheet.find({});
 
     res.status(200).json(allsheets );

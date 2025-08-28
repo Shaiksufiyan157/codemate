@@ -4,11 +4,10 @@ import { Footer } from './components/footer/index'
 import {Route,Routes, useLocation} from 'react-router-dom'
 import LandingPage from './pages/home'
 import { InputData } from './components/probleminput/index'
-import {DsaSheetsPage} from './pages/sheets/index'
-import { SheetProblemsPage } from './pages/sheets/sheetproblems'
+import DsaSheetsPage from './pages/sheets/index'
+import SheetProblemsPage  from './pages/sheets/sheetproblems'
 import axios from "axios"
-import { useSelector } from 'react-redux'
-
+import { RevisionProblemPage } from './pages/revisionProblems'
 
 console.log(import.meta.env.VITE_BACKEND_URL);
 async function fetchData() {
@@ -33,7 +32,7 @@ function App() {
 
   <Routes>
     <Route path='/' element={<LandingPage/>}></Route>
-    <Route path='/problems' element={<Problems/>}></Route>
+    <Route path='/problems' element={<RevisionProblemPage/>}></Route>
     <Route path='/addproblem' element={<InputData/>}></Route>
     <Route path='/sheets' element={<DsaSheetsPage/>}></Route>
     <Route path='/sheets/:sid' element={<SheetProblemsPage/>}></Route>
