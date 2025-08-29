@@ -26,6 +26,10 @@ const ProblemSchema = new Schema({
     algo: {
         type: String,
         required: true
+    },
+    link:{
+        type:String,
+        required:true
     }
 }, { timestamps: true })
 

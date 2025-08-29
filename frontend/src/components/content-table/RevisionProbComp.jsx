@@ -3,6 +3,7 @@ import { FaLightbulb } from "react-icons/fa"
 export const RevisionProblemCard=({problem})=>{
     console.log(problem)
     // "bg-[#bde0fe]"
+     const dataStructures = problem.ds.split(",").map(item => item.trim());
     return(
                    <>
                         <tr className={ "bg-[#a2d2ff]"}>
@@ -22,9 +23,9 @@ export const RevisionProblemCard=({problem})=>{
                           </td>
                           <td className="align-top px-6 py-6 border-b border-gray-300">
                             <div className="flex flex-wrap gap-3">
-                              {/* {problem.DataStructure.map((ds, i) => ( */}
-                                <span className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{problem.ds}</span>
-                              {/* ))} */}
+                              {dataStructures.map((ds, i) => (
+                                <span key={i}className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{ds}</span>
+                              ))}
                             </div>
                           </td>
                           <td className="align-top px-6 py-6 border-b border-gray-300">
@@ -36,7 +37,7 @@ export const RevisionProblemCard=({problem})=>{
                           </td>
                           <td className=" px-6 py-6 border-b border-gray-300">
                             <div className="flex flex-wrap items-center gap-3 items-center">
-                                <a href="https://www.leetcode.com">
+                                <a href={problem.link}>
                               <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo" />
                               </a>
                             </div>
