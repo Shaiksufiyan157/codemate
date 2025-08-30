@@ -24,8 +24,8 @@ const SheetProblemsPage = ({sheets}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {problems.map((problem) => (
-                             <SheetProblemCard key={problem.id} problem={problem}/>
+                        {problems.map((problem,idx) => (
+                             <SheetProblemCard idx={idx} key={problem.id} problem={problem}/>
                         ))
                         }
                     </tbody>

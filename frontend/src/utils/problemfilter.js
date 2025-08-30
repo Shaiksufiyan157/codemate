@@ -15,3 +15,10 @@ export const getFilterByAlgo=(Problems,value)=>{
     return filterProblems;
     
 }
+
+
+export const getrandomuniquenumbs=(arr)=>{
+  if(arr.length==0) return null;
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr.splice(randomIndex, 1)[0];
+} 

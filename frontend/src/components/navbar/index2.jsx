@@ -15,7 +15,7 @@ import CodeOffIcon from '@mui/icons-material/CodeOff';
 import{NavLink ,Link} from 'react-router-dom'
 
 
-const pages = ['Home', 'Problems', 'About Us','Sheets'];
+const pages = ['Home', 'Problems', 'About Us','Sheets','RapidFire'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {

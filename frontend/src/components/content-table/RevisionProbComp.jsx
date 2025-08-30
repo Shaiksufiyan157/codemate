@@ -1,14 +1,14 @@
 import { FaLightbulb } from "react-icons/fa"
 
-export const RevisionProblemCard=({problem})=>{
-    console.log(problem)
+export const RevisionProblemCard=({problem,idx})=>{
+    // console.log(problem)
     // "bg-[#bde0fe]"
      const dataStructures = problem.ds.split(",").map(item => item.trim());
     return(
                    <>
                         <tr className={ "bg-[#a2d2ff]"}>
                           <td className="align-top px-6 py-6 border-b border-gray-300">
-                            <h1 className="text-base mb-3 text-black-600 font-medium">{problem.ProblemStatement}</h1>
+                            <h1 className="text-base mb-3 text-black-600 font-medium">{idx+1}. {problem.problem_statement}</h1>
                             <ul className="list-none pl-0 space-y-3">
                             
                                 <li className="flex items-start gap-3">
@@ -37,7 +37,7 @@ export const RevisionProblemCard=({problem})=>{
                           </td>
                           <td className=" px-6 py-6 border-b border-gray-300">
                             <div className="flex flex-wrap items-center gap-3 items-center">
-                                <a href={problem.link}>
+                                <a href={problem.link} target="_blank">
                               <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo" />
                               </a>
                             </div>

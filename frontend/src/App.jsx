@@ -8,6 +8,7 @@ import DsaSheetsPage from './pages/sheets/index'
 import SheetProblemsPage  from './pages/sheets/sheetproblems'
 import axios from "axios"
 import { RevisionProblemPage } from './pages/revisionProblems'
+import { RapidFire } from './pages/rapidfire/index'
 
 console.log(import.meta.env.VITE_BACKEND_URL);
 async function fetchData() {
@@ -19,8 +20,8 @@ async function fetchData() {
   }
 }
 
-// fetchData();
 
+// fetchData();
 
 function App() {
 
@@ -36,8 +37,9 @@ function App() {
     <Route path='/addproblem' element={<InputData/>}></Route>
     <Route path='/sheets' element={<DsaSheetsPage/>}></Route>
     <Route path='/sheets/:sid' element={<SheetProblemsPage/>}></Route>
+    <Route path='/rapidfire' element={<RapidFire/>}></Route>
   </Routes>
-   <Footer className="flex-"/>
+   <Footer className=""/>
   </div>
    
 

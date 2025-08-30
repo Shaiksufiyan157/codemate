@@ -28,8 +28,8 @@ const DsaSheetsPage = ({sheets}) => {
       <main className="w-full max-w-[90%] mx-auto p-6 bg-[#3A0CA3] rounded-lg shadow-lg mt-3"  >
             <SheetHead className="w-full sm:w-auto" />
             {
-                sheets.map((sheet) => {
-                    return <SheetCard key={sheet.id} sheet={sheet} id={sheet.id} />;
+                sheets.map((sheet,idx) => {
+                    return <SheetCard key={sheet.id} idx={idx} sheet={sheet} id={sheet.id} />;
 
                 })
             }
