@@ -2,15 +2,16 @@
 
 export const getFilterByDs=(Problems,value)=>{
     if(!value) return Problems;
+
     if(value==="All") return Problems
-    const filterProblems=value?.length>0? (Problems?.length>0 && Problems.filter(item=>item.problem.DataStructure.includes(value))): Problems
+    const filterProblems=value?.length>0? (Problems?.length>0 && Problems.filter(item=>item.ds.includes(value))): Problems
     return filterProblems;
 }
 
 export const getFilterByAlgo=(Problems,value)=>{
     if(!value) return Problems;
     if(value==="All") return Problems
-    const filterProblems=value?.length>0 ? (Problems?.length>0 && Problems.filter(item=>item.problem.Algo.includes(value))): Problems
+    const filterProblems=value?.length>0 ? (Problems?.length>0 && Problems.filter(item=>item.algo.includes(value))): Problems
 
     return filterProblems;
     

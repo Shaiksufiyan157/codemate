@@ -32,7 +32,7 @@ export const Hero=()=>{
       {/* Main Features Section */}
       <section className="px-5 flex  flex-col">
          <div className="max-w mx-auto mb-8">
-            <div className="flex justify-center gap-4 mb-8">
+            <div className="flex flex-col md:flex-row mt-2 justify-center gap-4 mb-8">
                 <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
                  <Link to={'/problems'}>view problems</Link> 
                 </button>

@@ -15,7 +15,7 @@ import CodeOffIcon from '@mui/icons-material/CodeOff';
 import{NavLink ,Link} from 'react-router-dom'
 
 
-const pages = ['Home', 'Problems', 'About Us','Sheets','RapidFire'];
+const pages = ['Home', 'Problems', 'About Us','Sheets','Rapid Fire'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
@@ -94,7 +94,7 @@ function Navbar() {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
           
-                    <Typography to="/problems" sx={{ textAlign: 'center' }} ><NavLink to={`/${page==='Home'?'':page.toLowerCase()}`} style={{}}>{page}</NavLink></Typography>
+                    <Typography to="/problems" sx={{ textAlign: 'center' }} ><NavLink to={`/${page==='Home'?'':page.toLowerCase().replace(/\s+/g, '').trim()}`} style={{}}>{page}</NavLink></Typography>
                  
                 </MenuItem>
               ))}
@@ -126,7 +126,7 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <NavLink to={`/${page==='Home'?'':page.toLowerCase().split(' ').join('')}`} className={getStyle}>{page}</NavLink>
+                <NavLink to={`/${page==='Home'?'':page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page}</NavLink>
               </Button>
             ))}
           </Box>

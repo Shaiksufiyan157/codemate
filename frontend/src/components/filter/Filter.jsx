@@ -55,9 +55,10 @@ export const Filter = () => {
         </option>
         <option>Merge Sort</option>
         <option>Insertion Sort</option>
-        <option>Depth First Search</option>
+        <option>DFS</option>
         <option>Cycle Detection</option>
-        <option>Bs</option>
+        <option>Binary Search</option>
+
       </select>
     </label>
   </div>

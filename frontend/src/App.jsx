@@ -27,21 +27,21 @@ function App() {
 
   return (
     <>
- <Navbar />
-  <div className="bg-gray-100 h-screen flex flex-col justify-between">
-      
 
-  <Routes>
-    <Route path='/' element={<LandingPage/>}></Route>
-    <Route path='/problems' element={<RevisionProblemPage/>}></Route>
-    <Route path='/addproblem' element={<InputData/>}></Route>
-    <Route path='/sheets' element={<DsaSheetsPage/>}></Route>
-    <Route path='/sheets/:sid' element={<SheetProblemsPage/>}></Route>
-    <Route path='/rapidfire' element={<RapidFire/>}></Route>
-  </Routes>
-   <Footer className=""/>
+<div className="h-screen flex flex-col">
+  <Navbar />
+  <div className="bg-gray-100 flex-grow flex flex-col justify-between">
+    <Routes>
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/problems' element={<RevisionProblemPage />} />
+      <Route path='/addproblem' element={<InputData />} />
+      <Route path='/sheets' element={<DsaSheetsPage />} />
+      <Route path='/sheets/:sid' element={<SheetProblemsPage />} />
+      <Route path='/rapidfire' element={<RapidFire />} />
+    </Routes>
+    <Footer />
   </div>
-   
+</div>
 
     </>
   )

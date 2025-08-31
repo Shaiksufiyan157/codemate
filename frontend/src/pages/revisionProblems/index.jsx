@@ -25,6 +25,7 @@ export const RevisionProblemPage=()=>{
 
   const FilterByDs = getFilterByDs(problems, datastructure)
   const FilterByAlgo = getFilterByAlgo(FilterByDs, algo)
+  console.log("filtered problems",FilterByAlgo)
     return(
         <>
    {loading?<Loading/>: <main className="w-full max-w-[90%] mx-auto p-6 bg-[#3A0CA3] rounded-lg shadow-lg mt-3">
