@@ -13,7 +13,7 @@ for(let i=0;i<100;i++){
 }
 export const RapidFire=()=>{
 
-    const [index,setIndex]=useState(0);
+    const [index,setIndex]=useState(95);
     const dispatch = useDispatch();
         useEffect(()=>{
             const loadproblems=async()=>{
@@ -26,7 +26,8 @@ export const RapidFire=()=>{
         },[])
 
         const onNextClick=()=>{
-           index===rand.length?setIndex(index):setIndex(index+1)
+            if(index>=problems.length-1) return
+           setIndex(index+1)
         }
         const onBackClick=()=>{
            index<=0?setIndex(0):setIndex(index-1)
