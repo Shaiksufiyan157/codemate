@@ -13,7 +13,7 @@ for(let i=0;i<100;i++){
 }
 export const RapidFire=()=>{
 
-    const [index,setIndex]=useState(95);
+    const [index,setIndex]=useState(0);
     const dispatch = useDispatch();
         useEffect(()=>{
             const loadproblems=async()=>{
