@@ -1,20 +1,17 @@
 import { FaLightbulb } from "react-icons/fa"
-// : "bg-[#bde0fe]"
-export const RevisionProblemMobile=({problem})=>{
+export const RevisionProblemMobile=({problem,idx})=>{
     return (
         <>
         <div  className={`rounded-lg border border-gray-200 p-4 shadow-md ${ "bg-[#a2d2ff]" }`}>
-                    <h1 className="text-base mb-3 text-black-600 font-medium"> {problem.ProblemStatement}</h1>
+                    <h1 className="text-base mb-3 text-black-600 font-medium">{idx+1}. {problem.problem_statement}</h1>
                     <div className="flex items-center gap-2 text-gray-700 font-medium mb-2">
                       <FaLightbulb className="text-yellow-500" />
                       Approach
                     </div>
         
                     <ul className="list-disc pl-5 space-y-2 text-sm">
-                      {/* {row.problem.Approach.map((para, i) => ( */}
                         <li >{problem.approach_1}</li>
                         <li >{problem.approach_2}</li>
-                      {/* ))} */}
                     </ul>
         
                     <div className="mt-3 text-gray-700 font-medium">Data Structures</div>
