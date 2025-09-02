@@ -4,6 +4,7 @@ export const RevisionProblemCard=({problem,idx})=>{
     // console.log(problem)
     // "bg-[#bde0fe]"
      const dataStructures = problem.ds.split(",").map(item => item.trim());
+     const algos=problem.algo.split(",").map(item=>item.trim());
     return(
                    <>
                         <tr className={ "bg-[#a2d2ff]"}>
@@ -30,9 +31,9 @@ export const RevisionProblemCard=({problem,idx})=>{
                           </td>
                           <td className="align-top px-6 py-6 border-b border-gray-300">
                             <div className="flex flex-wrap gap-3">
-                              {/* {problem.Algo.map((algo, i) => ( */}
-                                <span className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{problem.algo}</span>
-                              {/* ))} */}
+                              {algos.map((algo, i) => (
+                                <span className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{algo}</span>
+                               ))} 
                             </div>
                           </td>
                           <td className=" px-6 py-6 border-b border-gray-300">

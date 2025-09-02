@@ -5,8 +5,13 @@ import DsaSheet from "./models/dsasheet.js"
 import Problem from "./models/problems.js"
 import { seedSheets ,seedSheetsWithIds,seedProblemsWithIds,problemDetails} from "./seed/data.js"
 import cors from "cors"
+import ProblemsRoute from "./routes/problems.route.js"
+import SheetsRoute from "./routes/sheet.route.js"
+
+
 dotenv.config({ quiet: true })
 const app=express()
+app.use(express.json())
 console.log("Starting Express app...");
 console.log(process.env.FRONTEND_URL)
 const corsOptions = {
@@ -21,27 +26,29 @@ app.get('/',(req,res)=>{
   res.send("welcome codemates api")
 })
 
-app.get('/sheets', async (req, res) => {
-  try {
-    console.log("Fetched all sheets:");
-    console.log(count++)
-    const allsheets = await DsaSheet.find({});
+// app.get('/sheets', async (req, res) => {
+//   try {
+//     console.log("Fetched all sheets:");
+//     console.log(count++)
+//     const allsheets = await DsaSheet.find({});
 
-    res.status(200).json(allsheets );
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch sheets why' });
-  }
-});
+//     res.status(200).json(allsheets );
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch sheets why' });
+//   }
+// });
 
+app.use('/',ProblemsRoute)
+app.use('/',SheetsRoute)
 
-app.get('/problems', async (req, res) => {
-  try {
-    const allProblems = await Problem.find({});
-    res.status(200).json(allProblems);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch sheets' });
-  }
-});
+// app.get('/problems', async (req, res) => {
+//   try {
+//     const allProblems = await Problem.find({});
+//     res.status(200).json(allProblems);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch sheets' });
+//   }
+// });
 const seedDb=async()=>{
   await DsaSheet.deleteMany({})
     for(let i=0;i<seedSheetsWithIds.length;i++){

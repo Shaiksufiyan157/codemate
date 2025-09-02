@@ -13,6 +13,7 @@ export const InputData = () => {
     const dsRef = useRef();
     const algoRef = useRef();
     const formRef = useRef();
+    const linkRef=useRef()
 
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -21,11 +22,12 @@ export const InputData = () => {
         approach2: '',
         ds: '',
         algo: '',
-        problemStatement: ''
+        problem_statement: '',
+        link:''
     }
 
     const [state, dispatchProblem] = useReducer(ProblemReducer, initialState);
-    const { approach1, approach2, ds, algo, problemStatement } = state
+    const { approach1, approach2, ds, algo, problem_statement,link } = state
     const [errors, setErrors] = useState({ ds: "", algo: "" ,probstate:"",approach:""});
 
     const form = formRef.current;
@@ -39,8 +41,8 @@ export const InputData = () => {
             .split(",")
             .map((s) => s.trim())
             .filter(Boolean);
-    const dsList = parseList(ds);
-    const algoList = parseList(algo);
+    // const dsList = parseList(ds);
+    // const algoList = parseList(algo);
 
 
 
@@ -51,7 +53,7 @@ export const InputData = () => {
         })
         event.preventDefault();
         console.log(state)
-    if(problemStatement.length==0){
+    if(problem_statement.length==0){
         setErrors({ probstate: "Enter the problem statement", algo: "" ,ds:"",approach:""});
         ProbStatemRef.current?.focus();
         return
@@ -62,26 +64,28 @@ export const InputData = () => {
         approach1Ref.current?.focus();
         return
     }
-    if (dsList.length === 0) {
+    if (ds.length === 0) {
         setErrors({ ds: "Enter at least one data structure.",  algo: "" ,probstate:"",approach:"" });
         dsRef.current?.focus();
         return;
     }
-    if (algoList.length === 0) {
+    if (algo.length === 0) {
         setErrors({ ds: "" ,probstate:"",approach:"",algo: "Enter at least one algorithm." });
         algoRef.current?.focus();
         return;
     }
     const newProblem = {
       id: uuid(),
-      ProblemStatement: problemStatement.trim(),
-      Approach: approach2.trim().length > 0 ? [approach1.trim(), approach2.trim()] : [approach1.trim()],
-      DataStructure: dsList,
-      Algo: algoList,
+      problem_statement: problem_statement.trim(),
+      approach_1: approach1,
+      approach_2:approach2,
+      ds: ds,
+      link:link,
+      algo: algo,
     };
-
-    dispatch(addproblem({problem:newProblem}))
-    navigate('/problems')
+    console.log(newProblem)
+    dispatch(addproblem(newProblem))
+    // navigate('/problems')
 
     };
 
@@ -95,7 +99,7 @@ export const InputData = () => {
                 <input
                     id="problemStatement"
                     type="text"
-                    value={problemStatement}
+                    value={problem_statement}
                     ref={ProbStatemRef}
                     onChange={(e) =>{
                         dispatchProblem({
@@ -198,6 +202,30 @@ export const InputData = () => {
                         }`}
                 />
                 {errors.algo && <p className="mt-1 text-xs text-red-600">{errors.algo}</p>}
+            </div>
+
+                        <div>
+                <label htmlFor="link" className="block text-sm font-medium text-gray-700">
+                    Problem Link
+                </label>
+                <input
+                    id="link"
+                    type="text"
+                    value={link}
+                    ref={linkRef}
+                    onChange={(e) => {
+                        dispatchProblem({
+                            type: "ADD_LINK",
+                            payload: e.target.value
+                        })
+                        // if (errors.algo) setErrors((x) => ({ ...x, algo: "" }));
+                    }}
+                    placeholder="add problem link from platform like LeetCode"
+
+                    className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm focus:outline-none ${errors.algo ? "border-red-500" : "border-gray-300"
+                        }`}
+                />
+                {/* {errors.algo && <p className="mt-1 text-xs text-red-600">{errors.algo}</p>} */}
             </div>
 
             <div className="md:col-span-2 flex items-center gap-3">
