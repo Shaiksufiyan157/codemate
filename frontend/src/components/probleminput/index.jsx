@@ -4,7 +4,8 @@ import { useDispatch } from 'react-redux';
 import { addproblem } from "../../slices/problemSlice";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
-
+import { getProblems } from '../../api/revproblems';
+import toast,{Toaster} from 'react-hot-toast'
 export const InputData = () => {
 
 
@@ -28,7 +29,7 @@ export const InputData = () => {
 
     const [state, dispatchProblem] = useReducer(ProblemReducer, initialState);
     const { approach1, approach2, ds, algo, problem_statement,link } = state
-    const [errors, setErrors] = useState({ ds: "", algo: "" ,probstate:"",approach:""});
+    const [errors, setErrors] = useState({ ds: "", algo: "" ,prob_statement:"",approach:"",link:""});
 
     const form = formRef.current;
     if (form && !form.checkValidity()) {
@@ -36,42 +37,39 @@ export const InputData = () => {
         return;
     }
 
-    const parseList = (str) =>
-        str
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean);
-    // const dsList = parseList(ds);
-    // const algoList = parseList(algo);
-
-
+const loadnewProblems=async()=>{
+    await dispatch(getProblems())
+}
 
     const handleSubmit = (event) => {
+        // if(!problem_statement || !algo || !ds || !link || !approach1 || !approach2 )
 
-        dispatchProblem({
-            type:'ON_SUBMIT'
-        })
         event.preventDefault();
         console.log(state)
     if(problem_statement.length==0){
-        setErrors({ probstate: "Enter the problem statement", algo: "" ,ds:"",approach:""});
+        setErrors({ prob_statement: "Enter the problem statement", algo: "" ,ds:"",approach:""});
         ProbStatemRef.current?.focus();
         return
     }
             
     if(approach1.length==0){
-        setErrors({ approach: "Enter your approach.", algo: "" ,ds:"",probstate:""});
+        setErrors({ approach: "Enter your approach.", algo: "" ,ds:"",prob_statement:""});
         approach1Ref.current?.focus();
         return
     }
     if (ds.length === 0) {
-        setErrors({ ds: "Enter at least one data structure.",  algo: "" ,probstate:"",approach:"" });
+        setErrors({ ds: "Enter at least one data structure.",  algo: "" ,prob_statement:"",approach:"" });
         dsRef.current?.focus();
         return;
     }
     if (algo.length === 0) {
-        setErrors({ ds: "" ,probstate:"",approach:"",algo: "Enter at least one algorithm." });
+        setErrors({ ds: "" ,prob_statement:"",approach:"",algo: "Enter at least one algorithm." });
         algoRef.current?.focus();
+        return;
+    }
+        if (link.length === 0) {
+        setErrors({ ds: "" ,prob_statement:"",approach:"",algo: "",link:"Enter the problem link." });
+        linkRef.current?.focus();
         return;
     }
     const newProblem = {
@@ -85,12 +83,19 @@ export const InputData = () => {
     };
     console.log(newProblem)
     dispatch(addproblem(newProblem))
+     dispatchProblem({
+            type:'ON_SUBMIT'
+        })
+        loadnewProblems()
     // navigate('/problems')
+    toast.success('Successfully problem added!')
 
     };
 
 
     return (
+        <>
+        <div><Toaster/></div>
         <form ref={formRef} onSubmit={handleSubmit} className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/95 rounded-lg p-4">
             <div className="md:col-span-2">
                 <label htmlFor="problemStatement" className="block text-sm font-medium text-gray-700">
@@ -111,10 +116,10 @@ export const InputData = () => {
                     }
                     placeholder="Describe the problem statement..."
                     minLength={5}
-                    className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm focus:outline-none ${errors.probstate ? "border-red-500" : "border-gray-300"
+                    className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm focus:outline-none ${errors.prob_statement? "border-red-500" : "border-gray-300"
                         }`}
                 />
-                {errors.probstate && <p className="mt-1 text-xs text-red-600">{errors.probstate}</p>}
+                {errors.prob_statement && <p className="mt-1 text-xs text-red-600">{errors.prob_statement}</p>}
             </div>
 
             <div className="md:col-span-2">
@@ -218,24 +223,42 @@ export const InputData = () => {
                             type: "ADD_LINK",
                             payload: e.target.value
                         })
-                        // if (errors.algo) setErrors((x) => ({ ...x, algo: "" }));
+                        if (errors.link) setErrors((x) => ({ ...x, link: "" }));
                     }}
-                    placeholder="add problem link from platform like LeetCode"
+                    placeholder="Add problem link from platform like LeetCode"
 
-                    className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm focus:outline-none ${errors.algo ? "border-red-500" : "border-gray-300"
+                    className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm focus:outline-none ${errors.link ? "border-red-500" : "border-gray-300"
                         }`}
                 />
-                {/* {errors.algo && <p className="mt-1 text-xs text-red-600">{errors.algo}</p>} */}
+                {errors.link && <p className="mt-1 text-xs text-red-600">{errors.link}</p>} 
             </div>
 
-            <div className="md:col-span-2 flex items-center gap-3">
+            <div className="md:col-span-2 flex items-center md:flex-row flex-col gap-3">
                 <button
                     type="submit"
                     className="inline-flex items-center gap-2 rounded-md bg-[#316878] px-4 py-2 text-sm font-medium text-white shadow"
                 >
                     Save Problem
                 </button>
+
             </div>
+                       
         </form>
+        {/* <span className='border-2 inline' onClick={()=>{navigate('/problems')}}>
+                go to problems
+                </span>
+                 <span className='border-2'>
+                go to problems
+                </span> */}
+        {/* <div>
+
+ 
+        </div> */}
+{/* <span className="border-2 inline">I stay inline</span> */}
+        {/* <span className='border-2'>he</span> */}
+        {/* <p className='border-2'>hl</p> */}
+                {/* <span className="border-2 inline-block px-2">I stay inline</span> */}
+        
+        </>
     );
 }

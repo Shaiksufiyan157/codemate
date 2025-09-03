@@ -32,12 +32,14 @@ export const ProblemReducer=(state,action)=>{
             }
         case 'ON_SUBMIT':
             return{
-            // ...state,
-            //     ds:'',
-            //     algo:'',
-            //     problem_statement:'',
-            //     approach1:'',
-            //     approach2:''
+
+            ...state,
+                ds:'',
+                algo:'',
+                problem_statement:'',
+                approach1:'',
+                approach2:'',
+                link:''
         }
         case 'ADD_LINK':
              console.log(state)

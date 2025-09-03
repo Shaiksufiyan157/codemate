@@ -21,7 +21,6 @@ const PoblemSlice = createSlice({
                 .catch(error => {
                     console.error('Error adding problem:', error);
                 });
-            alert("new problem added successfully")
         },
         setProblems: (state, action) => {
             state.problems = action.payload

@@ -16,10 +16,10 @@ export const RevisionProblemCard=({problem,idx})=>{
                                   <FaLightbulb className="text-yellow-500 mt-1 text-lg" />
                                   <span className="leading-relaxed text-base">{problem.approach_1}</span>
                                 </li>
-                         <li className="flex items-start gap-3">
+                         {problem.approach_2 && <li className="flex items-start gap-3">
                                   <FaLightbulb className="text-yellow-500 mt-1 text-lg" />
                                   <span className="leading-relaxed text-base">{problem.approach_2}</span>
-                                </li>
+                                </li>}
                             </ul>
                           </td>
                           <td className="align-top px-6 py-6 border-b border-gray-300">

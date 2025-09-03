@@ -17,7 +17,6 @@ const ProblemSchema = new Schema({
     },
     approach_2: {
         type: String,
-        required: true
     },
     ds: {
         type: String,
