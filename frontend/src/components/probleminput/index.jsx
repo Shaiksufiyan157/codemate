@@ -131,7 +131,8 @@ const loadnewProblems=async()=>{
                     rows={2}
                     ref={approach1Ref}
                     value={approach1}
-                    onChange={(e) =>{ dispatchProblem({
+                    onChange={(e) =>{ 
+                        dispatchProblem({
                         type: "ADD_APPROACH1",
                         payload: e.target.value
                     })
