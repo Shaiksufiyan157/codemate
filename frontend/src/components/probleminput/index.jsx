@@ -111,7 +111,7 @@ const loadnewProblems=async()=>{
                             type: "ADD_PROBLEM_STATEMENT",
                             payload: e.target.value
                         })
-                     if (errors.ds) setErrors((x) => ({ ...x, prob_statement: "" }));
+                     if (errors.prob_statement) setErrors((x) => ({ ...x, prob_statement: "" }));
                     }
                     }
                     placeholder="Describe the problem statement..."
