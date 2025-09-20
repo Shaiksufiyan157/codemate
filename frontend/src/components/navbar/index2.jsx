@@ -13,14 +13,19 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import CodeOffIcon from '@mui/icons-material/CodeOff';
 import{NavLink ,Link} from 'react-router-dom'
+import toast,{Toaster} from 'react-hot-toast'
+import { useEffect } from 'react';
 
-
-const pages = ['Home', 'Problems', 'About Us','Sheets','Rapid Fire'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Problems', 'About Us','Sheets','Rapid Fire','Login'];
+const settings = ['Profile', 'Logout'];
 
 function Navbar() {
+  // useEffect(() => {
+    // const token = localStorage.getItem('token');
+  // }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const token = localStorage.getItem('token');
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,9 +45,20 @@ function Navbar() {
   const getStyle=({isActive})=>{
    return isActive?'border-b-2 ':''
   }
+  const handleSettingClick=(setting)=>{
+    // if(setting==='Logout'){
+
+      localStorage.removeItem('token')
+       toast.success("Logged out successfully")
+      window.location.href='/login'
+      // alert("Logged out successfully")
+     
+    // }
+  };
 
   return (
     <AppBar position="sticky" >
+      <Toaster/>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <CodeOffIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
@@ -130,7 +146,7 @@ function Navbar() {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          { token &&  <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -152,13 +168,13 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+              {/* {settings.map((setting) => ( */}
+ <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
+                  <Typography sx={{ textAlign: 'center' }} onClick={() => handleSettingClick('logout')}>Logout</Typography>
                 </MenuItem>
-              ))}
+              {/* ))} */}
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>

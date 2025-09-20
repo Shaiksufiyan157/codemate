@@ -1,5 +1,5 @@
 import express from "express"
-import DsaSheet from "../models/dsasheet.js";
+import DsaSheet from "../models/dsasheet.model.js";
 const router=express.Router()
 
 

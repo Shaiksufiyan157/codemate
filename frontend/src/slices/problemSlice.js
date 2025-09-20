@@ -14,7 +14,11 @@ const PoblemSlice = createSlice({
             const url = `${import.meta.env.VITE_BACKEND_URL}/problem`
             const data=action.payload
             console.log(data)
-            axios.post(url, data)
+            axios.post(url, data,{
+                headers:{
+                    Authorization: localStorage.getItem('token')
+                }
+            })
                 .then(response => {
                     console.log('Problem added:', response.data);
                 })
