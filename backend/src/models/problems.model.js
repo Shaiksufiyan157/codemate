@@ -32,6 +32,6 @@ const ProblemSchema = new Schema({
     }
 }, { timestamps: true })
 
-const Problem=mongoose.model('Problems',ProblemSchema);
+const Problem=mongoose.model('Problem',ProblemSchema);
 
 export default Problem

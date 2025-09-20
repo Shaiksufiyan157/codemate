@@ -1,54 +1,69 @@
 import express from "express"
 import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db.js"
-import DsaSheet from "./models/dsasheet.js"
-import Problem from "./models/problems.js"
+import DsaSheet from "./models/dsasheet.model.js"
+import Problem from "./models/problems.model.js"
+import User from "./models/user.model.js"
 import { seedSheets ,seedSheetsWithIds,seedProblemsWithIds,problemDetails} from "./seed/data.js"
 import cors from "cors"
 import ProblemsRoute from "./routes/problems.route.js"
 import SheetsRoute from "./routes/sheet.route.js"
-
-
+import UserRoute from "./routes/user.route.js"
+import passport from "passport"
+import LocalStrategy from "passport-local"
+// import 
+import session from "express-session"
+import MongoDBStore from "connect-mongo"
+import addProblemToUser from "./utils/addprob.js"
+import "./config/passport.js";
 dotenv.config({ quiet: true })
 const app=express()
+
+
+
 app.use(express.json())
 console.log("Starting Express app...");
 console.log(process.env.FRONTEND_URL)
 const corsOptions = {
    origin : process.env.FRONTEND_URL,
    methods:['GET','PUT','POST','DELETE'],
-   allowedHeaders:["Content-Type","Authorization"]
+   allowedHeaders:["Content-Type","Authorization"],
+   credentials:true
 }
-
+const mongoURI = process.env.DB_URI || 'mongodb://localhost:27017/mySessionsDB';
+const store = MongoDBStore.create({
+  mongoUrl: mongoURI,    // use mongoUrl, not uri
+  collectionName: 'sessions',
+});
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    store,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig))
 let count=0;
 app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
   res.send("welcome codemates api")
 })
 
-// app.get('/sheets', async (req, res) => {
-//   try {
-//     console.log("Fetched all sheets:");
-//     console.log(count++)
-//     const allsheets = await DsaSheet.find({});
 
-//     res.status(200).json(allsheets );
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch sheets why' });
-//   }
-// });
+
+app.use(passport.initialize())
+// app.use(passport.session())
+
+
 
 app.use('/',ProblemsRoute)
 app.use('/',SheetsRoute)
+app.use('/',UserRoute)
 
-// app.get('/problems', async (req, res) => {
-//   try {
-//     const allProblems = await Problem.find({});
-//     res.status(200).json(allProblems);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch sheets' });
-//   }
-// });
 const seedDb=async()=>{
   await DsaSheet.deleteMany({})
     for(let i=0;i<seedSheetsWithIds.length;i++){
@@ -59,7 +74,7 @@ const seedDb=async()=>{
 }
 const seedProblems_todb=async()=>{
     await Problem.deleteMany({})
-    console.log("problems data deleted successfully")
+    // console.log("problems data deleted successfully")
     for(let i=0;i<seedProblemsWithIds.length;i++){
         const newProblem=new Problem(seedProblemsWithIds[i]);
        await newProblem.save()
@@ -70,9 +85,28 @@ const deleteDb=async()=>{
    await DsaSheet.deleteMany({})
     console.log("data deleted successfully")
 }
+const addprobToUser=async()=>{
+  await addProblemToUser('68c83fee885bef8e19d6fdb6',seedProblemsWithIds)
+  console.log("problems added to user")
+}
 // seedDb()
 // deleteDb()
 // seedProblems_todb()
+// addprobToUser()
+
+const finduser=async()=>{
+  const user=await User.findById('68c83fee885bef8e19d6fdb6')
+  console.log("user",user)
+  const problems=await User.findById('68c83fee885bef8e19d6fdb6').populate('problems')
+  console.log("problems",problems)
+}
+// finduser()
+
+const findProblem=async () => {
+  const problem = await Problem.findById('68c83e11e48d0cc6895e7c93');
+  console.log("problem", problem);
+}
+// findProblem()
 const PORT=process.env.PORT
 
 

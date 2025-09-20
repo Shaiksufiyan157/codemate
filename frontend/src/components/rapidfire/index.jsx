@@ -1,5 +1,7 @@
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export const RapidProblemCard=({problem_statement,onNextClick,onBackClick})=>{
+  
     return(
         <>
           {/* <h1>Welcome to Rapid fire</h1> */}

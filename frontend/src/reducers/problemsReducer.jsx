@@ -2,8 +2,6 @@ export const ProblemReducer=(state,action)=>{
     switch(action.type){
         
         case 'ADD_PROBLEM_STATEMENT':
-            console.log(state)
-            console.log(action)
             return{
 
                 ...state,
@@ -42,8 +40,6 @@ export const ProblemReducer=(state,action)=>{
                 link:''
         }
         case 'ADD_LINK':
-             console.log(state)
-            console.log(action)
             return{
                 ...state,
                 link:action.payload
