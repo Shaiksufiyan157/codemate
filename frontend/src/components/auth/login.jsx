@@ -3,6 +3,9 @@ import { findUser } from "../../api/user";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../slices/problemSlice";
+import { getProblems } from "../../api/revproblems";
 export const Login=() =>{
 
 
@@ -10,7 +13,9 @@ export const Login=() =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const navigate = useNavigate();
+  const dispatch=useDispatch();
     //  useEffect(() => {
     //     const token = localStorage.getItem('token');
     //     axios.get("http://localhost:3000/protected", {
@@ -25,14 +30,16 @@ export const Login=() =>{
     //         navigate('/login')
     //     })
     // }, [])
-  const handleLoginClick = () => {
+  const handleLoginClick = async() => {
         // console.log(email, password);
         axios.post("http://localhost:3000/login", { email, password }).then(user => {
             console.log(user);
             localStorage.setItem('token', user.data.token)
+            dispatch(setToken(user.data.token))
             toast.success("Logged in successfully")
             navigate('/')
-        }).catch(err => {
+        })
+        .catch(err => {
             console.log("error is comming from",err);
             toast.error("Login failed")
         })
@@ -40,7 +47,9 @@ export const Login=() =>{
   };
  
   return (
+    <>
     <div style={{ maxWidth: 300, margin: "auto", padding: 20, border: "1px solid #ccc" }}>
+      <h1>Login to your CodeMate Account</h1>
       <div style={{ marginBottom: 10 }}>
         <label>Email:</label>
         <input
@@ -76,7 +85,7 @@ export const Login=() =>{
       >
         Login
       </div>
-    </div>
+    </div></>
   );
 }
 

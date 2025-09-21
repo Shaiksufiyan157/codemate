@@ -4,6 +4,7 @@ const initialState = {
     problems: [],
     datastructure: '',
     algo: '',
+    token:localStorage.getItem('token')
 }
 
 const PoblemSlice = createSlice({
@@ -37,11 +38,21 @@ const PoblemSlice = createSlice({
         },
         OnAllClick: () => {
             state.problems = JSON.parse(localStorage.getItem('problems'))
+        },
+        setToken:(state,action)=>{
+            console.log(action.payload)
+            state.token=action.payload;
+        },
+        removeToken:(state,action)=>{
+            state.token=null;
+            state.problems=[];
+            localStorage.removeItem('token')
         }
+
 
     }
 })
 
-export const { addproblem, setDSValue, setAlgoValue, OnAllClick, setProblems } = PoblemSlice.actions
+export const { addproblem, setDSValue, setAlgoValue, OnAllClick, setProblems,setToken ,removeToken} = PoblemSlice.actions
 
 export default PoblemSlice.reducer;
