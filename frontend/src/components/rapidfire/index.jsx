@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 export const RapidProblemCard=({problem_statement,onNextClick,onBackClick})=>{
-  
+    const {token}=useSelector(state => state.problem)
+    const navigate=useNavigate()
+    useEffect(()=>{
+      if(!token){
+        navigate('/login')
+      }
+      alert('jfkew')
+    },[token])
     return(
         <>
           {/* <h1>Welcome to Rapid fire</h1> */}

@@ -1,14 +1,13 @@
 import axios from "axios"
 import { setProblems } from "../slices/problemSlice";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const baseurl=`${import.meta.env.VITE_BACKEND_URL}/problems`;
-// const {problems}=useSelector(state=>state.problem)
-const token = localStorage.getItem('token');
-export const getProblems=()=>async dispatch=>{
+export const getProblems=()=>async (dispatch,getState)=>{
       
     try{
-
+const {token} =getState().problem
+console.log(token)
         const {data}=await axios.get(baseurl,{
             headers:{
                 Authorization: token,

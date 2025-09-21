@@ -12,20 +12,25 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import CodeOffIcon from '@mui/icons-material/CodeOff';
-import{NavLink ,Link} from 'react-router-dom'
-import toast,{Toaster} from 'react-hot-toast'
+import { NavLink, Link } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeToken } from '../../slices/problemSlice';
 
-const pages = ['Home', 'Problems', 'About Us','Sheets','Rapid Fire','Login'];
+const pages = ['Home', 'Problems', 'About Us', 'Sheets', 'Rapid Fire'];
 const settings = ['Profile', 'Logout'];
 
 function Navbar() {
   // useEffect(() => {
-    // const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
   // }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const token = localStorage.getItem('token');
+  const { token } = useSelector(state => state.problem)
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,30 +47,30 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  const getStyle=({isActive})=>{
-   return isActive?'border-b-2 ':''
+  const getStyle = ({ isActive }) => {
+    return isActive ? 'border-b-2 ' : ''
   }
-  const handleSettingClick=(setting)=>{
+  const handleLogoutClick = () => {
     // if(setting==='Logout'){
 
-      localStorage.removeItem('token')
-       toast.success("Logged out successfully")
-      window.location.href='/login'
-      // alert("Logged out successfully")
-     
+    toast.success("Logged out successfully")
+    dispatch(removeToken())
+    navigate('/login')
+    // alert("Logged out successfully")
+
     // }
   };
 
   return (
     <AppBar position="sticky" >
-      <Toaster/>
+      <Toaster />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <CodeOffIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
+          <CodeOffIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-   
+
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -76,8 +81,8 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-           <Link to={'/'}>CODEMATE</Link> 
-            
+            <Link to={'/'}>CODEMATE</Link>
+
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -109,14 +114,16 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-          
-                    <Typography to="/problems" sx={{ textAlign: 'center' }} ><NavLink to={`/${page==='Home'?'':page.toLowerCase().replace(/\s+/g, '').trim()}`} style={{}}>{page}</NavLink></Typography>
-                 
+                  <Typography to="/problems" sx={{ textAlign: 'center' }}>
+                    <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`}>
+                      {page}
+                    </NavLink>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-         <CodeOffIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <CodeOffIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -142,11 +149,11 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <NavLink to={`/${page==='Home'?'':page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page}</NavLink>
+                <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page}</NavLink>
               </Button>
             ))}
           </Box>
-          { token &&  <Box sx={{ flexGrow: 0 }}>
+          {token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -169,16 +176,16 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {/* {settings.map((setting) => ( */}
- <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }} onClick={() => handleSettingClick('logout')}>Logout</Typography>
-                </MenuItem>
+              <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
+                <Typography sx={{ textAlign: 'center' }} onClick={handleLogoutClick}>Logout</Typography>
+              </MenuItem>
               {/* ))} */}
             </Menu>
-          </Box>}
+          </Box>:<Typography> <NavLink to={'/login'}>login </NavLink></Typography>}
         </Toolbar>
       </Container>
     </AppBar>
-    
+
   );
 }
 export default Navbar;

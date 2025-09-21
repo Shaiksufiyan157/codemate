@@ -6,22 +6,27 @@ import { Filter } from "../../components/filter/Filter"
 import { useEffect ,useState} from "react"
 import { getProblems } from "../../api/revproblems"
 import Loading from "../../components/utils/Loading"
+import { useNavigate } from "react-router-dom"
 export const RevisionProblemPage=()=>{
 
     const dispatch=useDispatch();
-    const { problems, datastructure, algo } = useSelector(state => state.problem)
+    const { problems, datastructure, algo,token} = useSelector(state => state.problem)
    const [loading, setLoading] = useState(() => !problems || problems.length === 0);
+   const navigate=useNavigate()
     useEffect(()=>{
+              if(!token) {
+          navigate('/login')
+        }
         const loadproblems=async()=>{
-
             if(!problems || problems.length===0)
             await dispatch(getProblems())
           setLoading(false)
         }
         loadproblems()
-    },[])
 
-    console.log(problems)
+    },[token])
+
+    // console.log(problems)
 
   const FilterByDs = getFilterByDs(problems, datastructure)
   const FilterByAlgo = getFilterByAlgo(FilterByDs, algo)
@@ -41,7 +46,7 @@ export const RevisionProblemPage=()=>{
                     </tr>
                   </thead>
                   <tbody>
-                    {FilterByAlgo.map((problem ,idx) => (
+                    {FilterByAlgo?.map((problem ,idx) => (
                         <RevisionProblemCard key={problem.id} idx={idx}problem={problem}/>
                     ))}
                   </tbody>
