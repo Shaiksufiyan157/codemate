@@ -1,8 +1,6 @@
 import { FaLightbulb } from "react-icons/fa"
 
 export const RevisionProblemCard=({problem,idx})=>{
-    // console.log(problem)
-    // "bg-[#bde0fe]"
      const dataStructures = problem.ds.split(",").map(item => item.trim());
      const algos=problem.algo.split(",").map(item=>item.trim());
     return(
