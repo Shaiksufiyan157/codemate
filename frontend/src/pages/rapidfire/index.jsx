@@ -1,62 +1,78 @@
 import { getrandomuniquenumbs } from "../../utils/problemfilter";
-import { useSelector ,useDispatch} from "react-redux";
-import { useEffect ,useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { getProblems } from "../../api/revproblems";
 import { RapidProblemCard } from "../../components/rapidfire";
 import Loading from "../../components/utils/Loading"
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-const arr=[]
-const rand=[]
-for(let i=0;i<100;i++){
-    arr.push(i);
-}
-for(let i=0;i<100;i++){
-    rand.push(getrandomuniquenumbs(arr))
-}
-export const RapidFire=()=>{
-    
 
-    const [index,setIndex]=useState(0);
+
+export const RapidFire = () => {
+
+
+    const [index, setIndex] = useState(0);
+     const [rand, setRand] = useState([]);
     const dispatch = useDispatch();
-    const navigate=useNavigate();
- const { problems, algo ,token} = useSelector(state => state.problem);
+    const navigate = useNavigate();
+    const { problems, algo, token } = useSelector(state => state.problem);
 
-        useEffect(()=>{
-            if(!token){
-                navigate('/login')
-                toast.error('Please login to cotinue')
-            }
-            const loadproblems=async()=>{
-    
-                if(!problems || problems.length===0)
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+            toast.error('Please login to cotinue')
+        }
+        const loadproblems = async () => {
+
+            if (!problems || problems.length === 0)
                 await dispatch(getProblems())
-              setLoading(false)
+            setLoading(false)
+        }
+        loadproblems()
+    }, [token])
+    useEffect(() => {
+        if (problems && problems.length > 0) {
+            const arr = Array.from({ length: problems.length }, (_, i) => i);
+            const temp = [];
+            for (let i = 0; i < problems.length; i++) {
+                temp.push(getrandomuniquenumbs(arr));
             }
-            loadproblems()
-        },[token])
-   const [loading, setLoading] = useState(() => !problems || problems.length === 0);
-        const onNextClick=()=>{
-            if(index>=problems.length-1) return
-           setIndex(index+1)
+            setRand(temp);
         }
-        const onBackClick=()=>{
-           index<=0?setIndex(0):setIndex(index-1)
-        }
-console.log('Redux problem state:', problems, algo);
+    }, [problems]);
 
-    return(
+
+    const [loading, setLoading] = useState(() => !problems || problems.length === 0);
+    const onNextClick = () => {
+        if (index >= problems.length - 1) return
+        setIndex(index + 1)
+    }
+    const onBackClick = () => {
+        index <= 0 ? setIndex(0) : setIndex(index - 1)
+    }
+    // console.log('Redux problem state:', problems[0].problem_statement);
+
+    return (
         <>
-        {
-            // rand.map((idx)=>(
+            {
+                // rand.map((idx)=>(
                 // <h1>{problems[idx].problem_statement}</h1>
-                
-            // ))
-            
-        }
-        
-      {loading?<Loading/>:problems?.length>0 && <RapidProblemCard problem_statement={problems[rand[index]].problem_statement} onNextClick={onNextClick} onBackClick={onBackClick}/>}
 
+                // ))
+
+            }
+
+            {loading ? (
+                <Loading />
+            ) : (
+                problems?.length > 0 && rand[index] < problems.length && (
+                    <RapidProblemCard
+                        problem_statement={problems[rand[index]].problem_statement}
+                        onNextClick={onNextClick}
+                        onBackClick={onBackClick}
+                    />
+                )
+            )}
 
         </>
     )

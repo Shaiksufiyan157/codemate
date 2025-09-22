@@ -8,7 +8,6 @@ export const RapidProblemCard=({problem_statement,onNextClick,onBackClick})=>{
       if(!token){
         navigate('/login')
       }
-      alert('jfkew')
     },[token])
     return(
         <>

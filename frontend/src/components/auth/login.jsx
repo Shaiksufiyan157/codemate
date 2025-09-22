@@ -33,7 +33,7 @@ export const Login=() =>{
   const handleLoginClick = async() => {
         // console.log(email, password);
         axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email, password }).then(user => {
-            console.log(user);
+            // console.log(user);
             localStorage.setItem('token', user.data.token)
             dispatch(setToken(user.data.token))
             toast.success("Logged in successfully")
