@@ -157,7 +157,7 @@ function Navbar() {
           {token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-               <AccountCircle/>
+               <AccountCircle sx={{ fontSize: 50 }}/>
               </IconButton>
             </Tooltip>
             <Menu
