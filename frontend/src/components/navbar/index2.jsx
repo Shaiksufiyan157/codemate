@@ -117,7 +117,7 @@ function Navbar() {
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography to="/problems" sx={{ textAlign: 'center' }}>
                     <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`}>
-                      {page}
+                      {page=='Problems'?'My Problems':page}
                     </NavLink>
                   </Typography>
                 </MenuItem>
