@@ -4,7 +4,8 @@ import { useEffect ,useState} from "react";
 import { getProblems } from "../../api/revproblems";
 import { RapidProblemCard } from "../../components/rapidfire";
 import Loading from "../../components/utils/Loading"
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const arr=[]
 const rand=[]
 for(let i=0;i<100;i++){
@@ -18,9 +19,14 @@ export const RapidFire=()=>{
 
     const [index,setIndex]=useState(0);
     const dispatch = useDispatch();
- const { problems, algo } = useSelector(state => state.problem);
+    const navigate=useNavigate();
+ const { problems, algo ,token} = useSelector(state => state.problem);
 
         useEffect(()=>{
+            if(!token){
+                navigate('/login')
+                toast.error('Please login to cotinue')
+            }
             const loadproblems=async()=>{
     
                 if(!problems || problems.length===0)
@@ -28,7 +34,7 @@ export const RapidFire=()=>{
               setLoading(false)
             }
             loadproblems()
-        },[])
+        },[token])
    const [loading, setLoading] = useState(() => !problems || problems.length === 0);
         const onNextClick=()=>{
             if(index>=problems.length-1) return

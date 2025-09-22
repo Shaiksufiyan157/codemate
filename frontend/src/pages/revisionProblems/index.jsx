@@ -16,7 +16,7 @@ export const RevisionProblemPage=()=>{
    const navigate=useNavigate()
     useEffect(()=>{
               if(!token) {
-                toast.error('please login to continue')
+                toast.error('Please login to continue')
           navigate('/login')
         }
         const loadproblems=async()=>{
