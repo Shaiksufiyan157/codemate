@@ -7,6 +7,7 @@ import { useEffect ,useState} from "react"
 import { getProblems } from "../../api/revproblems"
 import Loading from "../../components/utils/Loading"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 export const RevisionProblemPage=()=>{
 
     const dispatch=useDispatch();
@@ -15,6 +16,7 @@ export const RevisionProblemPage=()=>{
    const navigate=useNavigate()
     useEffect(()=>{
               if(!token) {
+                toast.error('please login to continue')
           navigate('/login')
         }
         const loadproblems=async()=>{
