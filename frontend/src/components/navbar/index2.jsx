@@ -8,6 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -149,14 +150,14 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page}</NavLink>
+                <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page=='Problems'?'My Problems':page}</NavLink>
               </Button>
             ))}
           </Box>
           {token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+               <AccountCircle/>
               </IconButton>
             </Tooltip>
             <Menu
