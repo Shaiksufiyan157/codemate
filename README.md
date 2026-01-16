@@ -1,9 +1,3 @@
-Here is the updated README.md with a significantly expanded Key Features section. I have fleshed out the descriptions to highlight the technical depth (MERN stack, Redux, Authentication) and the user value (structured learning, revision).
-
-Copy the code below to replace your existing file.
-
-Markdown
-
 <div align="center">
 
 # CODEMATE
