@@ -33,17 +33,38 @@
 
 </div>
 
-> **CodeMate** is a full-stack web application designed to help users master Data Structure and Algorithm (DSA) problems through organized sheets, revision tracking, and interactive problem-solving.
+> **CodeMate** is a robust full-stack web application engineered to streamline the Data Structures and Algorithms (DSA) learning journey. By combining structured problem sheets with advanced tracking capabilities, it helps developers move from learning concepts to mastering technical interviews.
 
-## 🎯 Key Features
+---
 
-- **User Authentication:** JWT-based authentication with Passport.js for secure login/registration.
-- **DSA Sheet Management:** Organize and browse curated DSA problem sheets by topic.
-- **Problem Tracking:** Save, track, and revise DSA problems with custom notes and approaches.
-- **Problem Repository:** Comprehensive database of DSA problems with multiple solution approaches.
-- **Code Solutions:** View and store solution code for each problem.
-- **Revision Mode:** Dedicated revision interface for quick problem review with approaches and code.
-- **Responsive Design:** Mobile-friendly interface optimized with Tailwind CSS.
+## 🎯 Key Features & Functionality
+
+### 🔐 Secure & Seamless Authentication
+- **Enterprise-Grade Security:** Implements **Passport.js** with **JWT (JSON Web Tokens)** strategies to ensure secure user data handling.
+- **Persistent Sessions:** Utilizes `express-session` with MongoDB storage to maintain user login states across browser restarts, providing a seamless "remember me" experience.
+- **Protected Routes:** Middleware safeguards sensitive pages (like user profiles and progress data), ensuring only authenticated users can access them.
+
+### 📚 Structured DSA Sheet Management
+- **Topic-Wise Organization:** Problems are meticulously categorized into core topics (e.g., *Arrays, Linked Lists, Recursion, Dynamic Programming*), allowing users to focus on weak areas.
+- **Curated Content:** Supports integration of popular DSA sheets (like Love Babbar 450 or Striver’s SDE Sheet), giving users a clear roadmap from beginner to advanced levels.
+- **Progress Visualization:** Visual indicators show completion rates per topic, motivating users to maintain their streak.
+
+### 📝 Smart Problem Tracking & Notes
+- **Personalized Status Workflow:** Users can mark problems with distinct statuses: *Solved*, *Pending*, or *Revise Later*.
+- **Contextual Note-Taking:** Includes a dedicated notes section for every problem, allowing users to jot down intuition, edge cases, or time complexity analysis ($O(n)$) directly alongside the question.
+- **Bookmark for Review:** Easily "star" tricky problems to add them to a priority queue for last-minute interview prep.
+
+### 💾 Comprehensive Solution Repository
+- **Multi-Approach Storage:** Users aren't limited to one answer; the system allows saving multiple solutions (e.g., *Brute Force* vs. *Optimized Approach*) for the same problem.
+- **Code formatting:** Clean and readable display of code snippets, making it easy to review syntax and logic patterns months later.
+
+### 🔄 Dedicated Revision Mode
+- **Spaced Repetition Friendly:** A specialized "Revision" interface that filters only the problems marked for review, stripping away distractions to focus purely on retention.
+- **Quick-Look Cards:** View problem statements and your saved notes side-by-side to quickly refresh concepts without re-solving the entire problem.
+
+### 🎨 Responsive & Modern UI
+- **Mobile-First Design:** Built with **Tailwind CSS** to ensure the dashboard looks perfect on mobile devices, tablets, and desktops.
+- **Interactive Elements:** Smooth transitions and instant feedback (using Redux state management) when updating problem status, eliminating page reloads for a native app feel.
 
 ---
 
@@ -51,21 +72,20 @@
 
 ### Backend
 - **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB
-- **Authentication:** Passport.js (JWT Strategy)
-- **Session Management:** express-session with MongoDB store
-- **Environment Management:** dotenv
+- **Framework:** Express.js (REST API Architecture)
+- **Database:** MongoDB (Schema modeling with Mongoose)
+- **Authentication:** Passport.js (JWT & Local Strategies)
+- **State Persistence:** express-session & connect-mongo
 
 ### Frontend
-- **Framework:** React with Vite
-- **Styling:** Tailwind CSS
-- **State Management:** Redux (Slices & Store)
-- **HTTP Client:** Axios / Fetch API
-- **Icons:** React Icons
+- **Framework:** React.js (Powered by Vite for fast builds)
+- **Styling:** Tailwind CSS (Utility-first design)
+- **State Management:** Redux Toolkit (Centralized data store)
+- **API Communication:** Axios (Interceptor-based HTTP requests)
+- **Routing:** React Router DOM v6
 
 ### Deployment
-- **Hosting:** Vercel (Frontend & Backend)
+- **Hosting:** Vercel (Optimized for frontend/backend monorepos)
 
 ---
 
@@ -74,7 +94,7 @@
 Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (v14 or higher)
 - npm or yarn package manager
-- MongoDB (Local or Atlas)
+- MongoDB (Local instance or MongoDB Atlas URL)
 - Git
 
 ---
@@ -85,3 +105,11 @@ Before you begin, ensure you have the following installed:
 ```bash
 git clone [https://github.com/Shaiksufiyan157/codemate.git](https://github.com/Shaiksufiyan157/codemate.git)
 cd codemate
+npm install
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+SESSION_SECRET=your_secret_key
+# Run in development mode (with Nodemon)
+npm run dev
+```
+<div align="center"> <sub>Built with ❤️ by Shaik Sufiyan. Open for contributions!</sub> </div>
