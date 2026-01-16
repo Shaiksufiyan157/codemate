@@ -1,3 +1,9 @@
+Here is the updated README.md with a significantly expanded Key Features section. I have fleshed out the descriptions to highlight the technical depth (MERN stack, Redux, Authentication) and the user value (structured learning, revision).
+
+Copy the code below to replace your existing file.
+
+Markdown
+
 <div align="center">
 
 # CODEMATE
@@ -105,10 +111,27 @@ Before you begin, ensure you have the following installed:
 ```bash
 git clone [https://github.com/Shaiksufiyan157/codemate.git](https://github.com/Shaiksufiyan157/codemate.git)
 cd codemate
+```
+
+### 2. Install Dependencies
+Navigate to the root directory (or separate frontend/backend folders if structured that way) and run:
+
+```Bash
 npm install
+```
+### 3. Configure Environment Variables
+Create a .env file in the root directory and add your specific configuration:
+
+Code snippet
+
+```Bash
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
 SESSION_SECRET=your_secret_key
+```
+### 4. Start the Application
+```Bash
+
 # Run in development mode (with Nodemon)
 npm run dev
 ```
