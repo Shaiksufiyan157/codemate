@@ -4,31 +4,32 @@
 
 ### _Empowering Innovation Through Seamless Coding Mastery_
 
-<img src="[https://img.shields.io/github/last-commit/Shaiksufiyan157/codemate?style=flat&color=blue&label=last%20commit](https://img.shields.io/github/last-commit/Shaiksufiyan157/codemate?style=flat&color=blue&label=last%20commit)" alt="Last Commit" />
-<img src="[https://img.shields.io/github/languages/top/Shaiksufiyan157/codemate?style=flat&color=blue](https://img.shields.io/github/languages/top/Shaiksufiyan157/codemate?style=flat&color=blue)" alt="Top Language" />
-<img src="[https://img.shields.io/github/languages/count/Shaiksufiyan157/codemate?style=flat&color=blue](https://img.shields.io/github/languages/count/Shaiksufiyan157/codemate?style=flat&color=blue)" alt="Language Count" />
+![Last Commit](https://img.shields.io/github/last-commit/Shaiksufiyan157/codemate?style=flat&color=blue&label=last%20commit)
+![Top Language](https://img.shields.io/github/languages/top/Shaiksufiyan157/codemate?style=flat&color=blue)
+![Language Count](https://img.shields.io/github/languages/count/Shaiksufiyan157/codemate?style=flat&color=blue)
 
 <br/>
 <br/>
 
 ### _Built with the tools and technologies:_
 
-<img src="[https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)" alt="Express" />
-<img src="[https://img.shields.io/badge/JSON-000000?style=flat&logo=json&logoColor=white](https://img.shields.io/badge/JSON-000000?style=flat&logo=json&logoColor=white)" alt="JSON" />
-<img src="[https://img.shields.io/badge/Markdown-000000?style=flat&logo=markdown&logoColor=white](https://img.shields.io/badge/Markdown-000000?style=flat&logo=markdown&logoColor=white)" alt="Markdown" />
-<img src="[https://img.shields.io/badge/Session-000000?style=flat&logo=socket.io&logoColor=white](https://img.shields.io/badge/Session-000000?style=flat&logo=socket.io&logoColor=white)" alt="Session" />
-<img src="[https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white)" alt="npm" />
-<img src="[https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)" alt="Mongoose" />
-<img src="[https://img.shields.io/badge/.ENV-ECD53F?style=flat&logo=dotenv&logoColor=black](https://img.shields.io/badge/.ENV-ECD53F?style=flat&logo=dotenv&logoColor=black)" alt=".ENV" />
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000?style=flat&logo=json&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=flat&logo=markdown&logoColor=white)
+![Session](https://img.shields.io/badge/Session-000000?style=flat&logo=socket.io&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)
+![ENV](https://img.shields.io/badge/.ENV-ECD53F?style=flat&logo=dotenv&logoColor=black)
 
 <br/>
-<img src="[https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)" alt="JavaScript" />
-<img src="[https://img.shields.io/badge/Nodemon-76D04B?style=flat&logo=nodemon&logoColor=white](https://img.shields.io/badge/Nodemon-76D04B?style=flat&logo=nodemon&logoColor=white)" alt="Nodemon" />
-<img src="[https://img.shields.io/badge/Passport-34E27A?style=flat&logo=passport&logoColor=white](https://img.shields.io/badge/Passport-34E27A?style=flat&logo=passport&logoColor=white)" alt="Passport" />
-<img src="[https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)" alt="React" />
-<img src="[https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)" alt="Vite" />
-<img src="[https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)" alt="ESLint" />
-<img src="[https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white)" alt="Axios" />
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Nodemon](https://img.shields.io/badge/Nodemon-76D04B?style=flat&logo=nodemon&logoColor=white)
+![Passport](https://img.shields.io/badge/Passport-34E27A?style=flat&logo=passport&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white)
 
 </div>
 
@@ -82,5 +83,5 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Shaiksufiyan157/codemate.git
+git clone [https://github.com/Shaiksufiyan157/codemate.git](https://github.com/Shaiksufiyan157/codemate.git)
 cd codemate
