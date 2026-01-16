@@ -29,6 +29,9 @@ const ProblemSchema = new Schema({
     link:{
         type:String,
         required:true
+    },
+    code:{
+        type:String
     }
 }, { timestamps: true })
 

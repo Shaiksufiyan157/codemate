@@ -60,8 +60,8 @@ try{
                 message: "Could not find the user."
             })
         }
-
-        //Incorrect password
+    
+        
         if (!compareSync(req.body.password, user.password)) {
             return res.status(401).send({
                 success: false,
