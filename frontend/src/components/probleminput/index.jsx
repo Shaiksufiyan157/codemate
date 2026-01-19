@@ -60,6 +60,7 @@ const loadnewProblems=async()=>{
     if (ds.length === 0) {
         setErrors({ ds: "Enter at least one data structure.",  algo: "" ,prob_statement:"",approach:"" });
         dsRef.current?.focus();
+      
         return;
     }
     if (algo.length === 0) {

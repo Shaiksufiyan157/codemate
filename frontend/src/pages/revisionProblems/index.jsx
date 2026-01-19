@@ -19,12 +19,14 @@ export const RevisionProblemPage=()=>{
                 toast.error('Please login to continue')
           navigate('/login')
         }
+       else{
         const loadproblems=async()=>{
             if(!problems || problems.length===0)
             await dispatch(getProblems())
           setLoading(false)
         }
         loadproblems()
+       } 
 
     },[token])
 

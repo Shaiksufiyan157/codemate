@@ -9,7 +9,8 @@ import SheetProblemsPage  from './pages/sheets/sheetproblems'
 import axios from "axios"
 import { RevisionProblemPage } from './pages/revisionProblems'
 import { RapidFire } from './pages/rapidfire/index'
-import { LoginPage } from './pages/auth/Loginpage'
+import { LoginPage,SignUpPage } from './pages/auth/Loginpage'
+// import {Sign}
 console.log(import.meta.env.VITE_BACKEND_URL);
 async function fetchData() {
   try {
@@ -39,6 +40,7 @@ function App() {
       <Route path='/sheets/:sid' element={<SheetProblemsPage />} />
       <Route path='/rapidfire' element={<RapidFire />} />
       <Route path='/login' element={<LoginPage />} />
+      <Route path='/signup' element ={<SignUpPage/>}/>
     </Routes>
     <Footer />
   </div>
