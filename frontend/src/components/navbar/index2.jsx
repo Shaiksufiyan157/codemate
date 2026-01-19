@@ -184,7 +184,12 @@ function Navbar() {
               </MenuItem>
               {/* ))} */}
             </Menu>
-          </Box>:<Typography> <NavLink to={'/login'}>login </NavLink></Typography>}
+          </Box>:<Typography> <NavLink to={'/login'}>Login </NavLink>
+          <NavLink to={'/signup'}>Signup</NavLink>
+          </Typography>
+          
+          }
+          
         </Toolbar>
       </Container>
     </AppBar>

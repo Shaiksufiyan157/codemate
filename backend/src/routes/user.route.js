@@ -25,29 +25,30 @@ router.get("/dashboard",(req,res)=>{
 // }
 
 // })
-router.post('/register', (req, res) => {
+router.post('/register', async(req, res) => {
     const user = new User({
         email: req.body.email,
         username: req.body.username,
         password: hashSync(req.body.password, 10)
     })
-
-    user.save().then(user => {
-        res.send({
+    const savedUser=await user.save();
+    try{
+    res.send({
             success: true,
             message: "User created successfully.",
             user: {
-                id: user._id,
-                username: user.username
+                id: savedUser._id,
+                username: savedUser.username
             }
         })
-    }).catch(err => {
+    }
+    catch(err) {
         res.send({
             success: false,
             message: "Something went wrong",
             error: err
         })
-    })
+    }
 })
 router.post('/login', (req, res) => {
     // res.send("welcome to login page")
