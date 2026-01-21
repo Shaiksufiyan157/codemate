@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../slices/problemSlice";
+import { setUserInfo } from "../../slices/userSlice";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -62,6 +63,26 @@ const SignUp = () => {
     }
     return isValid; // Returns true if no errors
   };
+    const handleGuestLogin=async()=>{
+       try {
+        const guestemail="guest@codemate.com"
+        const guestpassword="123456"
+        const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email:guestemail, password:guestpassword})
+          // console.log(user);
+          localStorage.setItem('token', user.data.token)
+          dispatch(setToken(user.data.token))
+          // setUsername(user.data.user.username)
+          dispatch(setUserInfo(user.data.user))
+          toast.success(` Logged in successfully as ${user.data.user.username}`)
+          navigate('/')
+        
+      }
+  
+      catch (err) {
+        console.log("error is comming from", err);
+        toast.error("Login failed")
+      }
+    }
   const handleSignupClick = async () => {
     if (validate()) {
       try {
@@ -154,6 +175,15 @@ const SignUp = () => {
               className="text-blue-600 cursor-pointer hover:underline"
             >
               <NavLink to={'/login'}>Login</NavLink>
+            </span>
+          </p>
+            <p className="mt-4 text-center text-sm text-gray-500">
+          Login as Guest {" "}
+            <span
+              className="text-blue-600 cursor-pointer hover:underline"
+            >
+
+              <NavLink onClick={handleGuestLogin}>Login</NavLink>
             </span>
           </p>
         </div>

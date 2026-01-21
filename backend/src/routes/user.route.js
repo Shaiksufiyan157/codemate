@@ -45,7 +45,8 @@ router.post('/signup', async (req, res) => {
         res.status(201).send({
             success: true,
             message: "User created successfully.",
-            token: token
+            token: token,
+            username:savedUser.username
         })
     }
     catch (err) {
@@ -72,7 +73,7 @@ router.post('/login', (req, res) => {
             if (!compareSync(req.body.password, user.password)) {
                 return res.status(401).send({
                     success: false,
-                    message: "Incorrect password"
+                    message: "Incorrect password or email"
                 })
             }
 
@@ -86,11 +87,12 @@ router.post('/login', (req, res) => {
             return res.status(200).send({
                 success: true,
                 message: "Logged in successfully!",
-                token: "Bearer " + token
+                token: "Bearer " + token,
+                user:user
             })
         })
     } catch (e) {
-        res.send(400).json({ message: "error while login", e })
+        res.send(400).json({ message: "Login Failed", e })
     }
 });
 
