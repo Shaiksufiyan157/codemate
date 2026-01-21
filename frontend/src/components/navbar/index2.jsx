@@ -63,17 +63,20 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="sticky" >
+<AppBar position="sticky">
       <Toaster />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-</svg>
+          
+          {/* ================= DESKTOP LOGO (UNCHANGED) ================= */}
+          <svg className="w-8 h-8 hidden md:block" fill="currentColor" viewBox="0 0 20 20" style={{ display: { xs: 'none', md: 'block' }, marginRight: '10px' }}>
+            <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+          </svg>
+          
           <Typography
             variant="h6"
             noWrap
-
+            component="div"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -84,11 +87,16 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            <Link to={'/'}>CODEMATE</Link>
-
+            <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>CODEMATE</Link>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {/* ================= MOBILE MENU (UPDATED) ================= */}
+          {/* LOGIC CHANGE: Added 'order' and 'flexGrow' logic based on !token to move hamburger to right */}
+          <Box sx={{ 
+            flexGrow: !token ? 0 : 1, 
+            display: { xs: 'flex', md: 'none' },
+            order: !token ? 2 : 0  
+          }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -113,25 +121,43 @@ function Navbar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography to="/problems" sx={{ textAlign: 'center' }}>
-                    <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`}>
-                      {page=='Problems'?'My Problems':page}
-                    </NavLink>
-                  </Typography>
+                  <NavLink 
+                    to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`}
+                    className="text-blue-600 font-semibold no-underline w-full text-center"
+                    style={{ textDecoration: 'none' }}
+                  >
+                      {page === 'Problems' ? 'My Problems' : page}
+                  </NavLink>
                 </MenuItem>
               ))}
+              
+              {!token && (
+                <Box>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <NavLink to={'/login'} className="text-blue-600 font-semibold no-underline w-full text-center" style={{ textDecoration: 'none' }}>Login</NavLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <NavLink to={'/signup'} className="text-blue-600 font-semibold no-underline w-full text-center" style={{ textDecoration: 'none' }}>Signup</NavLink>
+                  </MenuItem>
+                </Box>
+              )}
             </Menu>
           </Box>
-          <CodeOffIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
+          {/* ================= MOBILE LOGO (UPDATED) ================= */}
+          {/* <CodeOffIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+          
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -141,10 +167,14 @@ function Navbar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              // LOGIC CHANGE: If !token, this comes first (order 1), pushing menu to the end
+              order: !token ? 1 : 0 
             }}
           >
             CODEMATE
           </Typography>
+
+          {/* ================= DESKTOP MENU (UNCHANGED) ================= */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -152,44 +182,51 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>{page=='Problems'?'My Problems':page}</NavLink>
+                <NavLink to={`/${page === 'Home' ? '' : page.toLowerCase().replace(/\s+/g, '').trim()}`} className={getStyle}>
+                  {page === 'Problems' ? 'My Problems' : page}
+                </NavLink>
               </Button>
             ))}
           </Box>
-          {token ? <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-               <AccountCircle sx={{ fontSize: 50 }}/>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {/* {settings.map((setting) => ( */}
-              <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
-                <Typography sx={{ textAlign: 'center' }} onClick={handleLogoutClick}>Logout</Typography>
-              </MenuItem>
-              {/* ))} */}
-            </Menu>
-          </Box>:<Typography> <NavLink to={'/login'}>Login </NavLink>
-          <NavLink to={'/signup'}>Signup</NavLink>
-          </Typography>
-          
-          }
-          
+
+          {/* ================= USER SETTINGS / AUTH ================= */}
+          {token ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <AccountCircle sx={{ fontSize: 40, color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center" onClick={handleLogoutClick} className="text-blue-600 font-semibold">
+                    Logout
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+              <NavLink to={'/login'} className="text-white font-semibold no-underline" style={{textDecoration:'none', color:'white'}}>Login</NavLink>
+              <NavLink to={'/signup'} className="text-white font-semibold no-underline" style={{textDecoration:'none', color:'white'}}>Signup</NavLink>
+            </Box>
+          )}
+
         </Toolbar>
       </Container>
     </AppBar>
