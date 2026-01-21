@@ -1,17 +1,10 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import CodeOffIcon from '@mui/icons-material/CodeOff';
 import { NavLink, Link } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
@@ -19,6 +12,13 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeToken } from '../../slices/problemSlice';
+// New layout components added: Avatar, Stack, Divider
+import { Avatar, Box, Tooltip, IconButton, Menu, MenuItem, Typography, Stack, Divider } from '@mui/material';
+
+// New icons added for better UX
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 const pages = ['Home', 'Problems', 'About Us', 'Sheets', 'Rapid Fire'];
 const settings = ['Profile', 'Logout'];
@@ -30,6 +30,7 @@ function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { token } = useSelector(state => state.problem)
+  const {user}= useSelector(state => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
@@ -192,34 +193,102 @@ function Navbar() {
           {/* ================= USER SETTINGS / AUTH ================= */}
           {token ? (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircle sx={{ fontSize: 40, color: 'white' }} />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={handleLogoutClick} className="text-blue-600 font-semibold">
-                    Logout
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
+  <Tooltip title="Open settings">
+    <Box
+      onClick={handleOpenUserMenu}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        cursor: 'pointer',
+        p: 0.5,
+        pr: 1.5, // extra padding on right for the arrow
+        borderRadius: '40px',
+        transition: '0.2s',
+        '&:hover': {
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        },
+      }}
+    >
+      <Avatar 
+        sx={{ 
+          width: 35, 
+          height: 35, 
+          bgcolor: '#2563eb', // Modern blue 
+          fontSize: '1rem',
+          fontWeight: 'bold'
+        }}
+      >
+        {user.username?.charAt(0).toUpperCase()}
+      </Avatar>
+      
+      <Typography
+        variant="body2"
+        sx={{
+          color: 'white',
+          fontWeight: 600,
+          display: { xs: 'none', sm: 'block' }, // Hide name on small screens
+        }}
+      >
+        {user.username}
+      </Typography>
+
+      <KeyboardArrowDownIcon sx={{ color: 'white', fontSize: 18, opacity: 0.7 }} />
+    </Box>
+  </Tooltip>
+
+  <Menu
+    sx={{ mt: '45px' }}
+    id="menu-appbar"
+    anchorEl={anchorElUser}
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    keepMounted
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    open={Boolean(anchorElUser)}
+    onClose={handleCloseUserMenu}
+    PaperProps={{
+      elevation: 3,
+      sx: {
+        width: '180px',
+        borderRadius: '12px',
+        mt: 1.5,
+        '& .MuiMenuItem-root': {
+          px: 2,
+          py: 1.2,
+        },
+      },
+    }}
+  >
+    {/* You can add a "Signed in as" section here */}
+    <Box sx={{ px: 2, py: 1 }}>
+      <Typography variant="caption" color="text.secondary" display="block">
+        Signed in as
+      </Typography>
+      <Typography variant="body2" fontWeight="bold" noWrap>
+        {user.username}
+      </Typography>
+    </Box>
+    
+    <Divider sx={{ my: 1 }} />
+
+    <MenuItem 
+      onClick={() => {
+        handleCloseUserMenu();
+        handleLogoutClick();
+      }}
+      sx={{ color: '#d32f2f' }} // Red for logout
+    >
+      <LogoutIcon sx={{ fontSize: 20, mr: 1.5 }} />
+      <Typography fontWeight="medium">Logout</Typography>
+    </MenuItem>
+  </Menu>
+</Box>
           ) : (
             <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
               <NavLink to={'/login'} className="text-white font-semibold no-underline" style={{textDecoration:'none', color:'white'}}>Login</NavLink>

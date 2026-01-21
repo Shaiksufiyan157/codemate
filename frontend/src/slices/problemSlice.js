@@ -14,7 +14,7 @@ const PoblemSlice = createSlice({
         addproblem: (state, action) => {
             const url = `${import.meta.env.VITE_BACKEND_URL}/problem`
             const data=action.payload
-            console.log(data)
+            // console.log(data)
             axios.post(url, data,{
                 headers:{
                     Authorization: localStorage.getItem('token')
@@ -40,7 +40,7 @@ const PoblemSlice = createSlice({
             state.problems = JSON.parse(localStorage.getItem('problems'))
         },
         setToken:(state,action)=>{
-            console.log(action.payload)
+            // console.log(action.payload)
             state.token=action.payload;
         },
         removeToken:(state,action)=>{

@@ -8,6 +8,7 @@ import { getProblems } from "../../api/revproblems"
 import Loading from "../../components/utils/Loading"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
+import withAuth from "../../hoc/withAuth"
 export const RevisionProblemPage=()=>{
 
     const dispatch=useDispatch();
@@ -16,7 +17,7 @@ export const RevisionProblemPage=()=>{
    const navigate=useNavigate()
     useEffect(()=>{
               if(!token) {
-                toast.error('Please login to continue')
+                // toast.error('Please login to continue')
           navigate('/login')
         }
        else{
@@ -72,3 +73,5 @@ export const RevisionProblemPage=()=>{
 }
 
         
+// export default withAuth(RevisionProblemPage)
+// export default RevisionProblemPage
