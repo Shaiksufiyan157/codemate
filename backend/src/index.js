@@ -25,7 +25,7 @@ app.use(express.json())
 console.log("Starting Express app...");
 console.log(process.env.FRONTEND_URL)
 const corsOptions = {
-   origin : process.env.FRONTEND_URL,
+   origin : [process.env.FRONTEND_URL,/^https:\/\/codemate-.*-shaiksufiyan157s-projects\.vercel\.app$/],
    methods:['GET','PUT','POST','DELETE'],
    allowedHeaders:["Content-Type","Authorization"],
    credentials:true
