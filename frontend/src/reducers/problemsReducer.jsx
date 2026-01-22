@@ -3,7 +3,6 @@ export const ProblemReducer=(state,action)=>{
         
         case 'ADD_PROBLEM_STATEMENT':
             return{
-
                 ...state,
                 problem_statement:action.payload
             }
@@ -34,7 +33,7 @@ export const ProblemReducer=(state,action)=>{
                 link:action.payload
             }
         case 'ADD_CODE':
-            console.log(action.payload)
+            // console.log(action.payload)
         return{
             ...state,
             code:action.payload
@@ -50,8 +49,6 @@ export const ProblemReducer=(state,action)=>{
                 approach2:'',
                 link:''
         }
-
-
         default:
             {
                 return state
