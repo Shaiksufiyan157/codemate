@@ -1,4 +1,4 @@
-import { useReducer, useRef, useState } from 'react';
+import { useReducer, useRef, useState,useEffect } from 'react';
 import { ProblemReducer } from '../../reducers/problemsReducer';
 import { useDispatch } from 'react-redux';
 import { addproblem } from "../../slices/problemSlice";
@@ -24,18 +24,14 @@ export const InputData = () => {
     ds: '',
     algo: '',
     problem_statement: '',
-    link: ''
+    link: '',
+    code:''
   }
 
   const [state, dispatchProblem] = useReducer(ProblemReducer, initialState);
   const { approach1, approach2, ds, algo, problem_statement, link, code } = state
   const [errors, setErrors] = useState({ ds: "", algo: "", prob_statement: "", approach: "", link: "" });
 
-  // const form = formRef.current;
-  // if (form && !form.checkValidity()) {
-  //   form.reportValidity();
-  //   return;
-  // }
 
   const loadnewProblems = async () => {
     await dispatch(getProblems())
@@ -91,7 +87,6 @@ export const InputData = () => {
     loadnewProblems()
     // navigate('/problems')
     toast.success('Successfully problem added!')
-
   };
 
 

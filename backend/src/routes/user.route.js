@@ -11,20 +11,7 @@ router.get("/login", (req, res) => {
 router.get("/dashboard", (req, res) => {
     res.send("welcome to dashboard page")
 })
-// router.post('/register',(req,res)=>{
-//       const {email,password,username}=req.body
-// try{
-//     const user=new User({email,username});
 
-//   User.register(user,password)
-//   res.send("user register successfully")
-// }
-// catch(e){
-//   res.send("error while user register",e)
-//   console.log(e)
-// }
-
-// })
 router.post('/signup', async (req, res) => {
 
 
@@ -57,10 +44,10 @@ router.post('/signup', async (req, res) => {
         })
     }
 })
-router.post('/login', (req, res) => {
+router.post('/login',async (req, res) => {
     // res.send("welcome to login page")
     try {
-        User.findOne({ email: req.body.email }).then(user => {
+       const user=await User.findOne({ email: req.body.email })
             //No user found
             if (!user) {
                 return res.status(401).send({
@@ -90,15 +77,55 @@ router.post('/login', (req, res) => {
                 token: "Bearer " + token,
                 user:user
             })
-        })
+        
     } catch (e) {
-        res.send(400).json({ message: "Login Failed", e })
+        res.status(400).send({ message: "Login Failed", e })
     }
 });
 
-router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({ message: "you are in protected route" })
-})
+// router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
+//     res.json({ message: "you are in protected route" })
+// })
 
+router.get('/me', async (req, res) => {
+    // 1. Get the header
+    const authHeader = req.headers['authorization'];
+    
+    // 2. Check if header exists
+    if (!authHeader) {
+        return res.status(401).send({ success: false, message: "Access Denied: No Token Provided!" });
+    }
 
+    // 3. Extract the token (Remove "Bearer " if present)
+    // The client sends: "Bearer <token_string>"
+    const token = authHeader.split(' ')[1]; 
+
+    if (!token) {
+        return res.status(401).send({ success: false, message: "Access Denied: Malformed Token!" });
+    }
+
+    try {
+        // 4. Verify the token using your secret key
+        // "Random string" MUST match what you used in login/signup
+        const decoded = jwt.verify(token, "Random string");
+
+        // 5. Find the user by the ID inside the decoded token
+        // We use .select("-password") to ensure the password hash isn't sent back
+        const user = await User.findById(decoded.id).select("-password");
+
+        if (!user) {
+            return res.status(404).send({ success: false, message: "User not found." });
+        }
+
+        // 6. Send the user data
+        res.status(200).send({
+            success: true,
+            user: user
+        });
+
+    } catch (error) {
+        // This handles expired tokens or invalid signatures
+        res.status(400).send({ success: false, message: "Invalid Token", error: error.message });
+    }
+});
 export default router

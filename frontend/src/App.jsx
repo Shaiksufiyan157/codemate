@@ -1,7 +1,7 @@
 import { Problems } from './components/content-table'
 import Navbar from './components/navbar/index2'
 import { Footer } from './components/footer/index'
-import {Route,Routes, useLocation} from 'react-router-dom'
+import {Route,Routes, useLocation,useNavigate} from 'react-router-dom'
 import LandingPage from './pages/home'
 import { InputData } from './components/probleminput/index'
 import DsaSheetsPage from './pages/sheets/index'
@@ -10,23 +10,47 @@ import axios from "axios"
 import  {RevisionProblemPage}  from './pages/revisionProblems'
 import { RapidFire } from './pages/rapidfire/index'
 import { LoginPage,SignUpPage } from './pages/auth/Loginpage'
-// import {Sign}
+import { useDispatch } from 'react-redux'
+import { setUserInfo } from './slices/userSlice'
 import ProtectedRoute from './components/utils/ProtectedRoute'
-console.log(import.meta.env.VITE_BACKEND_URL);
-async function fetchData() {
-  try {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/sheets`);
-    console.log(response.data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
+import { use, useEffect } from 'react'
 
 
-// fetchData();
 
 function App() {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+  
+                const token = localStorage.getItem('token'); 
 
+                if (!token) {
+                    navigate('/login'); // Redirect if not logged in
+                    return;
+                }
+
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/me`, {
+                    headers: {
+ 
+                        Authorization: token 
+                    }
+                });
+
+                dispatch(setUserInfo(response.data.user));
+
+            } catch (err) {
+                console.error("Error fetching user:", err);
+
+                if (err.response && err.response.status === 401) {
+                    navigate('/login');
+                }
+            }
+        };
+
+        fetchUserData();
+    }, [navigate]);
   return (
     <>
 
