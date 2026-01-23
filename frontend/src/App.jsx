@@ -11,6 +11,7 @@ import  {RevisionProblemPage}  from './pages/revisionProblems'
 import { RapidFire } from './pages/rapidfire/index'
 import { LoginPage,SignUpPage } from './pages/auth/Loginpage'
 import { useDispatch } from 'react-redux'
+import CodemateAi from './components/genAi'
 import { setUserInfo } from './slices/userSlice'
 import ProtectedRoute from './components/utils/ProtectedRoute'
 import { use, useEffect } from 'react'
@@ -63,7 +64,7 @@ useEffect(() => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignUpPage />} />
             <Route path='/sheets' element={<DsaSheetsPage />} />
-
+              <Route path='/gemini' element={<CodemateAi />} />
           {/* PROTECTED ROUTES - Only accessible if logged in */}
           <Route element={<ProtectedRoute />}>
             <Route path='/problems' element={<RevisionProblemPage />} />
@@ -71,6 +72,7 @@ useEffect(() => {
           
             <Route path='/sheets/:sid' element={<SheetProblemsPage />} />
             <Route path='/rapidfire' element={<RapidFire />} />
+  
           </Route>
           
         </Routes>
