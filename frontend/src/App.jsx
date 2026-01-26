@@ -64,7 +64,7 @@ useEffect(() => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignUpPage />} />
             <Route path='/sheets' element={<DsaSheetsPage />} />
-              <Route path='/gemini' element={<CodemateAi />} />
+              <Route path='/ai' element={<CodemateAi />} />
           {/* PROTECTED ROUTES - Only accessible if logged in */}
           <Route element={<ProtectedRoute />}>
             <Route path='/problems' element={<RevisionProblemPage />} />
