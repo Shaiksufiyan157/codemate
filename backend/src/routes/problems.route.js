@@ -24,7 +24,8 @@ router.post('/problem',passport.authenticate('jwt', { session: false }),async(re
     await user.save()
     console.log("working")
         res.status(200).json({
-        good:'every thing working'
+        good:'every thing working',
+        problem:problem
     })
     }catch(e){
         console.log("error",e)

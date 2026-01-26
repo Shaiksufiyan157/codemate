@@ -1,23 +1,28 @@
-import { useReducer, useRef, useState,useEffect } from 'react';
+import { useReducer, useRef, useState, useEffect } from 'react';
 import { ProblemReducer } from '../../reducers/problemsReducer';
 import { useDispatch } from 'react-redux';
 import { addproblem } from "../../slices/problemSlice";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { getProblems } from '../../api/revproblems';
-import toast, { Toaster } from 'react-hot-toast'
-export const InputData = () => {
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
+export const InputData = () => {
 
   const ProbStatemRef = useRef();
   const approach1Ref = useRef();
   const dsRef = useRef();
   const algoRef = useRef();
-  const formRef = useRef();
-  const linkRef = useRef()
+  const linkRef = useRef();
+
+  // Refs for AI inputs
+  const aiCodeRef = useRef();
+  const aiLinkRef = useRef();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const initialState = {
     approach1: '',
     approach2: '',
@@ -25,21 +30,74 @@ export const InputData = () => {
     algo: '',
     problem_statement: '',
     link: '',
-    code:''
+    code: ''
   }
 
   const [state, dispatchProblem] = useReducer(ProblemReducer, initialState);
   const { approach1, approach2, ds, algo, problem_statement, link, code } = state
   const [errors, setErrors] = useState({ ds: "", algo: "", prob_statement: "", approach: "", link: "" });
 
+  // AI Feature States
+  const [useAiMode, setUseAiMode] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiInputData, setAiInputData] = useState({ code: '', link: '' });
 
   const loadnewProblems = async () => {
     await dispatch(getProblems())
   }
 
-  const handleSubmit = (event) => {
-    // if(!problem_statement || !algo || !ds || !link || !approach1 || !approach2 )
+  // --- AI Logic Simulation ---
+  const handleAiGeneration = async () => {
+    if (!aiInputData.code || !aiInputData.link) {
+      toast.error("Please provide both Code and Link for AI generation");
+      return;
+    }
 
+    setAiLoading(true);
+    const url = `${import.meta.env.VITE_BACKEND_URL}/ai`;
+
+    const payload = {
+      userCode: aiInputData.code,
+      userContext: aiInputData.link
+    };
+
+    try {
+      const { data } = await axios.post(url, payload);
+
+      console.log("API Response:", data); // Check your console to see the exact keys
+
+      // 1. Populate the Form using your Reducer Dispatches
+      // We use the data from the API to fill the text fields
+      dispatchProblem({ type: "ADD_PROBLEM_STATEMENT", payload: data.problem_statement || "" });
+      dispatchProblem({ type: "ADD_APPROACH1", payload: data.approach_1 || "" });
+      
+      // If your API returns separate paragraphs, handle approach2, otherwise leave empty
+      dispatchProblem({ type: "ADD_APPROACH2", payload: data.approach_2 || "" }); 
+
+      // Handle DS and Algo (Ensure they are strings, if array join them)
+      const dsValue = Array.isArray(data.ds) ? data.ds.join(", ") : (data.ds || "");
+      const algoValue = Array.isArray(data.algo) ? data.algo.join(", ") : (data.algo || "");
+
+      dispatchProblem({ type: "ADD_DS", payload: dsValue });
+      dispatchProblem({ type: "ADD_ALGO", payload: algoValue });
+
+      // 2. Populate Code and Link from what the user typed in the AI inputs
+      // (Or use data.code if the AI refactored it)
+      dispatchProblem({ type: "ADD_CODE", payload: aiInputData.code }); 
+      dispatchProblem({ type: "ADD_LINK", payload: aiInputData.link });
+
+      toast.success("Form populated successfully!");
+
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to generate content. Check console.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+  // ---------------------------
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     console.log(state)
     if (problem_statement.length == 0) {
@@ -56,7 +114,6 @@ export const InputData = () => {
     if (ds.length === 0) {
       setErrors({ ds: "Enter at least one data structure.", algo: "", prob_statement: "", approach: "" });
       dsRef.current?.focus();
-
       return;
     }
     if (algo.length === 0) {
@@ -79,562 +136,307 @@ export const InputData = () => {
       algo: algo,
       code: code
     };
+    
     console.log(newProblem)
     dispatch(addproblem(newProblem))
-    dispatchProblem({
-      type: 'ON_SUBMIT'
-    })
+    dispatchProblem({ type: 'ON_SUBMIT' }) // Clears the form
+    
+    // Reset AI Inputs as requested ("display content will get vanish and ai input should be displayed again")
+    setAiInputData({ code: '', link: '' });
+    
     loadnewProblems()
-    // navigate('/problems')
     toast.success('Successfully problem added!')
   };
 
 
   return (
     <>
-      {/* <form ref={formRef} onSubmit={handleSubmit}> */}
-
-
-
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
-
-        <div className="max-w-4xl mx-auto">
-
-          {/* Header */}
-
-          <div className="text-center mb-8">
-
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Add New Problem</h1>
-
-            <p className="text-gray-600">Create a comprehensive problem entry with approach and solution</p>
-
-          </div>
-
-
-
-          <div><Toaster /></div>
-
-
-
-          <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-
-
-              {/* Problem Statement */}
-
-              <div className="md:col-span-2">
-
-                <label htmlFor="problemStatement" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  Problem Statement
-
-                </label>
-
-                <input
-
-                  id="problemStatement"
-
-                  type="text"
-
-                  value={problem_statement}
-
-                  ref={ProbStatemRef}
-
-                  onChange={(e) => {
-
-                    dispatchProblem({
-
-                      type: "ADD_PROBLEM_STATEMENT",
-
-                      payload: e.target.value
-
-                    })
-
-                    if (errors.prob_statement) setErrors((x) => ({ ...x, prob_statement: "" }));
-
-                  }
-
-                  }
-
-                  placeholder="Describe the problem statement..."
-
-                  minLength={5}
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 hover:border-gray-300"
-
-                />
-
-                {errors.prob_statement && <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
-
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  {errors.prob_statement}
-
-                </p>}
-
-              </div>
-
-
-
-              {/* Approach 1 */}
-
-              <div className="md:col-span-2">
-
-                <label htmlFor="approach1" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                  </svg>
-
-                  Approach (Paragraph 1)
-
-                </label>
-
-                <textarea
-
-                  id="approach1"
-
-                  rows={3}
-
-                  ref={approach1Ref}
-
-                  value={approach1}
-
-                  onChange={(e) => {
-
-                    dispatchProblem({
-
-                      type: "ADD_APPROACH1",
-
-                      payload: e.target.value
-
-                    })
-
-                    if (errors.approach) setErrors((x) => ({ ...x, approach: "" }));
-
-                  }}
-
-                  placeholder="Write the first paragraph of your approach..."
-
-                  minLength={5}
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none"
-
-                />
-
-                {errors.approach && <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
-
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  {errors.approach}
-
-                </p>}
-
-              </div>
-
-
-
-              {/* Approach 2 */}
-
-              <div className="md:col-span-2">
-
-                <label htmlFor="approach2" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                  </svg>
-
-                  Approach (Paragraph 2 – optional)
-
-                </label>
-
-                <textarea
-
-                  id="approach2"
-
-                  rows={3}
-
-                  value={approach2}
-
-                  onChange={(e) => dispatchProblem({
-
-                    type: "ADD_APPROACH2",
-
-                    payload: e.target.value
-
-                  })}
-
-                  placeholder="Second paragraph (optional)..."
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none"
-
-                />
-
-              </div>
-
-
-
-              {/* Code Section */}
-
-              <div className="md:col-span-2">
-
-                <label htmlFor="code" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265L11.42 9l1.529 4.684a1 1 0 11-1.898.632L9.736 10h-1.14L7.281 14.316a1 1 0 01-1.898-.632L7.912 9 6.383 4.316a1 1 0 111.898-.632L9.596 8h1.14l1.315-4.684a1 1 0 011.265-.265z" clipRule="evenodd" />
-
-                  </svg>
-
-                  Solution Code
-
-                </label>
-
-                <div className="relative">
-
-                  <div className="absolute top-0 left-0 right-0 bg-gray-800 text-white px-4 py-2 rounded-t-xl flex items-center justify-between text-xs">
-
-                    <div className="flex items-center gap-3">
-
-                      <div className="flex gap-1.5">
-
-                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-
-                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-
-                      </div>
-
-                      <span className="font-mono">solution</span>
-
-                    </div>
-
-                    <select className="bg-gray-700 text-white px-2 py-1 rounded text-xs border-none">
-
-                      <option>JavaScript</option>
-
-                      <option>Python</option>
-
-                      <option>Java</option>
-
-                      <option>C++</option>
-
-                    </select>
-
-                  </div>
-
-                  <textarea
-
-                    id="code"
-
-                    rows={12}
-
-                    placeholder="// Write your solution code here...
-
-function solution() {
-
-    // Your code implementation
-
-   
-
-}"
-
-                    onChange={(e) => {
-
-                      dispatchProblem({
-
-                        type: "ADD_CODE",
-
-                        payload: e.target.value
-
-                      })
-
-                    }}
-
-                    className="mt-1 block w-full rounded-b-xl border-2 border-gray-200 px-4 py-3 pt-12 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none font-mono bg-gray-50"
-
-                    style={{ fontFamily: 'Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace' }}
-
-                  />
-
-                </div>
-
-              </div>
-
-
-
-              {/* Data Structures */}
-
-              <div className="relative">
-
-                <label htmlFor="ds" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
-
-                  </svg>
-
-                  Data Structures
-
-                </label>
-
-                <input
-
-                  id="ds"
-
-                  type="text"
-
-                  value={ds}
-
-                  ref={dsRef}
-
-                  onChange={(e) => {
-
-                    dispatchProblem({
-
-                      type: "ADD_DS",
-
-                      payload: e.target.value
-
-                    })
-
-                    if (errors.ds) setErrors((x) => ({ ...x, ds: "" }));
-
-                  }}
-
-                  placeholder="e.g., Array, Hash Map, Heap"
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 hover:border-gray-300"
-
-                />
-
-                <div className="absolute right-3 top-9 text-gray-400">
-
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-
-                  </svg>
-
-                </div>
-
-                {errors.ds && <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
-
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  {errors.ds}
-
-                </p>}
-
-              </div>
-
-
-
-              {/* Algorithms */}
-
-              <div className="relative">
-
-                <label htmlFor="algo" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
-
-                    <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-
-                  </svg>
-
-                  Algorithms
-
-                </label>
-
-                <input
-
-                  id="algo"
-
-                  type="text"
-
-                  value={algo}
-
-                  ref={algoRef}
-
-                  onChange={(e) => {
-
-                    dispatchProblem({
-
-                      type: "ADD_ALGO",
-
-                      payload: e.target.value
-
-                    })
-
-                    if (errors.algo) setErrors((x) => ({ ...x, algo: "" }));
-
-                  }}
-
-                  placeholder="e.g., Binary Search, DP, BFS"
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 hover:border-gray-300"
-
-                />
-
-                <div className="absolute right-3 top-9 text-gray-400">
-
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-
-                  </svg>
-
-                </div>
-
-                {errors.algo && <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
-
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  {errors.algo}
-
-                </p>}
-
-              </div>
-
-
-
-              {/* Problem Link */}
-
-              <div className="md:col-span-2 relative">
-
-                <label htmlFor="link" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-
-                  <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-
-                  </svg>
-
-                  Problem Link
-
-                </label>
-
-                <input
-
-                  id="link"
-
-                  type="text"
-
-                  value={link}
-
-                  ref={linkRef}
-
-                  onChange={(e) => {
-
-                    dispatchProblem({
-
-                      type: "ADD_LINK",
-
-                      payload: e.target.value
-
-                    })
-
-                    if (errors.link) setErrors((x) => ({ ...x, link: "" }));
-
-                  }}
-
-                  placeholder="Add problem link from platform like LeetCode"
-
-                  className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 hover:border-gray-300"
-
-                />
-
-                <div className="absolute right-3 top-9 text-gray-400">
-
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-
-                  </svg>
-
-                </div>
-
-                {errors.link && <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
-
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-
-                  </svg>
-
-                  {errors.link}
-
-                </p>}
-
-              </div>
-
-
-
-              {/* Submit Button */}
-
-              <div className="md:col-span-2 flex items-center justify-center pt-6">
-
-                <button
-
-                  type="submit"
-
-                  className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 transform hover:scale-105"
-                  onClick={handleSubmit}
-                >
-
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-
-                  </svg>
-
-                  Save Problem
-
-                </button>
-
-              </div>
-
+        
+        {/* Toggle AI Mode Button */}
+        <div className="max-w-7xl mx-auto flex justify-end mb-4">
+          <button
+            onClick={() => setUseAiMode(!useAiMode)}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold shadow-sm transition-all duration-300 ${
+              useAiMode 
+                ? "bg-purple-600 text-white shadow-purple-200" 
+                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
+            }`}
+          >
+            <svg className={`w-5 h-5 ${useAiMode ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            {useAiMode ? "AI Mode Active" : "Use AI Assistant"}
+          </button>
+        </div>
+
+        {/* Layout Container: Switches between Single Column (Centered) and Two Column (Grid) */}
+        <div className={`mx-auto transition-all duration-500 ${useAiMode ? "max-w-full grid grid-cols-1 lg:grid-cols-2 gap-8" : "max-w-4xl"}`}>
+
+          {/* LEFT SIDE: The Main Problem Form */}
+          <div className="flex flex-col">
+            <div className={`text-center mb-8 ${useAiMode ? "lg:text-left" : ""}`}>
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                {useAiMode ? "Problem Entry" : "Add New Problem"}
+              </h1>
+              
+              <p className="text-gray-600">Review and edit the problem details below</p>
             </div>
 
+            <div><Toaster /></div>
+
+            <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100 flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {/* Problem Statement */}
+                <div className="md:col-span-2">
+                  <label htmlFor="problemStatement" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                    <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                    </svg>
+                    Problem Statement
+                  </label>
+                  <input
+                    id="problemStatement"
+                    type="text"
+                    value={problem_statement}
+                    ref={ProbStatemRef}
+                    onChange={(e) => {
+                      dispatchProblem({ type: "ADD_PROBLEM_STATEMENT", payload: e.target.value })
+                      if (errors.prob_statement) setErrors((x) => ({ ...x, prob_statement: "" }));
+                    }}
+                    placeholder="Describe the problem statement..."
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 hover:border-gray-300"
+                  />
+                  {errors.prob_statement && <p className="mt-2 text-xs text-red-600">{errors.prob_statement}</p>}
+                </div>
+
+                {/* Approach 1 */}
+                <div className="md:col-span-2">
+                  <label htmlFor="approach1" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                    <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Approach (Paragraph 1)
+                  </label>
+                  <textarea
+                    id="approach1"
+                    rows={3}
+                    ref={approach1Ref}
+                    value={approach1}
+                    onChange={(e) => {
+                      dispatchProblem({ type: "ADD_APPROACH1", payload: e.target.value })
+                      if (errors.approach) setErrors((x) => ({ ...x, approach: "" }));
+                    }}
+                    placeholder="Write the first paragraph of your approach..."
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none"
+                  />
+                  {errors.approach && <p className="mt-2 text-xs text-red-600">{errors.approach}</p>}
+                </div>
+
+                {/* Approach 2 */}
+                <div className="md:col-span-2">
+                  <label htmlFor="approach2" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                    <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Approach (Paragraph 2 – optional)
+                  </label>
+                  <textarea
+                    id="approach2"
+                    rows={3}
+                    value={approach2}
+                    onChange={(e) => dispatchProblem({ type: "ADD_APPROACH2", payload: e.target.value })}
+                    placeholder="Second paragraph (optional)..."
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none"
+                  />
+                </div>
+
+                {/* Code Section */}
+                <div className="md:col-span-2">
+                  <label htmlFor="code" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                    <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265L11.42 9l1.529 4.684a1 1 0 11-1.898.632L9.736 10h-1.14L7.281 14.316a1 1 0 01-1.898-.632L7.912 9 6.383 4.316a1 1 0 111.898-.632L9.596 8h1.14l1.315-4.684a1 1 0 011.265-.265z" clipRule="evenodd" />
+                    </svg>
+                    Solution Code
+                  </label>
+                  <div className="relative">
+                     {/* Window Controls Decoration */}
+                    <div className="absolute top-0 left-0 right-0 bg-gray-800 text-white px-4 py-2 rounded-t-xl flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-3">
+                        <div className="flex gap-1.5">
+                          <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                          <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                          <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        </div>
+                        <span className="font-mono">solution</span>
+                      </div>
+                    </div>
+                    <textarea
+                      id="code"
+                      rows={12}
+                      placeholder="// Code will appear here..."
+                      value={code}
+                      onChange={(e) => dispatchProblem({ type: "ADD_CODE", payload: e.target.value })}
+                      className="mt-1 block w-full rounded-b-xl border-2 border-gray-200 px-4 py-3 pt-12 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none font-mono bg-gray-50"
+                      style={{ fontFamily: 'Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace' }}
+                    />
+                  </div>
+                </div>
+
+                {/* Data Structures & Algo */}
+                <div className="relative">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">Data Structures</label>
+                  <input
+                    type="text"
+                    value={ds}
+                    ref={dsRef}
+                    onChange={(e) => {
+                       dispatchProblem({ type: "ADD_DS", payload: e.target.value });
+                       if (errors.ds) setErrors((x) => ({ ...x, ds: "" }));
+                    }}
+                    placeholder="e.g., Array, Hash Map"
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  />
+                  {errors.ds && <p className="mt-2 text-xs text-red-600">{errors.ds}</p>}
+                </div>
+
+                <div className="relative">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">Algorithms</label>
+                  <input
+                    type="text"
+                    value={algo}
+                    ref={algoRef}
+                    onChange={(e) => {
+                      dispatchProblem({ type: "ADD_ALGO", payload: e.target.value })
+                      if (errors.algo) setErrors((x) => ({ ...x, algo: "" }));
+                    }}
+                    placeholder="e.g., Binary Search"
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:ring-2 focus:ring-pink-400 focus:outline-none"
+                  />
+                  {errors.algo && <p className="mt-2 text-xs text-red-600">{errors.algo}</p>}
+                </div>
+
+                {/* Link */}
+                <div className="md:col-span-2 relative">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">Problem Link</label>
+                  <input
+                    type="text"
+                    value={link}
+                    ref={linkRef}
+                    onChange={(e) => {
+                      dispatchProblem({ type: "ADD_LINK", payload: e.target.value })
+                      if (errors.link) setErrors((x) => ({ ...x, link: "" }));
+                    }}
+                    placeholder="Add problem link"
+                    className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  />
+                  {errors.link && <p className="mt-2 text-xs text-red-600">{errors.link}</p>}
+                </div>
+
+                {/* Submit Button */}
+                <div className="md:col-span-2 flex items-center justify-center pt-6">
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    Save Problem
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </div>
 
+          {/* RIGHT SIDE: AI Assistant Panel (Only visible in AI Mode) */}
+         {useAiMode && (
+  <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-10 duration-500">
+    <div className="text-center lg:text-left mb-8">
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Assistant</h1>
+      <p className="text-gray-600">Paste your code and link, let AI handle the rest</p>
+    </div>
+
+    {/* Removed flex-1 from this parent to prevent unwanted stretching */}
+    <div className="bg-white shadow-xl rounded-2xl p-8 border border-purple-100 flex flex-col relative overflow-hidden">
+      
+      {/* Background Decoration */}
+      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-purple-100 rounded-full blur-3xl opacity-50"></div>
+      
+      {/* AI Input Forms */}
+      {/* Removed flex-1 here so it doesn't push the button away */}
+      <div className="space-y-6 z-10">
+        
+        {/* AI Link Input */}
+        <div>
+          <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
+            <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">1</span>
+            Problem Link
+          </label>
+          <input 
+            type="text" 
+            placeholder="Paste LeetCode/GeeksForGeeks link here..."
+            value={aiInputData.link}
+            onChange={(e) => setAiInputData({...aiInputData, link: e.target.value})}
+            className="w-full rounded-xl border-2 border-purple-100 px-4 py-3 text-sm focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all"
+          />
+        </div>
+
+        {/* AI Code Input */}
+        <div className="flex flex-col">
+          <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
+            <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">2</span>
+            Your Raw Code
+          </label>
+          {/* Removed flex-1 here. Kept min-h to ensure it's usable. */}
+          <textarea 
+            placeholder="Paste your raw solution code here..."
+            value={aiInputData.code}
+            onChange={(e) => setAiInputData({...aiInputData, code: e.target.value})}
+            className="w-full min-h-[300px] rounded-xl border-2 border-purple-100 px-4 py-3 text-sm font-mono focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all resize-none"
+          ></textarea>
         </div>
 
       </div>
 
-      {/* </form> */}
+      {/* AI Action Button */}
+      {/* Kept pt-6 for standard visual separation */}
+      <div className="pt-6 z-10">
+        <button 
+          onClick={handleAiGeneration}
+          disabled={aiLoading}
+          className={`w-full py-4 rounded-xl font-bold text-white shadow-lg flex items-center justify-center gap-2 transition-all ${
+            aiLoading 
+            ? "bg-gray-400 cursor-not-allowed" 
+            : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:scale-[1.02]"
+          }`}
+        >
+          {aiLoading ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Generating...
+            </>
+          ) : (
+            <>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              Generate Solution
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+        </div>
+      </div>
     </>
   );
 }

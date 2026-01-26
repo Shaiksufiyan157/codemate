@@ -193,7 +193,7 @@ app.post("/ai",async (req,res)=>{
 
   try {
 const stream = await openRouter.chat.send({
-  model: "liquid/lfm-2.5-1.2b-thinking:free",
+  model: "nvidia/nemotron-3-nano-30b-a3b:free",
   messages: [
     // 3. INSERT THE SYSTEM PROMPT AS THE FIRST MESSAGE
     {
@@ -237,7 +237,7 @@ try {
    res.send.json(error)
   }
   } catch (error) {
-    console.error("Gemini Error:", error);
+    console.error("LLM Error:", error);
     res.status(500).json({ error: "Failed to fetch data" });
   }
 })
