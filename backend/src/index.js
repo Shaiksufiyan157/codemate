@@ -17,9 +17,8 @@ import MongoDBStore from "connect-mongo"
 import addProblemToUser from "./utils/addprob.js"
 import "./config/passport.js";
 dotenv.config({ quiet: true })
-import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({});
+
 
 const app=express()
 
@@ -194,7 +193,7 @@ app.post("/ai",async (req,res)=>{
 
   try {
 const stream = await openRouter.chat.send({
-  model: "nvidia/nemotron-3-nano-30b-a3b:free",
+  model: "liquid/lfm-2.5-1.2b-thinking:free",
   messages: [
     // 3. INSERT THE SYSTEM PROMPT AS THE FIRST MESSAGE
     {
