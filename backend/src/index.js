@@ -23,7 +23,7 @@ dotenv.config({ quiet: true })
 const app=express()
 
 const openRouter = new OpenRouter({
-  apiKey: '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',
+  apiKey: process.env.OPENROUTER_API_KEY,
   // defaultHeaders: {
   //   'HTTP-Referer': '<YOUR_SITE_URL>', // Optional. Site URL for rankings on openrouter.ai.
   //   'X-Title': '<YOUR_SITE_NAME>', // Optional. Site title for rankings on openrouter.ai.
