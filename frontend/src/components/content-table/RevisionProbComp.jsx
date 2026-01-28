@@ -1,72 +1,95 @@
-import { FaLightbulb } from "react-icons/fa"
+import { FaLightbulb, FaCode, FaExternalLinkAlt } from 'react-icons/fa';
 import { useState } from "react";
-export const RevisionProblemCard=({problem,idx})=>{
-     const dataStructures = problem.ds.split(",").map(item => item.trim());
-     const algos=problem.algo.split(",").map(item=>item.trim());
-     const [viewcode,setViewcode]=useState(false)
-     const OnviewCodeClick=()=>{
-      setViewcode(!viewcode)
-     }
-    return(
-                   <>
-                     <tr className={ "bg-[#a2d2ff]"}>
-                          <td className="align-top px-6 py-6 border-b border-gray-300">
-                            <h1 className="text-base mb-3 text-black-600 font-medium">{idx+1}. {problem.problem_statement}</h1>
-                            <ul className="list-none pl-0 space-y-3">
-                            
-                                <li className="flex items-start gap-3">
-                                  <FaLightbulb className="text-yellow-500 mt-1 text-lg" />
-                                  <span className="leading-relaxed text-base">{problem.approach_1}</span>
-                                </li>
-                         {problem.approach_2 && <li className="flex items-start gap-3">
-                                  <FaLightbulb className="text-yellow-500 mt-1 text-lg" />
-                                  <span className="leading-relaxed text-base">{problem.approach_2}</span>
-                                </li>}
-                               <span className="bg-blue-950 text-white px-3 py-1 rounded cursor-pointer" onClick={OnviewCodeClick}>view code</span>
-                        
-                            </ul>
-                          </td>
-                          <td className="align-top px-6 py-6 border-b border-gray-300">
-                            <div className="flex flex-wrap gap-3">
-                              {dataStructures.map((ds, i) => (
-                                <span key={i}className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{ds}</span>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="align-top px-6 py-6 border-b border-gray-300">
-                            <div className="flex flex-wrap gap-3">
-                              {algos.map((algo, i) => (
-                                <span className="inline-block rounded border border-gray-300 px-3 py-1 text-sm bg-gray-100">{algo}</span>
-                               ))} 
-                            </div>
-                          </td>
-                          <td className=" px-6 py-6 border-b border-gray-300">
-                            <div className="flex flex-wrap items-center gap-3 items-center">
-                                <a href={problem.link} target="_blank">
-                              <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-color-tal-revivo" />
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
-                        
-                                  {viewcode && (
+import CodeViewer from "./CodeViewer";
+export const RevisionProblemCard = ({ problem, idx }) => {
+  const dataStructures = problem.ds.split(",").map(item => item.trim());
+  const algos = problem.algo.split(",").map(item => item.trim());
+  const [viewCode, setViewCode] = useState(false)
+  // const OnviewCodeClick = () => {
+  //   setViewCode(!viewCode)
+  // }
+return (
+    <>
+      <tr className="group hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
+        
+        {/* Approach Column */}
+        <td className="align-top px-6 py-6 w-5/12">
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">
+              #{idx + 1}
+            </span>
+            <h3 className="text-lg font-semibold text-gray-800 leading-tight">
+              {problem.problem_statement}
+            </h3>
+          </div>
+
+          <ul className="space-y-3 pl-1">
+            <li className="flex gap-3 text-gray-600 text-sm leading-relaxed">
+              <FaLightbulb className="text-amber-500 mt-1 flex-shrink-0" />
+              <span>{problem.approach_1}</span>
+            </li>
+            {problem.approach_2 && (
+              <li className="flex gap-3 text-gray-600 text-sm leading-relaxed">
+                <FaLightbulb className="text-amber-500 mt-1 flex-shrink-0" />
+                <span>{problem.approach_2}</span>
+              </li>
+            )}
+          </ul>
+          
+          <button 
+            onClick={() => setViewCode(!viewCode)}
+            className="mt-4 flex items-center gap-2 text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 px-3 py-1.5 rounded-md transition-all w-fit"
+          >
+            <FaCode />
+            {viewCode ? "Hide Solution" : "View Solution"}
+          </button>
+        </td>
+
+        {/* Data Structures */}
+        <td className="align-top px-6 py-6 w-2/12">
+          <div className="flex flex-wrap gap-2">
+            {dataStructures.map((ds, i) => (
+              ds && <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
+                {ds}
+              </span>
+            ))}
+          </div>
+        </td>
+
+        {/* Algorithms */}
+        <td className="align-top px-6 py-6 w-2/12">
+          <div className="flex flex-wrap gap-2">
+            {algos.map((algo, i) => (
+              algo && <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                {algo}
+              </span>
+            ))}
+          </div>
+        </td>
+
+        {/* Link */}
+        <td className="align-top px-6 py-6 w-1/12">
+          <a 
+            href={problem.link} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 hover:bg-indigo-100 text-gray-400 hover:text-indigo-600 transition-all border border-gray-200"
+          >
+            <FaExternalLinkAlt size={14} />
+          </a>
+        </td>
+      </tr>
+
+      {/* Expanded Code View */}
+      {viewCode && (
         <tr>
-          <td colSpan="4" className="px-8 py-6 bg-gradient-to-r from-gray-50 to-slate-50 border-b-2 border-blue-200">
-            <div className="bg-white rounded-xl border-2 border-gray-200 shadow-inner p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex gap-2">
-                </div>
-                {/* <span className="text-sm font-mono text-gray-500">code_solution.js</span> */}
-              </div>
-              <div className="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-                <div className="text-gray-400">// Solution code will be displayed here</div>
-                <div className="mt-2">{problem.code}</div>
-              </div>
+          <td colSpan="4" className="px-0 py-0 bg-slate-50 border-b border-gray-200 shadow-inner">
+            <div className="p-6 max-w-5xl mx-auto">
+              <CodeViewer codeString={problem.code}  />
             </div>
           </td>
         </tr>
       )}
-                        
-                      </>
-    )
+    </>
+  )
 }

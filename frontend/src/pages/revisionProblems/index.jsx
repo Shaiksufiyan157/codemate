@@ -12,7 +12,8 @@ import withAuth from "../../hoc/withAuth"
 export const RevisionProblemPage=()=>{
 
     const dispatch=useDispatch();
-    const { problems, datastructure, algo,token} = useSelector(state => state.problem)
+    const { problems, datastructure, algo} = useSelector(state => state.problem)
+    const token=localStorage.getItem("token")
    const [loading, setLoading] = useState(() => !problems || problems.length === 0);
    const navigate=useNavigate()
     useEffect(()=>{
@@ -23,7 +24,7 @@ export const RevisionProblemPage=()=>{
        else{
         const loadproblems=async()=>{
             if(!problems || problems.length===0)
-            await dispatch(getProblems())
+            dispatch(getProblems())
           setLoading(false)
         }
         loadproblems()
@@ -36,40 +37,68 @@ export const RevisionProblemPage=()=>{
   const FilterByDs = getFilterByDs(problems, datastructure)
   const FilterByAlgo = getFilterByAlgo(FilterByDs, algo)
   console.log("filtered problems",FilterByAlgo)
-    return(
-        <>
-   {loading?<Loading/>: <main className="w-full max-w-[90%] mx-auto p-6 bg-[#3A0CA3] rounded-lg shadow-lg mt-3">
-            <Filter className="w-full sm:w-auto" />
-              <div className="hidden md:block mt-4 overflow-x-auto border border-gray-200 rounded-lg bg-white">
-                <table className="min-w-full text-left text-base border-separate" style={{ borderSpacing: 0 }}>
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-4 text-lg">Approach</th>
-                      <th className="px-6 py-4 text-lg">Data Structures</th>
-                      <th className="px-6 py-4 text-lg">Algorithms</th>
-                      <th className="px-6 py-4 text-lg">Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {FilterByAlgo?.map((problem ,idx) => (
-                        <RevisionProblemCard key={problem.id} idx={idx}problem={problem}/>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+   if (loading) {
+     return <div className="min-h-screen flex items-center justify-center"><Loading /></div>; // Or your loading component
+  }
+
+  return (
+    <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
         
-              {/* Mobile/Card view */}
-              <div className="md:hidden mt-4 space-y-4 ">
-                {FilterByAlgo.map((problem,idx) => (
-        
-                <RevisionProblemMobile key={problem.id} idx={idx} problem={problem}/>
+        {/* Filter Header */}
+        <div className="mb-6 shadow-lg rounded-xl overflow-hidden">
+          <Filter
+       
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          
+          {/* Desktop View Table */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full text-left border-collapse">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Problem & Approach</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Data Structure</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Algorithm</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Link</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {FilterByAlgo?.map((problem, idx) => (
+                  <RevisionProblemCard 
+                    key={problem.id || idx} 
+                    idx={idx} 
+                    problem={problem} 
+                  />
                 ))}
-              </div>
-              </main>
-}
-            </>
-        
-    )
+              </tbody>
+            </table>
+            
+            {(!FilterByAlgo || FilterByAlgo.length === 0) && (
+                <div className="p-12 text-center text-gray-400">
+                    No problems found matching your filters.
+                </div>
+            )}
+          </div>
+
+          {/* Mobile View Stack */}
+          <div className="md:hidden p-4 bg-slate-50 space-y-4">
+             {FilterByAlgo?.map((problem, idx) => (
+                <RevisionProblemMobile 
+                  key={problem.id || idx} 
+                  idx={idx} 
+                  problem={problem} 
+                />
+             ))}
+          </div>
+
+        </div>
+      </div>
+    </main>
+  )
 }
 
         

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { findUser } from "../../api/user";
-import { useNavigate,NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRef } from "react"
@@ -8,6 +8,13 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../slices/userSlice";
 import { setToken } from "../../slices/problemSlice";
 export const Login = () => {
+  useEffect(()=>{
+    const token=localStorage.getItem("token")
+    if(token){
+      navigate('/')
+    }
+  })
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "", username: "" });
@@ -16,22 +23,21 @@ export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailRef = useRef()
-  const usernameRef = useRef();
+
   const passwordRef = useRef();
-  const handleGuestLogin=async()=>{
-     try {
-      const guestemail="guest@codemate.com"
-      const guestpassword="123456"
-      const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email:guestemail, password:guestpassword})
-        // console.log(user);
-        localStorage.setItem('token', user.data.token)
-        dispatch(setToken(user.data.token))
-         dispatch(setUserInfo(user.data.user))
-        // setUsername(user.data.user.username)
-       
-        toast.success(` Logged in successfully as ${user.data.user.username}`)
-        navigate('/')
-      
+  const handleGuestLogin = async () => {
+    try {
+      const guestemail = "guest@codemate.com"
+      const guestpassword = "123456"
+      const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email: guestemail, password: guestpassword })
+
+      localStorage.setItem('token', user.data.token)
+      dispatch(setToken(user.data.token))
+      dispatch(setUserInfo(user.data.user))
+
+      toast.success(` Logged in successfully as ${user.data.user.username}`)
+      navigate('/')
+
     }
 
     catch (err) {
@@ -40,10 +46,10 @@ export const Login = () => {
     }
   }
   const validate = () => {
-  
+
     let isValid = true;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
     if (email.length == 0) {
       isValid = false
       setErrors({ email: "Email is required", username: "", password: "" });
@@ -65,31 +71,31 @@ export const Login = () => {
     if (isValid) {
       setErrors({ email: "", password: "", username: "" })
     }
-    return isValid; // Returns true if no errors
+    return isValid; 
   };
   const handleLoginClick = async () => {
-    // console.log(email, password);
+   
 
-    if(validate()){
-    try {
-      
-      const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email, password })
-      
+    if (validate()) {
+      try {
+
+        const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email, password })
+
         localStorage.setItem('token', user.data.token)
         dispatch(setToken(user.data.token))
         dispatch(setUserInfo(user.data.user))
         toast.success(` Logged in successfully as ${user.data.user.username}`)
         navigate('/')
-      
-    }
 
-    catch (err) {
-      const{ message}=err.response.data
-      setEmail("")
-      setPassword("")
-      toast.error(message)
+      }
+
+      catch (err) {
+        const { message } = err.response.data
+        setEmail("")
+        setPassword("")
+        toast.error(message)
+      }
     }
-  }
   };
 
   return (
@@ -109,7 +115,7 @@ export const Login = () => {
               className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               placeholder="Enter email"
             />
-        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
 
           <div>
@@ -121,7 +127,7 @@ export const Login = () => {
               className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               placeholder="Enter password"
             />
-      {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
 
           <button
@@ -134,8 +140,8 @@ export const Login = () => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Don't have an account? <span className="text-blue-600 cursor-pointer hover:underline"><NavLink to={'/signup'}>Signup</NavLink></span>
           </p>
-            <p className="mt-4 text-center text-sm text-gray-500">
-          Login as Guest {" "}
+          <p className="mt-4 text-center text-sm text-gray-500">
+            Login as Guest {" "}
             <span
               className="text-blue-600 cursor-pointer hover:underline"
             >

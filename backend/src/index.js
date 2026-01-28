@@ -254,12 +254,14 @@ const seedDb=async()=>{
     }
     console.log("data seeded successfully")
 }
+const problemobjects=[]
 const seedProblems_todb=async()=>{
     await Problem.deleteMany({})
     // console.log("problems data deleted successfully")
     for(let i=0;i<seedProblemsWithIds.length;i++){
         const newProblem=new Problem(seedProblemsWithIds[i]);
        await newProblem.save()
+       problemobjects.push(newProblem._id)
     }
     console.log("problems data seeded successfully")
 }
@@ -268,9 +270,25 @@ const deleteDb=async()=>{
     console.log("data deleted successfully")
 }
 const addprobToUser=async()=>{
-  await addProblemToUser('68c83fee885bef8e19d6fdb6',seedProblemsWithIds)
-  console.log("problems added to user")
+  // await addProblemToUser('697a52df47ae9c9bc9623fd7',seedProblemsWithIds)
+
+
+  const allProblems=await Problem.find({})
+  const user=await User.findById('697a52df47ae9c9bc9623fd7')
+ if (user) {
+    // 3. Extract only the IDs into a new array
+    const problemIds = allProblems.map(prob => prob._id);
+
+    // 4. Use the spread operator to push only the IDs
+    user.problems.push(...problemIds);
+
+    // 5. Save the changes to MongoDB Atlas
+    await user.save();
+    
+    console.log("ObjectIds pushed successfully");
 }
+
+};
 // seedDb()
 // deleteDb()
 // seedProblems_todb()

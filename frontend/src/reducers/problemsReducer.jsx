@@ -47,7 +47,8 @@ export const ProblemReducer=(state,action)=>{
                 problem_statement:'',
                 approach1:'',
                 approach2:'',
-                link:''
+                link:'',
+                code:''
         }
         default:
             {

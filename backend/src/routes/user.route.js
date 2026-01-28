@@ -22,18 +22,21 @@ router.post('/signup', async (req, res) => {
         username: username,
         password: hashSync(password, 10)
     })
-    const savedUser = await user.save();
+    await user.save()
     const payload = {
-        username: savedUser.username,
-        id: savedUser._id
+        username:user.username,
+        id:user._id
     }
-
+     const UserFound={
+                username:user.username,
+                email:user.email
+            }
     const token = jwt.sign(payload, "Random string", { expiresIn: "1d" })
         res.status(201).send({
             success: true,
             message: "User created successfully.",
-            token: token,
-            username:savedUser.username
+            token:"Bearer " + token,
+            username:UserFound
         })
     }
     catch (err) {
@@ -68,6 +71,10 @@ router.post('/login',async (req, res) => {
                 username: user.username,
                 id: user._id
             }
+            const UserFound={
+                username:user.username,
+                email:user.email
+            }
 
             const token = jwt.sign(payload, "Random string", { expiresIn: "1d" })
             // console.log(req.user)
@@ -75,7 +82,7 @@ router.post('/login',async (req, res) => {
                 success: true,
                 message: "Logged in successfully!",
                 token: "Bearer " + token,
-                user:user
+                user:UserFound
             })
         
     } catch (e) {

@@ -12,6 +12,8 @@ const {token} =getState().problem
                 Authorization: token,
             }
         })
+        console.log("get api problem is called")
+        console.log(data.length)
         dispatch(setProblems(data))
     }catch(err){  
         return err

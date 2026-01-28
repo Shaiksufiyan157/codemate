@@ -19,7 +19,7 @@ const SignUp = () => {
   const passwordRef = useRef();
 
   const validate = () => {
-  
+
     let isValid = true;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (username.length == 0) {
@@ -27,11 +27,11 @@ const SignUp = () => {
       setErrors({ email: "", username: "Username is required", password: "" });
       usernameRef.current?.focus()
     }
-    else if (username.trim().length < 6) {
-      isValid = false
-      setErrors({ email: "", username: "Username should contain atleast 6 characters", password: "" });
-      usernameRef.current?.focus()
-    }
+    // else if (username.trim().length < 6) {
+    //   isValid = false
+    //   setErrors({ email: "", username: "Username should contain atleast 6 characters", password: "" });
+    //   usernameRef.current?.focus()
+    // }
     else if (email.length == 0) {
       isValid = false
       setErrors({ email: "Email is required", username: "", password: "" });
@@ -61,46 +61,51 @@ const SignUp = () => {
     if (isValid) {
       setErrors({ email: "", password: "", username: "" })
     }
-    return isValid; // Returns true if no errors
+    return isValid;
   };
-    const handleGuestLogin=async()=>{
-       try {
-        const guestemail="guest@codemate.com"
-        const guestpassword="123456"
-        const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email:guestemail, password:guestpassword})
-          // console.log(user);
-          localStorage.setItem('token', user.data.token)
-          dispatch(setToken(user.data.token))
-          // setUsername(user.data.user.username)
-          dispatch(setUserInfo(user.data.user))
-          toast.success(` Logged in successfully as ${user.data.user.username}`)
-          navigate('/')
-        
-      }
-  
-      catch (err) {
-        console.log("error is comming from", err);
-        toast.error("Login failed")
-      }
+  const handleGuestLogin = async () => {
+    try {
+      const guestemail = "guest@codemate.com"
+      const guestpassword = "123456"
+      const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email: guestemail, password: guestpassword })
+
+      localStorage.setItem('token', user.data.token)
+      // dispatch(setToken(user.data.token))
+
+      dispatch(setUserInfo(user.data.user))
+      toast.success(` Logged in successfully as ${user.data.user.username}`)
+      navigate('/')
+
     }
+
+    catch (err) {
+      console.log("error is comming from", err);
+      toast.error("Login failed")
+    }
+  }
   const handleSignupClick = async () => {
     if (validate()) {
       try {
         const user = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/signup`, { username, email, password })
-        dispatch(setToken(user.data.token))
-         localStorage.setItem('token', user.data.token)
+        
+        localStorage.setItem('token', user.data.token)
+        // dispatch(setToken(user.data.token))
+        console.log(user.data)
+
+        dispatch(setUserInfo(user.data.username))
         toast.success('Account Created Successfully')
         navigate('/')
-      } 
+      }
       catch (e) {
         const { errmsg } = e.response.data.error.errorResponse
+        console.log(e)
         if (errmsg.includes("duplicate")) {
           setEmail("")
           setPassword("")
           setUsername("")
           toast.error("Account Already Exists")
         }
-    
+
       }
 
     }
@@ -177,8 +182,8 @@ const SignUp = () => {
               <NavLink to={'/login'}>Login</NavLink>
             </span>
           </p>
-            <p className="mt-4 text-center text-sm text-gray-500">
-          Login as Guest {" "}
+          <p className="mt-4 text-center text-sm text-gray-500">
+            Login as Guest {" "}
             <span
               className="text-blue-600 cursor-pointer hover:underline"
             >
