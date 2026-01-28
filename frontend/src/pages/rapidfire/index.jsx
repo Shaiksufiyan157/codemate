@@ -15,8 +15,8 @@ export const RapidFire = () => {
      const [rand, setRand] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { problems, algo, token } = useSelector(state => state.problem);
-
+    const { problems, algo } = useSelector(state => state.problem);
+const token=localStorage.getItem("token")
     useEffect(() => {
         if (!token) {
             navigate('/login')
@@ -25,7 +25,7 @@ export const RapidFire = () => {
         const loadproblems = async () => {
 
             if (!problems || problems.length === 0)
-                await dispatch(getProblems())
+              dispatch(getProblems())
             setLoading(false)
         }
         loadproblems()
@@ -70,6 +70,7 @@ export const RapidFire = () => {
                         problem_statement={problems[rand[index]].problem_statement}
                         onNextClick={onNextClick}
                         onBackClick={onBackClick}
+                        link={problems[rand[index]].link}
                     />
                 )
             )}

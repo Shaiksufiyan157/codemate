@@ -1,9 +1,7 @@
-import { useReducer, useRef, useState, useEffect } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { ProblemReducer } from '../../reducers/problemsReducer';
 import { useDispatch } from 'react-redux';
-import { addproblem } from "../../slices/problemSlice";
 import { v4 as uuid } from "uuid";
-import { useNavigate } from "react-router-dom";
 import { getProblems } from '../../api/revproblems';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -16,12 +14,9 @@ export const InputData = () => {
   const algoRef = useRef();
   const linkRef = useRef();
 
-  // Refs for AI inputs
-  const aiCodeRef = useRef();
-  const aiLinkRef = useRef();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+ 
 
   const initialState = {
     approach1: '',
@@ -37,16 +32,29 @@ export const InputData = () => {
   const { approach1, approach2, ds, algo, problem_statement, link, code } = state
   const [errors, setErrors] = useState({ ds: "", algo: "", prob_statement: "", approach: "", link: "" });
 
-  // AI Feature States
+ 
   const [useAiMode, setUseAiMode] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiInputData, setAiInputData] = useState({ code: '', link: '' });
 
-  const loadnewProblems = async () => {
-    await dispatch(getProblems())
-  }
 
-  // --- AI Logic Simulation ---
+
+  const addNewProblem = async (problem) => {
+    const url = `${import.meta.env.VITE_BACKEND_URL}/problem`
+    const data = problem;
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      })
+      dispatch(getProblems())
+
+    } catch (error) {
+      console.error('Error adding problem:', error);
+    }
+
+  }
   const handleAiGeneration = async () => {
     if (!aiInputData.code || !aiInputData.link) {
       toast.error("Please provide both Code and Link for AI generation");
@@ -64,26 +72,21 @@ export const InputData = () => {
     try {
       const { data } = await axios.post(url, payload);
 
-      console.log("API Response:", data); // Check your console to see the exact keys
+      console.log("API Response:", data); 
 
-      // 1. Populate the Form using your Reducer Dispatches
-      // We use the data from the API to fill the text fields
       dispatchProblem({ type: "ADD_PROBLEM_STATEMENT", payload: data.problem_statement || "" });
       dispatchProblem({ type: "ADD_APPROACH1", payload: data.approach_1 || "" });
-      
-      // If your API returns separate paragraphs, handle approach2, otherwise leave empty
-      dispatchProblem({ type: "ADD_APPROACH2", payload: data.approach_2 || "" }); 
 
-      // Handle DS and Algo (Ensure they are strings, if array join them)
+      dispatchProblem({ type: "ADD_APPROACH2", payload: data.approach_2 || "" });
+
       const dsValue = Array.isArray(data.ds) ? data.ds.join(", ") : (data.ds || "");
       const algoValue = Array.isArray(data.algo) ? data.algo.join(", ") : (data.algo || "");
 
       dispatchProblem({ type: "ADD_DS", payload: dsValue });
       dispatchProblem({ type: "ADD_ALGO", payload: algoValue });
 
-      // 2. Populate Code and Link from what the user typed in the AI inputs
-      // (Or use data.code if the AI refactored it)
-      dispatchProblem({ type: "ADD_CODE", payload: aiInputData.code }); 
+     
+      dispatchProblem({ type: "ADD_CODE", payload: aiInputData.code });
       dispatchProblem({ type: "ADD_LINK", payload: aiInputData.link });
 
       toast.success("Form populated successfully!");
@@ -97,7 +100,7 @@ export const InputData = () => {
   };
   // ---------------------------
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(state)
     if (problem_statement.length == 0) {
@@ -136,15 +139,16 @@ export const InputData = () => {
       algo: algo,
       code: code
     };
-    
+
     console.log(newProblem)
-    dispatch(addproblem(newProblem))
-    dispatchProblem({ type: 'ON_SUBMIT' }) // Clears the form
-    
-    // Reset AI Inputs as requested ("display content will get vanish and ai input should be displayed again")
+
+    addNewProblem(newProblem)
+
+    dispatchProblem({ type: 'ON_SUBMIT' })
+  
+
     setAiInputData({ code: '', link: '' });
-    
-    loadnewProblems()
+
     toast.success('Successfully problem added!')
   };
 
@@ -152,16 +156,15 @@ export const InputData = () => {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
-        
+
         {/* Toggle AI Mode Button */}
         <div className="max-w-7xl mx-auto flex justify-end mb-4">
           <button
             onClick={() => setUseAiMode(!useAiMode)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold shadow-sm transition-all duration-300 ${
-              useAiMode 
-                ? "bg-purple-600 text-white shadow-purple-200" 
-                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
-            }`}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold shadow-sm transition-all duration-300 ${useAiMode
+              ? "bg-purple-600 text-white shadow-purple-200"
+              : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
+              }`}
           >
             <svg className={`w-5 h-5 ${useAiMode ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -179,7 +182,7 @@ export const InputData = () => {
               <h1 className="text-3xl font-bold text-gray-800 mb-2">
                 {useAiMode ? "Problem Entry" : "Add New Problem"}
               </h1>
-              
+
               <p className="text-gray-600">Review and edit the problem details below</p>
             </div>
 
@@ -261,7 +264,7 @@ export const InputData = () => {
                     Solution Code
                   </label>
                   <div className="relative">
-                     {/* Window Controls Decoration */}
+                    {/* Window Controls Decoration */}
                     <div className="absolute top-0 left-0 right-0 bg-gray-800 text-white px-4 py-2 rounded-t-xl flex items-center justify-between text-xs">
                       <div className="flex items-center gap-3">
                         <div className="flex gap-1.5">
@@ -292,8 +295,8 @@ export const InputData = () => {
                     value={ds}
                     ref={dsRef}
                     onChange={(e) => {
-                       dispatchProblem({ type: "ADD_DS", payload: e.target.value });
-                       if (errors.ds) setErrors((x) => ({ ...x, ds: "" }));
+                      dispatchProblem({ type: "ADD_DS", payload: e.target.value });
+                      if (errors.ds) setErrors((x) => ({ ...x, ds: "" }));
                     }}
                     placeholder="e.g., Array, Hash Map"
                     className="mt-1 block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none"
@@ -353,88 +356,116 @@ export const InputData = () => {
           </div>
 
           {/* RIGHT SIDE: AI Assistant Panel (Only visible in AI Mode) */}
-         {useAiMode && (
-  <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-10 duration-500">
-    <div className="text-center lg:text-left mb-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Assistant</h1>
-      <p className="text-gray-600">Paste your code and link, let AI handle the rest</p>
-    </div>
+          {useAiMode && (
+            <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-10 duration-500">
+              <div className="text-center lg:text-left mb-8">
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Assistant</h1>
+                <p className="text-gray-600">Paste your code and link, let AI handle the rest</p>
+              </div>
 
-    {/* Removed flex-1 from this parent to prevent unwanted stretching */}
-    <div className="bg-white shadow-xl rounded-2xl p-8 border border-purple-100 flex flex-col relative overflow-hidden">
-      
-      {/* Background Decoration */}
-      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-purple-100 rounded-full blur-3xl opacity-50"></div>
-      
-      {/* AI Input Forms */}
-      {/* Removed flex-1 here so it doesn't push the button away */}
-      <div className="space-y-6 z-10">
-        
-        {/* AI Link Input */}
-        <div>
-          <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
-            <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">1</span>
-            Problem Link
-          </label>
-          <input 
-            type="text" 
-            placeholder="Paste LeetCode/GeeksForGeeks link here..."
-            value={aiInputData.link}
-            onChange={(e) => setAiInputData({...aiInputData, link: e.target.value})}
-            className="w-full rounded-xl border-2 border-purple-100 px-4 py-3 text-sm focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all"
-          />
-        </div>
+              {/* Removed flex-1 from this parent to prevent unwanted stretching */}
+              <div className="bg-white shadow-xl rounded-2xl p-8 border border-purple-100 flex flex-col relative overflow-hidden">
 
-        {/* AI Code Input */}
-        <div className="flex flex-col">
-          <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
-            <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">2</span>
-            Your Raw Code
-          </label>
-          {/* Removed flex-1 here. Kept min-h to ensure it's usable. */}
-          <textarea 
-            placeholder="Paste your raw solution code here..."
-            value={aiInputData.code}
-            onChange={(e) => setAiInputData({...aiInputData, code: e.target.value})}
-            className="w-full min-h-[300px] rounded-xl border-2 border-purple-100 px-4 py-3 text-sm font-mono focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all resize-none"
-          ></textarea>
-        </div>
+                {/* Background Decoration */}
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-purple-100 rounded-full blur-3xl opacity-50"></div>
 
-      </div>
+                {/* AI Input Forms */}
+                {/* Removed flex-1 here so it doesn't push the button away */}
+                <div className="space-y-6 z-10">
 
-      {/* AI Action Button */}
-      {/* Kept pt-6 for standard visual separation */}
-      <div className="pt-6 z-10">
-        <button 
-          onClick={handleAiGeneration}
-          disabled={aiLoading}
-          className={`w-full py-4 rounded-xl font-bold text-white shadow-lg flex items-center justify-center gap-2 transition-all ${
-            aiLoading 
-            ? "bg-gray-400 cursor-not-allowed" 
-            : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:scale-[1.02]"
-          }`}
-        >
-          {aiLoading ? (
-            <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Generating...
-            </>
-          ) : (
-            <>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-              Generate Solution
-            </>
+                  {/* AI Link Input */}
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
+                      <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">1</span>
+                      Problem Link
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Paste LeetCode/GeeksForGeeks link here..."
+                      value={aiInputData.link}
+                      onChange={(e) => setAiInputData({ ...aiInputData, link: e.target.value })}
+                      className="w-full rounded-xl border-2 border-purple-100 px-4 py-3 text-sm focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all"
+                    />
+                  </div>
+
+                  {/* AI Code Input */}
+                  <div className="flex flex-col">
+                    <label className="flex items-center gap-2 text-sm font-bold text-purple-900 mb-2">
+                      <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xs">2</span>
+                      Your Raw Code
+                    </label>
+                    {/* Removed flex-1 here. Kept min-h to ensure it's usable. */}
+                    <textarea
+                      placeholder="Paste your raw solution code here..."
+                      value={aiInputData.code}
+                      onChange={(e) => setAiInputData({ ...aiInputData, code: e.target.value })}
+                      className="w-full min-h-[300px] rounded-xl border-2 border-purple-100 px-4 py-3 text-sm font-mono focus:border-purple-400 focus:ring-4 focus:ring-purple-50 outline-none transition-all resize-none"
+                    ></textarea>
+                  </div>
+
+                </div>
+
+                {/* AI Action Button */}
+                {/* Kept pt-6 for standard visual separation */}
+                <div className="pt-6 z-10">
+                  <button
+                    onClick={handleAiGeneration}
+                    disabled={aiLoading}
+                    className={`
+        relative w-full py-4 rounded-xl font-bold text-white shadow-lg 
+        flex items-center justify-center gap-2 transition-all duration-300
+        overflow-hidden
+        ${aiLoading
+                        ? "cursor-wait"
+                        : "hover:scale-[1.02] hover:shadow-xl"
+                      }
+      `}
+                  >
+                    {/* Background Layer: 
+         This handles the gradients. We separate it to allow the 'flow' animation 
+         without affecting the text/icon positioning.
+      */}
+                    <div
+                      className={`absolute inset-0 transition-opacity duration-300 ${aiLoading
+                        ? "opacity-100 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-gradient-flow"
+                        : "opacity-100 bg-gradient-to-r from-purple-600 to-pink-600"
+                        }`}
+                    />
+
+                    {/* Hover Layer (Normal State): 
+          Adds the darker hover effect when NOT loading 
+      */}
+                    <div className={`absolute inset-0 bg-white/0 transition-colors ${!aiLoading && "hover:bg-white/10"}`} />
+
+                    {/* Content Layer: relative to sit on top of the background */}
+                    <div className="relative flex items-center gap-2">
+                      {aiLoading ? (
+                        <>
+                          {/* Gemini-style Sparkle Icon with Pulse */}
+                          <svg
+                            className="w-5 h-5 text-white animate-pulse"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M12 2L14.3 9.4L22 12L14.3 14.6L12 22L9.7 14.6L2 12L9.7 9.4L12 2Z" />
+                            <circle cx="12" cy="12" r="0.5" className="animate-ping" />
+                          </svg>
+                          <span className="animate-pulse tracking-wide">Analyzing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                          </svg>
+                          Generate Solution
+                        </>
+                      )}
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
-        </button>
-      </div>
-    </div>
-  </div>
-)}
         </div>
       </div>
     </>

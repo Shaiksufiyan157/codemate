@@ -13,8 +13,7 @@ const UserSlice=createSlice({
     initialState,
     reducers:{
     setUserInfo:(state,action)=>{
-        // state.email=action.payload,
-        // state.username=action.payload
+        console.log(action.payload)
         state.user=action.payload
     }
     }

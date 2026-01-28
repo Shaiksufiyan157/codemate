@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getsheets } from "../../api/sheets";
-import Loading from "../../components/utils/Loading"
+import { getsheets } from "../../../api/sheets";
+import Loading from "../../../components/utils/Loading"
 export const HOCSheets = (Component) => {
 
   return function UpdatedComponent() {

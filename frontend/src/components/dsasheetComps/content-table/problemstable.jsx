@@ -1,4 +1,5 @@
 import React from "react"
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useParams } from "react-router-dom"
 import { dsasheetdata } from "../../../db";
 export const ProblemsTable = () => {

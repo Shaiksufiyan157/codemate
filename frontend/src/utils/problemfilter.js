@@ -1,5 +1,3 @@
-// import { Problems } from "../components/content-table";
-
 export const getFilterByDs=(Problems,value)=>{
     if(!value) return Problems;
 

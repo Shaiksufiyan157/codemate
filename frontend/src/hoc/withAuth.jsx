@@ -14,10 +14,8 @@ const withAuth = (WrappedComponent) => {
       }
     }, [token, navigate]);
 
-    // If no token, don't render anything while redirecting
     if (!token) return null;
 
-    // If token exists, render the original component
     return <WrappedComponent/>;
   };
 };

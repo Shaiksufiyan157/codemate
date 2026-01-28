@@ -5,7 +5,7 @@ async function addProblemToUser(userId, problemData) {
     console.log(userId)
     // console.log(problemData[0])
   try {
-    const newProblem = new Problem(problemData[1]); // if problemData is an array
+    const newProblem = new Problem.find(problemData[1]); // if problemData is an array
     const savedProblem = await newProblem.save();
     const user = await User.findById(userId);
     if (!user) {
