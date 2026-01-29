@@ -29,7 +29,7 @@ export const SheetCard= ({ sheet,id,idx }) => {
 
             <div>
                 <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-700 transition-colors mb-2">
-                    {sheet.name}
+                    {sheet.name || sheet.sheetname}
                 </h3>
                 <p className="text-sm text-gray-500">
                     Click to view problems in this sheet.

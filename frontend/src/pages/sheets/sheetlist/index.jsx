@@ -1,12 +1,9 @@
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect ,memo} from "react";
-import { getsheets } from "../../../api/sheets";
+import { memo} from "react";
 import { SheetCard } from "../../../components/dsasheetComps/content-table/sheetstable"
 import { HOCSheets } from "./hoc";
 import { FaThLarge } from 'react-icons/fa';
 
 const DsaSheetsPage = ({sheets}) => {
-   console.log("re rendered")
   return (
         <main className="min-h-screen bg-slate-100 py-10 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
@@ -16,7 +13,7 @@ const DsaSheetsPage = ({sheets}) => {
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                             <FaThLarge className="text-indigo-600" />
-                            DSA Sheets
+                            DSA Sheeyts
                         </h1>
                         <p className="text-slate-500 mt-2 text-lg">
                             Select a topic to start practicing.

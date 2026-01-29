@@ -9,11 +9,9 @@ const CodeViewer = ({ codeString }) => {
   const [formattedCode, setFormattedCode] = useState(codeString);
   const [copied, setCopied] = useState(false);
 
-  // Format the raw code string on load
   useEffect(() => {
     const formatCode = async () => {
       try {
-        // Using babel parser as a generic fallback for C-like syntax if C++ plugin isn't available lightly
         const result = await prettier.format(codeString, {
           parser: "babel",
           plugins: [prettierPluginBabel, prettierPluginEstree],
@@ -21,7 +19,7 @@ const CodeViewer = ({ codeString }) => {
         });
         setFormattedCode(result);
       } catch (e) {
-        setFormattedCode(codeString); // Fallback to raw if formatting fails
+        setFormattedCode(codeString);
       }
     };
     formatCode();
@@ -43,7 +41,7 @@ const CodeViewer = ({ codeString }) => {
           <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 transition-colors" />
         </div>
         <span className="text-gray-400 text-xs font-mono">Solution</span>
-        
+
         {/* Copy Button */}
         <button
           onClick={handleCopy}
@@ -76,7 +74,7 @@ const CodeViewer = ({ codeString }) => {
             padding: "1.5rem",
             fontSize: "0.875rem",
             lineHeight: "1.5",
-            background: "transparent", // Use container bg
+            background: "transparent",
           }}
           showLineNumbers={true}
           wrapLines={true}

@@ -15,11 +15,6 @@ const userSchema=new Schema({
     problems:[{ type: Schema.Types.ObjectId, ref: 'Problem' }],
 })
 
-
-// userSchema.plugin(passportLocalMongoose,{
-//    usernameField:'email'
-// })
-
 const User=mongoose.model("User",userSchema)
 
 export default User

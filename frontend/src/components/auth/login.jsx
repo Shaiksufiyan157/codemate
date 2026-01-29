@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { findUser } from "../../api/user";
 import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -8,13 +7,13 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../slices/userSlice";
 import { setToken } from "../../slices/problemSlice";
 export const Login = () => {
-  useEffect(()=>{
-    const token=localStorage.getItem("token")
-    if(token){
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
       navigate('/')
     }
   })
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "", username: "" });
@@ -41,7 +40,6 @@ export const Login = () => {
     }
 
     catch (err) {
-      console.log("error is comming from", err);
       toast.error("Login failed")
     }
   }
@@ -71,10 +69,10 @@ export const Login = () => {
     if (isValid) {
       setErrors({ email: "", password: "", username: "" })
     }
-    return isValid; 
+    return isValid;
   };
   const handleLoginClick = async () => {
-   
+
 
     if (validate()) {
       try {

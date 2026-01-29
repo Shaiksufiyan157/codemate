@@ -1,6 +1,6 @@
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
-const SheetProblemMobile = ({ idx, problem }) => {
+export const SheetProblemMobile = ({ idx, problem }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex items-center justify-between gap-4">
       <div className="flex items-start gap-3">
@@ -24,4 +24,3 @@ const SheetProblemMobile = ({ idx, problem }) => {
   );
 };
 
-export default SheetProblemMobile;

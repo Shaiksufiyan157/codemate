@@ -8,25 +8,17 @@ export const HOCSheets = (Component) => {
     const dispatch = useDispatch();
     const sheets = useSelector(state => state.dsasheet.sheets)
     const [loading, setLoading] = useState(() => !sheets || sheets.length === 0);
-    console.log(sheets.length)
     useEffect(() => {
       const loadSheets = async () => {
         if (!sheets || sheets.length == 0)
-          await dispatch(getsheets());
+          dispatch(getsheets());
         setLoading(false);
       };
-      // const 
       loadSheets();
-
     }, []);
-
-
     if (loading) {
       return <Loading />
     }
-
-
-
     return (
       <>
         <Component sheets={sheets}></Component>

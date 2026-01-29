@@ -3,7 +3,7 @@ import { ProblemReducer } from '../../reducers/problemsReducer';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from "uuid";
 import { getProblems } from '../../api/revproblems';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 export const InputData = () => {
@@ -14,10 +14,7 @@ export const InputData = () => {
   const algoRef = useRef();
   const linkRef = useRef();
 
-
   const dispatch = useDispatch();
- 
-
   const initialState = {
     approach1: '',
     approach2: '',
@@ -32,7 +29,7 @@ export const InputData = () => {
   const { approach1, approach2, ds, algo, problem_statement, link, code } = state
   const [errors, setErrors] = useState({ ds: "", algo: "", prob_statement: "", approach: "", link: "" });
 
- 
+
   const [useAiMode, setUseAiMode] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiInputData, setAiInputData] = useState({ code: '', link: '' });
@@ -51,7 +48,7 @@ export const InputData = () => {
       dispatch(getProblems())
 
     } catch (error) {
-      console.error('Error adding problem:', error);
+      toast.error("something went wrong")
     }
 
   }
@@ -72,8 +69,6 @@ export const InputData = () => {
     try {
       const { data } = await axios.post(url, payload);
 
-      console.log("API Response:", data); 
-
       dispatchProblem({ type: "ADD_PROBLEM_STATEMENT", payload: data.problem_statement || "" });
       dispatchProblem({ type: "ADD_APPROACH1", payload: data.approach_1 || "" });
 
@@ -85,24 +80,22 @@ export const InputData = () => {
       dispatchProblem({ type: "ADD_DS", payload: dsValue });
       dispatchProblem({ type: "ADD_ALGO", payload: algoValue });
 
-     
+
       dispatchProblem({ type: "ADD_CODE", payload: aiInputData.code });
       dispatchProblem({ type: "ADD_LINK", payload: aiInputData.link });
 
       toast.success("Form populated successfully!");
 
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to generate content. Check console.");
+      toast.error("somethng went wrong")
     } finally {
       setAiLoading(false);
     }
   };
-  // ---------------------------
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(state)
+
     if (problem_statement.length == 0) {
       setErrors({ prob_statement: "Enter the problem statement", algo: "", ds: "", approach: "" });
       ProbStatemRef.current?.focus();
@@ -139,16 +132,9 @@ export const InputData = () => {
       algo: algo,
       code: code
     };
-
-    console.log(newProblem)
-
     addNewProblem(newProblem)
-
     dispatchProblem({ type: 'ON_SUBMIT' })
-  
-
     setAiInputData({ code: '', link: '' });
-
     toast.success('Successfully problem added!')
   };
 
@@ -186,7 +172,7 @@ export const InputData = () => {
               <p className="text-gray-600">Review and edit the problem details below</p>
             </div>
 
-            <div><Toaster /></div>
+
 
             <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100 flex-1">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -355,7 +341,6 @@ export const InputData = () => {
             </div>
           </div>
 
-          {/* RIGHT SIDE: AI Assistant Panel (Only visible in AI Mode) */}
           {useAiMode && (
             <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-10 duration-500">
               <div className="text-center lg:text-left mb-8">
@@ -363,14 +348,12 @@ export const InputData = () => {
                 <p className="text-gray-600">Paste your code and link, let AI handle the rest</p>
               </div>
 
-              {/* Removed flex-1 from this parent to prevent unwanted stretching */}
               <div className="bg-white shadow-xl rounded-2xl p-8 border border-purple-100 flex flex-col relative overflow-hidden">
 
                 {/* Background Decoration */}
                 <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-purple-100 rounded-full blur-3xl opacity-50"></div>
 
                 {/* AI Input Forms */}
-                {/* Removed flex-1 here so it doesn't push the button away */}
                 <div className="space-y-6 z-10">
 
                   {/* AI Link Input */}
@@ -406,35 +389,19 @@ export const InputData = () => {
                 </div>
 
                 {/* AI Action Button */}
-                {/* Kept pt-6 for standard visual separation */}
                 <div className="pt-6 z-10">
                   <button
                     onClick={handleAiGeneration}
                     disabled={aiLoading}
-                    className={`
-        relative w-full py-4 rounded-xl font-bold text-white shadow-lg 
-        flex items-center justify-center gap-2 transition-all duration-300
-        overflow-hidden
-        ${aiLoading
-                        ? "cursor-wait"
-                        : "hover:scale-[1.02] hover:shadow-xl"
-                      }
-      `}
-                  >
-                    {/* Background Layer: 
-         This handles the gradients. We separate it to allow the 'flow' animation 
-         without affecting the text/icon positioning.
-      */}
+                    className={`relative w-full py-4 rounded-xl font-bold text-white shadow-lg flex items-center justify-center
+                       gap-2 transition-all duration-300overflow-hidden
+                       ${aiLoading ? "cursor-wait" : "hover:scale-[1.02] hover:shadow-xl"}`}>
                     <div
                       className={`absolute inset-0 transition-opacity duration-300 ${aiLoading
                         ? "opacity-100 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-gradient-flow"
                         : "opacity-100 bg-gradient-to-r from-purple-600 to-pink-600"
                         }`}
                     />
-
-                    {/* Hover Layer (Normal State): 
-          Adds the darker hover effect when NOT loading 
-      */}
                     <div className={`absolute inset-0 bg-white/0 transition-colors ${!aiLoading && "hover:bg-white/10"}`} />
 
                     {/* Content Layer: relative to sit on top of the background */}
