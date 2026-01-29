@@ -20,9 +20,15 @@ const DsaSheetSchema = new Schema({
         type: String,
         required: true
     },
-    name: {
+    author:{
         type: String,
         required: true
+    },
+    sheetname: {
+        type: String,
+        required: true,
+        unique: true,
+        
     },
     problems: [SheetsProblemsSchema]
 }, {

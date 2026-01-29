@@ -73,7 +73,7 @@ const SignUp = () => {
       // dispatch(setToken(user.data.token))
 
       dispatch(setUserInfo(user.data.user))
-      toast.success(` Logged in successfully as ${user.data.user.username}`)
+      toast.success(`Logged in successfully as ${user.data.user.username}`)
       navigate('/')
 
     }

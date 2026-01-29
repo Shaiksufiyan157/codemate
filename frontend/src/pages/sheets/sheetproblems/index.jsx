@@ -1,25 +1,14 @@
-import React from "react"
 import { useParams } from "react-router-dom"
-import { useSelector } from 'react-redux'
 import { SheetProblemCard } from "../../../components/dsasheetComps/content-table/problemcard";
-import SheetProblemMobile from "../../../components/dsasheetComps/content-table/SheetProblemMobile ";
+import {SheetProblemMobile} from "../../../components/dsasheetComps/content-table/SheetProblemMobile ";
 import { HOCSheets } from "../sheetlist/hoc";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast'
-import axios from "axios";
 import { HOCSheetsProblems } from "./hoc";
 const SheetProblemsPage = ({ sheets }) => {
 
     const params = useParams();
-    console.log(params.sid)
-    // const {sheets}=useSelector(state=>state.dsasheet)
-    // console.log(sheets)
     const dsasheet = sheets.find(({ id }) => id === params.sid)
-    console.log(dsasheet)
     const problems = dsasheet?.problems || [];
-    //  console.log("re-render from problems")
-
+    
     return (
         <div className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">

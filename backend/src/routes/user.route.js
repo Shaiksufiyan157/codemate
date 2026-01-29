@@ -48,10 +48,9 @@ router.post('/signup', async (req, res) => {
     }
 })
 router.post('/login',async (req, res) => {
-    // res.send("welcome to login page")
+
     try {
        const user=await User.findOne({ email: req.body.email })
-            //No user found
             if (!user) {
                 return res.status(401).send({
                     success: false,

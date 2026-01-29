@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import axios from "axios"
 const initialState = {
     problems: [],
     datastructure: '',
@@ -24,19 +23,22 @@ const PoblemSlice = createSlice({
             state.problems = JSON.parse(localStorage.getItem('problems'))
         },
         setToken: (state, action) => {
-            
+
             state.token = action.payload;
         },
-        removeToken: (state, action) => {
+        removeToken: (state) => {
             state.token = null;
             state.problems = [];
             localStorage.removeItem('token')
+        },
+        removeProblemFromList: (state, action) => {
+            state.problems = state.problems.filter(p => p.id !== action.payload);
         }
 
 
     }
 })
 
-export const { addproblem, setDSValue, setAlgoValue, OnAllClick, setProblems, setToken, removeToken } = PoblemSlice.actions
+export const { addproblem, setDSValue, setAlgoValue, OnAllClick, setProblems, setToken, removeToken,removeProblemFromList } = PoblemSlice.actions
 
 export default PoblemSlice.reducer;

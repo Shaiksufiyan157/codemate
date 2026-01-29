@@ -1,6 +1,6 @@
 import Navbar from './components/navbar/index'
 import { Footer } from './components/footer/index'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import LandingPage from './pages/home'
 import { InputData } from './components/probleminput/index'
 import DsaSheetsPage from './pages/sheets/sheetlist/index'
@@ -10,11 +10,10 @@ import { RevisionProblemPage } from './pages/revisionProblems'
 import { RapidFire } from './pages/rapidfire/index'
 import { LoginPage, SignUpPage } from './pages/auth/Loginpage'
 import { useDispatch } from 'react-redux'
-import CodemateAi from './components/genAi'
 import { setUserInfo } from './slices/userSlice'
 import ProtectedRoute from './components/utils/ProtectedRoute'
-import { use, useEffect } from 'react'
-
+import {useEffect } from 'react'
+import toast,{ Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -39,8 +38,8 @@ function App() {
 
         
 
-      } catch (err) {
-        console.error("Error fetching user:", err);
+      } catch (err) { 
+        toast.error("somethng went wrong")
 
         if (err.response && err.response.status === 401) {
           navigate('/');
@@ -55,6 +54,7 @@ function App() {
 
       <div className="h-screen flex flex-col">
         <Navbar />
+        <Toaster/>
         <div className="bg-gray-100 flex-grow flex flex-col justify-between">
           <Routes>
             {/* PUBLIC ROUTES */}
@@ -62,7 +62,6 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignUpPage />} />
             <Route path='/sheets' element={<DsaSheetsPage />} />
-            <Route path='/ai' element={<CodemateAi />} />
             {/* PROTECTED ROUTES - Only accessible if logged in */}
             <Route element={<ProtectedRoute />}>
               <Route path='/problems' element={<RevisionProblemPage />} />

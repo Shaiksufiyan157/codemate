@@ -1,55 +1,54 @@
-export const ProblemReducer=(state,action)=>{
-    switch(action.type){
-        
+export const ProblemReducer = (state, action) => {
+    switch (action.type) {
+
         case 'ADD_PROBLEM_STATEMENT':
-            return{
+            return {
                 ...state,
-                problem_statement:action.payload
+                problem_statement: action.payload
             }
-        
+
         case 'ADD_APPROACH1':
-            return{
+            return {
                 ...state,
-                approach1:action.payload    
+                approach1: action.payload
             }
         case 'ADD_APPROACH2':
-            return{
+            return {
                 ...state,
-                approach2:action.payload    
+                approach2: action.payload
             }
         case 'ADD_DS':
-            return{
+            return {
                 ...state,
-                ds:action.payload    
+                ds: action.payload
             }
         case 'ADD_ALGO':
-            return{
+            return {
                 ...state,
-                algo:action.payload    
+                algo: action.payload
             }
-         case 'ADD_LINK':
-            return{
+        case 'ADD_LINK':
+            return {
                 ...state,
-                link:action.payload
+                link: action.payload
             }
         case 'ADD_CODE':
-            // console.log(action.payload)
-        return{
-            ...state,
-            code:action.payload
-        }
+            return {
+                ...state,
+                code: action.payload
+            }
         case 'ON_SUBMIT':
-            return{
+            return {
 
-            ...state,
-                ds:'',
-                algo:'',
-                problem_statement:'',
-                approach1:'',
-                approach2:'',
-                link:'',
-                code:''
-        }
+                ...state,
+                ds: '',
+                algo: '',
+                problem_statement: '',
+                approach1: '',
+                approach2: '',
+                link: '',
+                code: ''
+            }
         default:
             {
                 return state

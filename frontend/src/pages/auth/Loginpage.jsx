@@ -8,11 +8,11 @@ const LoginPage = () => {
         </>
     );
 }
-const SignUpPage=()=>{
-    return(
+const SignUpPage = () => {
+    return (
         <>
-        <SignUp/>
+            <SignUp />
         </>
     )
 }
-export {LoginPage,SignUpPage}
+export { LoginPage, SignUpPage }

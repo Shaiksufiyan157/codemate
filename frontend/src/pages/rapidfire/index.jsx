@@ -12,11 +12,11 @@ export const RapidFire = () => {
 
 
     const [index, setIndex] = useState(0);
-     const [rand, setRand] = useState([]);
+    const [rand, setRand] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { problems, algo } = useSelector(state => state.problem);
-const token=localStorage.getItem("token")
+    const { problems } = useSelector(state => state.problem);
+    const token = localStorage.getItem("token")
     useEffect(() => {
         if (!token) {
             navigate('/login')
@@ -25,7 +25,7 @@ const token=localStorage.getItem("token")
         const loadproblems = async () => {
 
             if (!problems || problems.length === 0)
-              dispatch(getProblems())
+                dispatch(getProblems())
             setLoading(false)
         }
         loadproblems()
@@ -50,18 +50,8 @@ const token=localStorage.getItem("token")
     const onBackClick = () => {
         index <= 0 ? setIndex(0) : setIndex(index - 1)
     }
-    // console.log('Redux problem state:', problems[0].problem_statement);
-
     return (
         <>
-            {
-                // rand.map((idx)=>(
-                // <h1>{problems[idx].problem_statement}</h1>
-
-                // ))
-
-            }
-
             {loading ? (
                 <Loading />
             ) : (
