@@ -1,36 +1,44 @@
 import { FaLightbulb, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaTrash, FaEllipsisV } from 'react-icons/fa';
-import { useState } from "react"
+import { useState } from "react";
 import CodeViewer from "./CodeViewer";
 import { removeProblemFromList } from '../../slices/problemSlice';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
+import axios from 'axios'; // Ensure axios is imported
+
 export const RevisionProblemMobile = ({ problem, idx }) => {
-  const [viewcode, setViewcode] = useState(false)
+  const [viewcode, setViewcode] = useState(false);
+  
+  // 1. New State for the mobile dropdown menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const dataStructures = problem.ds.split(",").map(item => item.trim());
   const algos = problem.algo.split(",").map(item => item.trim());
   const dispatch = useDispatch();
 
   const deleteProblem = async (id) => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/deleteproblem`
-    const data = { id: id }
+    const url = `${import.meta.env.VITE_BACKEND_URL}/deleteproblem`;
+    const data = { id: id };
     try {
-      const response = await axios.put(url, data, {
+      await axios.put(url, data, {
         headers: {
           Authorization: localStorage.getItem('token')
         }
-      })
+      });
     } catch (error) {
-      toast.error("somethng went wrong")
+      toast.error("Something went wrong");
     }
-  }
-  const HandleDeleteClick = () => {
-    deleteProblem(problem.id)
-    toast.success("Problem deleted Successfully")
-    dispatch(removeProblemFromList(problem.id))
+  };
 
-  }
+  const HandleDeleteClick = () => {
+    deleteProblem(problem.id);
+    toast.success("Problem deleted Successfully");
+    dispatch(removeProblemFromList(problem.id));
+    setIsMenuOpen(false); // Close menu after clicking
+  };
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden relative">
 
       {/* Header */}
       <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-start">
@@ -44,28 +52,44 @@ export const RevisionProblemMobile = ({ problem, idx }) => {
           <a
             href={problem.link}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-gray-400 hover:text-indigo-600"
           >
             <FaExternalLinkAlt size={16} />
           </a>
 
-          {/* Mobile Menu */}
-          <div className="relative group/mobile-menu">
-            <button className="text-gray-400 hover:text-indigo-600 transition-colors">
+          {/* Mobile Menu Container */}
+          <div className="relative">
+            
+            {/* 2. Toggle Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-400 hover:text-indigo-600 transition-colors p-1"
+            >
               <FaEllipsisV size={16} />
             </button>
 
-            {/* Dropdown: Positioned right-aligned, appearing below the dots */}
-            <div className="hidden group-hover/mobile-menu:block absolute right-0 top-6 z-20 w-32 bg-white rounded-md shadow-lg border border-gray-100 py-1">
-              <button
-                onClick={HandleDeleteClick} // Add delete logic
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-              >
-                <FaTrash size={12} />
-                Delete
-              </button>
-            </div>
+            {/* 3. Dropdown Logic */}
+            {isMenuOpen && (
+              <>
+                {/* Fixed Backdrop: Tapping anywhere else closes the menu */}
+                <div 
+                  className="fixed inset-0 z-30" 
+                  onClick={() => setIsMenuOpen(false)}
+                ></div>
+
+                {/* Dropdown Menu */}
+                <div className="absolute right-0 top-8 z-40 w-32 bg-white rounded-md shadow-xl border border-gray-100 py-1">
+                  <button
+                    onClick={HandleDeleteClick}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <FaTrash size={12} />
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -122,7 +122,7 @@ export const RevisionProblemCard = ({ key, problem, idx }) => {
                     ></div>
 
                     {/* Dropdown Menu */}
-                    <div className="absolute right-6 top-0 w-auto whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                    <div className="absolute right-6 top-0 w-auto whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100 ring-1 ring-opacity-5 focus:outline-none z-50">
                       <div className="py-0.5">
                         <button
                           onClick={HandleDeleteClick}
