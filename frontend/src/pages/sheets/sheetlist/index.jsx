@@ -13,7 +13,7 @@ const DsaSheetsPage = ({sheets}) => {
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                             <FaThLarge className="text-indigo-600" />
-                            DSA Sheeyts
+                            DSA Sheets
                         </h1>
                         <p className="text-slate-500 mt-2 text-lg">
                             Select a topic to start practicing.

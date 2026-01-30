@@ -9,8 +9,10 @@ import toast from 'react-hot-toast';
 export const RevisionProblemCard = ({ key, problem, idx }) => {
   const dataStructures = problem.ds.split(",").map(item => item.trim());
   const algos = problem.algo.split(",").map(item => item.trim());
-  const [viewCode, setViewCode] = useState(false)
-
+  
+  const [viewCode, setViewCode] = useState(false);
+  // 1. New state for the dropdown menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
 
   const dispatch = useDispatch();
 
@@ -27,12 +29,14 @@ export const RevisionProblemCard = ({ key, problem, idx }) => {
       toast.error("something went wrong")
     }
   }
-  const HandleDeleteClick = () => {
-    deleteProblem(problem.id)
-    toast.success("Problem deleted Successfully")
-    dispatch(removeProblemFromList(problem.id))
 
+  const HandleDeleteClick = () => {
+    deleteProblem(problem.id);
+    toast.success("Problem deleted Successfully");
+    dispatch(removeProblemFromList(problem.id));
+    setIsMenuOpen(false); // Close menu on action
   }
+
   return (
     <>
       <tr className="group hover:bg-slate-50 transition-colors border-b border-gray-100 last:border-0">
@@ -98,24 +102,39 @@ export const RevisionProblemCard = ({ key, problem, idx }) => {
 
             {/* 1. Top Item: Menu Container */}
             <div className="flex justify-end relative">
-              <div className="group/menu relative inline-block text-left">
-                <button className="p-1.5 rounded-full text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+              <div className="relative inline-block text-left">
+                
+                {/* 2. Added onClick to toggle state */}
+                <button 
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="p-1.5 rounded-full text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                >
                   <FaEllipsisV size={14} />
                 </button>
 
-                {/* Dropdown Menu - Popping to the LEFT */}
+                {/* 3. Conditional Rendering based on state */}
+                {isMenuOpen && (
+                  <>
+                    {/* 4. Invisible Backdrop to handle "Click Outside" */}
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsMenuOpen(false)}
+                    ></div>
 
-                <div className="hidden group-hover/menu:block absolute right-6 top-0 w-auto whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-                  <div className="py-0.5">
-                    <button
-                      onClick={HandleDeleteClick}
-                      className="flex items-center gap-1 px-2 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      <FaTrash size={12} />
-                      Delete
-                    </button>
-                  </div>
-                </div>
+                    {/* Dropdown Menu */}
+                    <div className="absolute right-6 top-0 w-auto whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                      <div className="py-0.5">
+                        <button
+                          onClick={HandleDeleteClick}
+                          className="flex items-center gap-1 px-2 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors w-full"
+                        >
+                          <FaTrash size={12} />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
