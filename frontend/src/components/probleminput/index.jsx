@@ -68,6 +68,11 @@ export const InputData = () => {
 
     try {
       const { data } = await axios.post(url, payload);
+      if(data["error"]){
+        toast.error(data["error"])
+        setAiInputData.code=''
+        return;
+      }
 
       dispatchProblem({ type: "ADD_PROBLEM_STATEMENT", payload: data.problem_statement || "" });
       dispatchProblem({ type: "ADD_APPROACH1", payload: data.approach_1 || "" });

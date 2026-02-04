@@ -14,6 +14,7 @@ import { setUserInfo } from './slices/userSlice'
 import ProtectedRoute from './components/utils/ProtectedRoute'
 import {useEffect } from 'react'
 import toast,{ Toaster } from 'react-hot-toast';
+import { DocsComponent } from './components/docs'
 
 
 function App() {
@@ -62,14 +63,14 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignUpPage />} />
             <Route path='/sheets' element={<DsaSheetsPage />} />
+            <Route path='/docs' element={<DocsComponent/>}/>
             {/* PROTECTED ROUTES - Only accessible if logged in */}
             <Route element={<ProtectedRoute />}>
               <Route path='/problems' element={<RevisionProblemPage />} />
               <Route path='/addproblem' element={<InputData />} />
-
               <Route path='/sheets/:sid' element={<SheetProblemsPage />} />
               <Route path='/rapidfire' element={<RapidFire />} />
-
+            
             </Route>
 
           </Routes>

@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FaBars, FaTimes, FaCode, FaChevronDown, FaSignOutAlt } from 'react-icons/fa';
 import { removeToken } from '../../slices/problemSlice';
 
-const pages = ['Home', 'Problems', 'About Us', 'Sheets', 'Rapid Fire'];
+const pages = ['Home', 'Problems', 'Docs', 'Sheets', 'Rapid Fire'];
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
