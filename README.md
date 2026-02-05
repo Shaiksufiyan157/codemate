@@ -71,18 +71,97 @@ Instead of manually typing out problem statements, time complexities, and tags, 
 ## 📂 Project Structure
 
 ```bash
-codemate/
-├── backend/                # Express & MongoDB Server
-│   ├── src/
-│   │   ├── config/         # Passport Auth Config
-│   │   ├── lib/            # DB Connection
-│   │   ├── models/         # Mongoose Schemas (User, Problem, Sheet)
-│   │   └── routes/         # API Routes (Auth, LLM, Problems)
-│   └── ...
-└── frontend/               # React (Vite) Application
-    ├── src/
-    │   ├── api/            # Axios endpoints
-    │   ├── components/     # Reusable UI (Navbar, Cards, Filter)
-    │   ├── pages/          # Full Page Views (Home, Sheets, Auth)
-    │   ├── slices/         # Redux State Management
-    │   └── ...
+Directory structure:
+└── shaiksufiyan157-codemate/
+    ├── backend/
+    │   ├── package.json
+    │   ├── vercel.json
+    │   └── src/
+    │       ├── index.js
+    │       ├── config/
+    │       │   └── passport.js
+    │       ├── lib/
+    │       │   └── db.js
+    │       ├── models/
+    │       │   ├── dsasheet.model.js
+    │       │   ├── problems.model.js
+    │       │   └── user.model.js
+    │       └── routes/
+    │           ├── llm.route.js
+    │           ├── problems.route.js
+    │           ├── sheet.route.js
+    │           └── user.route.js
+    └── frontend/
+        ├── eslint.config.js
+        ├── index.html
+        ├── package.json
+        ├── vercel.json
+        ├── vite.config.js
+        └── src/
+            ├── App.css
+            ├── App.jsx
+            ├── index.css
+            ├── main.jsx
+            ├── api/
+            │   ├── revproblems.js
+            │   ├── sheets.js
+            │   └── user.js
+            ├── components/
+            │   ├── auth/
+            │   │   ├── login.jsx
+            │   │   └── register.jsx
+            │   ├── content-table/
+            │   │   ├── CodeViewer.jsx
+            │   │   ├── PublishMyProblems.jsx
+            │   │   ├── RevisionProbComp.jsx
+            │   │   └── RevisionProblemMobile.jsx
+            │   ├── dsasheetComps/
+            │   │   └── content-table/
+            │   │       ├── problemcard.jsx
+            │   │       ├── SheetProblemMobile .jsx
+            │   │       └── sheetstable.jsx
+            │   ├── filter/
+            │   │   └── Filter.jsx
+            │   ├── footer/
+            │   │   └── index.jsx
+            │   ├── home/
+            │   │   ├── feats.jsx
+            │   │   └── index.jsx
+            │   ├── navbar/
+            │   │   └── index.jsx
+            │   ├── probleminput/
+            │   │   └── index.jsx
+            │   ├── rapidfire/
+            │   │   └── index.jsx
+            │   └── utils/
+            │       ├── Loading.jsx
+            │       └── ProtectedRoute.jsx
+            ├── hoc/
+            │   └── withAuth.jsx
+            ├── pages/
+            │   ├── auth/
+            │   │   └── Loginpage.jsx
+            │   ├── home/
+            │   │   └── index.jsx
+            │   ├── rapidfire/
+            │   │   └── index.jsx
+            │   ├── revisionProblems/
+            │   │   └── index.jsx
+            │   └── sheets/
+            │       ├── sheetlist/
+            │       │   ├── hoc.jsx
+            │       │   └── index.jsx
+            │       └── sheetproblems/
+            │           ├── hoc.jsx
+            │           └── index.jsx
+            ├── reducers/
+            │   └── problemsReducer.jsx
+            ├── slices/
+            │   ├── dsaSheetsSlice.js
+            │   ├── problemSlice.js
+            │   └── userSlice.js
+            ├── store/
+            │   └── index.js
+            └── utils/
+                └── problemfilter.js
+```.
