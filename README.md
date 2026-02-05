@@ -86,3 +86,39 @@ codemate/
     │   ├── pages/          # Full Page Views (Home, Sheets, Auth)
     │   ├── slices/         # Redux State Management
     │   └── ...
+⚡ Installation & Setup
+Prerequisites
+Node.js (v18+)
+
+MongoDB (Local or Atlas)
+
+OpenRouter API Key (for AI features)
+
+1. Clone the Repository
+Bash
+git clone [https://github.com/Shaiksufiyan157/codemate.git](https://github.com/Shaiksufiyan157/codemate.git)
+cd codemate
+2. Backend Setup
+Bash
+cd backend
+npm install
+
+# Create a .env file in the backend folder
+echo "PORT=3000" >> .env
+echo "DB_URI=mongodb://localhost:27017/codemate" >> .env
+echo "FRONTEND_URL=http://localhost:5173" >> .env
+echo "OPENROUTER_API_KEY=your_openrouter_key_here" >> .env
+
+# Start the server
+npm run dev
+3. Frontend Setup
+Bash
+cd frontend
+npm install
+
+# Create a .env file in the frontend folder
+echo "VITE_BACKEND_URL=http://localhost:3000" >> .env
+
+# Start the client
+npm run dev
+<p align="center"> Developed by <a href="https://www.google.com/search?q=https://github.com/Shaiksufiyan157">Shaik Sufiyan</a> </p>
