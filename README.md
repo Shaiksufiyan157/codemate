@@ -1,132 +1,211 @@
 <div align="center">
 
-# CODEMATE
+# 🚀 CODEMATE
 
-### _Empowering Innovation Through Seamless Coding Mastery_
+### <i>Empowering Innovation Through Seamless Coding Mastery</i>
 
-![Last Commit](https://img.shields.io/github/last-commit/Shaiksufiyan157/codemate?style=flat&color=blue&label=last%20commit)
-![Top Language](https://img.shields.io/github/languages/top/Shaiksufiyan157/codemate?style=flat&color=blue)
-![Language Count](https://img.shields.io/github/languages/count/Shaiksufiyan157/codemate?style=flat&color=blue)
-
-<br/>
-<br/>
-
-### _Built with the tools and technologies:_
-
-![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
-![JSON](https://img.shields.io/badge/JSON-000000?style=flat&logo=json&logoColor=white)
-![Markdown](https://img.shields.io/badge/Markdown-000000?style=flat&logo=markdown&logoColor=white)
-![Session](https://img.shields.io/badge/Session-000000?style=flat&logo=socket.io&logoColor=white)
-![npm](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white)
-![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)
-![ENV](https://img.shields.io/badge/.ENV-ECD53F?style=flat&logo=dotenv&logoColor=black)
+![Last Commit](https://img.shields.io/badge/last%20commit-yesterday-007ec6?style=flat-square)
+![JavaScript](https://img.shields.io/badge/javascript-99.8%25-007ec6?style=flat-square)
+![Languages](https://img.shields.io/badge/languages-3-007ec6?style=flat-square)
 
 <br/>
 
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![Nodemon](https://img.shields.io/badge/Nodemon-76D04B?style=flat&logo=nodemon&logoColor=white)
-![Passport](https://img.shields.io/badge/Passport-34E27A?style=flat&logo=passport&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
-![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)
-![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white)
+### <i>Built with modern, scalable technologies</i>
+
+<img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
+<img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
+<img src="https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white" />
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+<img src="https://img.shields.io/badge/Passport-34E27A?style=for-the-badge&logo=passport&logoColor=white" />
+<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" />
+<img src="https://img.shields.io/badge/OpenRouter-000000?style=for-the-badge&logo=ai&logoColor=white" />
 
 </div>
 
-> **CodeMate** is a robust full-stack web application engineered to streamline the Data Structures and Algorithms (DSA) learning journey. By combining structured problem sheets with advanced tracking capabilities, it helps developers move from learning concepts to mastering technical interviews.
+---
+
+## 📌 About Codemate
+
+**Codemate** is an AI-powered DSA tracking and revision platform designed for developers who want to **log problems faster**, **revise smarter**, and **stay consistent** without the usual manual overhead.
+
+Unlike traditional DSA trackers, Codemate integrates **Generative AI directly into the workflow**, allowing users to convert raw code into a complete, structured problem entry in seconds.
 
 ---
 
-## 🎯 Key Features & Functionality
+## 🤖 AI-Powered Automation (Core Highlight)
 
-### 🔐 Secure & Seamless Authentication
-- **Enterprise-Grade Security:** Implements **Passport.js** with **JWT (JSON Web Tokens)** strategies to ensure secure user data handling.
-- **Persistent Sessions:** Utilizes `express-session` with MongoDB storage to maintain user login states across browser restarts, providing a seamless "remember me" experience.
-- **Protected Routes:** Middleware safeguards sensitive pages (like user profiles and progress data), ensuring only authenticated users can access them.
+Codemate’s standout feature is its **GenAI Engine**, built to eliminate the most painful part of DSA tracking — **manual documentation**.
 
-### 📚 Structured DSA Sheet Management
-- **Topic-Wise Organization:** Problems are meticulously categorized into core topics (e.g., *Arrays, Linked Lists, Recursion, Dynamic Programming*), allowing users to focus on weak areas.
-- **Curated Content:** Supports integration of popular DSA sheets (like Love Babbar 450 or Striver’s SDE Sheet), giving users a clear roadmap from beginner to advanced levels.
-- **Progress Visualization:** Visual indicators show completion rates per topic, motivating users to maintain their streak.
+### 🔥 What Makes the AI Feature Special?
 
-### 📝 Smart Problem Tracking & Notes
-- **Personalized Status Workflow:** Users can mark problems with distinct statuses: *Solved*, *Pending*, or *Revise Later*.
-- **Contextual Note-Taking:** Includes a dedicated notes section for every problem, allowing users to jot down intuition, edge cases, or time complexity analysis ($O(n)$) directly alongside the question.
-- **Bookmark for Review:** Easily "star" tricky problems to add them to a priority queue for last-minute interview prep.
+You don’t write explanations.  
+You don’t tag problems manually.  
+You don’t calculate complexities.
 
-### 💾 Comprehensive Solution Repository
-- **Multi-Approach Storage:** Users aren't limited to one answer; the system allows saving multiple solutions (e.g., *Brute Force* vs. *Optimized Approach*) for the same problem.
-- **Code formatting:** Clean and readable display of code snippets, making it easy to review syntax and logic patterns months later.
+👉 **You just paste your code and problem link.**
 
-### 🔄 Dedicated Revision Mode
-- **Spaced Repetition Friendly:** A specialized "Revision" interface that filters only the problems marked for review, stripping away distractions to focus purely on retention.
-- **Quick-Look Cards:** View problem statements and your saved notes side-by-side to quickly refresh concepts without re-solving the entire problem.
-
-### 🎨 Responsive & Modern UI
-- **Mobile-First Design:** Built with **Tailwind CSS** to ensure the dashboard looks perfect on mobile devices, tablets, and desktops.
-- **Interactive Elements:** Smooth transitions and instant feedback (using Redux state management) when updating problem status, eliminating page reloads for a native app feel.
+The AI does everything else.
 
 ---
 
-## 🛠️ Tech Stack
+### 🧠 AI Workflow
 
-### Backend
-- **Runtime:** Node.js
-- **Framework:** Express.js (REST API Architecture)
-- **Database:** MongoDB (Schema modeling with Mongoose)
-- **Authentication:** Passport.js (JWT & Local Strategies)
-- **State Persistence:** express-session & connect-mongo
+1. **Input**
+   - Raw solution code (C / C++ / Java / Python / JavaScript)
+   - Problem URL (LeetCode, GFG, Codeforces, etc.)
 
-### Frontend
-- **Framework:** React.js (Powered by Vite for fast builds)
-- **Styling:** Tailwind CSS (Utility-first design)
-- **State Management:** Redux Toolkit (Centralized data store)
-- **API Communication:** Axios (Interceptor-based HTTP requests)
-- **Routing:** React Router DOM v6
+2. **Processing**
+   - Backend streams data to **OpenRouter**
+   - Uses **Nvidia Nemotron-3** LLM for structured extraction
 
-### Deployment
-- **Hosting:** Vercel (Optimized for frontend/backend monorepos)
+3. **Strict Validation Layer**
+   - **Category A:** Valid code snippets
+   - **Category B:** Valid problem links
+   - **Category C:** Invalid / gibberish input  
+   (Rejected instantly to maintain data integrity)
+
+4. **AI-Generated Metadata**
+   - 📌 Problem Title (inferred from logic or link)
+   - 🧠 Approach Summary (concise & interview-ready)
+   - ⏱️ Time Complexity
+   - 💾 Space Complexity
+   - 🏷️ Data Structures & Algorithms tags
+
+> **System Rule:**  
+> *"Your ONLY job is to validate input and extract metadata."*
+
+This makes Codemate **fast, accurate, and distraction-free**.
 
 ---
 
-## 📋 Prerequisites
+## ✨ Key Features
 
-Before you begin, ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- npm or yarn package manager
-- MongoDB (Local instance or MongoDB Atlas URL)
-- Git
+### ⚡ Smart Problem Entry
+- Add problems manually **or**
+- Use **AI Assistant** to auto-generate everything from raw code
+
+### 📚 DSA Sheets
+- Create personal sheets (e.g., *Blind 75*, *Top 100*)
+- Publish sheets for community access
+- Explore and follow other users’ sheets
+
+### 🔥 Rapid Fire Mode
+- Flashcard-style revision
+- Tests problem logic **without showing the code first**
+- Perfect for last-minute interview prep
+
+### 🔍 Advanced Filtering
+- Filter by:
+  - Data Structures (Array, Stack, Graph, Heap)
+  - Algorithms (Binary Search, DFS, BFS, Sorting)
+
+### 💻 Code Solution Viewer
+- Syntax highlighting using **PrismJS**
+- VS Code Dark theme
+- One-click **Copy to Clipboard**
+
+### 🔐 Secure Authentication
+- JWT-based authentication
+- Passport.js strategies
+- Secure session handling
 
 ---
 
-## 🚀 Installation
+## 🧱 Tech Stack
 
-### 1. Clone the Repository
+**Frontend**
+- React (Vite)
+- Redux Toolkit
+- Axios
+- ESLint
+
+**Backend**
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- Passport.js
+- JWT Authentication
+
+**AI**
+- OpenRouter API
+- Nvidia Nemotron-3 LLM
+
+---
+
+## 📂 Project Structure
+
 ```bash
-git clone [https://github.com/Shaiksufiyan157/codemate.git](https://github.com/Shaiksufiyan157/codemate.git)
+codemate/
+├── backend/
+│   ├── src/
+│   │   ├── config/         # Passport authentication config
+│   │   ├── lib/            # Database connection
+│   │   ├── models/         # Mongoose schemas
+│   │   ├── routes/         # Auth, AI, Problems, Sheets APIs
+│   └── ...
+│
+└── frontend/
+    ├── src/
+    │   ├── api/            # Axios services
+    │   ├── components/     # Reusable UI components
+    │   ├── pages/          # App pages
+    │   ├── slices/         # Redux state
+    │   └── ...
+```
+⚙️ Installation & Setup
+Prerequisites
+
+Node.js v18+
+
+MongoDB (Local or Atlas)
+
+OpenRouter API Key
+
+1️⃣ Clone Repository
+```bash
+git clone https://github.com/Shaiksufiyan157/codemate.git
 cd codemate
 ```
 
-### 2. Install Dependencies
-Navigate to the root directory (or separate frontend/backend folders if structured that way) and run:
-
-```Bash
+2️⃣ Backend Setup
+```bash
+cd backend
 npm install
 ```
-### 3. Configure Environment Variables
-Create a .env file in the root directory and add your specific configuration:
 
-Code snippet
-
-```Bash
+Create .env file:
+```bash
 PORT=3000
-MONGO_URI=your_mongodb_connection_string
-SESSION_SECRET=your_secret_key
-```
-### 4. Start the Application
-```Bash
+DB_URI=mongodb://localhost:27017/codemate
+FRONTEND_URL=http://localhost:5173
+OPENROUTER_API_KEY=your_openrouter_key_here
 
-# Run in development mode (with Nodemon)
+```
+Start backend:
+```bash
 npm run dev
 ```
-<div align="center"> <sub>Built with ❤️ by Shaik Sufiyan. Open for contributions!</sub> </div>
+3️⃣ Frontend Setup
+```bash
+cd frontend
+npm install
+```
+
+Create .env file:
+```bash
+VITE_BACKEND_URL=http://localhost:3000
+```
+
+Start frontend:
+```bash
+npm run dev
+```
+🧠 Why Codemate?
+
+✔️ Zero-friction DSA logging
+✔️ AI-first developer experience
+✔️ Built for interview preparation
+✔️ Designed by a developer, for developers
+
+<p align="center"> Developed with ❤️ by <a href="https://github.com/Shaiksufiyan157">Shaik Sufiyan</a> </p>
