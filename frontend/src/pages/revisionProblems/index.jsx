@@ -1,5 +1,5 @@
-import { RevisionProblemCard } from "../../components/content-table/RevisionProbComp"
-import { RevisionProblemMobile } from "../../components/content-table/RevisionProblemMobile"
+import { RevisionProblemCard } from "../../components/MyProblems/RevisionProbComp"
+import { RevisionProblemMobile } from "../../components/MyProblems/RevisionProblemMobile"
 import { getFilterByAlgo, getFilterByDs } from "../../utils/problemfilter"
 import { useSelector, useDispatch } from "react-redux"
 import { Filter } from "../../components/filter/Filter"

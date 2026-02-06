@@ -63,7 +63,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignUpPage />} />
             <Route path='/sheets' element={<DsaSheetsPage />} />
-            <Route path='/docs' element={<DocsComponent/>}/>
+            <Route path='/howitworks?' element={<DocsComponent/>}/>
             {/* PROTECTED ROUTES - Only accessible if logged in */}
             <Route element={<ProtectedRoute />}>
               <Route path='/problems' element={<RevisionProblemPage />} />

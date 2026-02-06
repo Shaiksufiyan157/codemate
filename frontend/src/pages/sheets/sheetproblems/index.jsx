@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import { SheetProblemCard } from "../../../components/dsasheetComps/content-table/problemcard";
-import {SheetProblemMobile} from "../../../components/dsasheetComps/content-table/SheetProblemMobile ";
+import { SheetProblemCard } from "../../../components/DsasheetComps/problemcard";
+import {SheetProblemMobile} from "../../../components/DsasheetComps/SheetProblemMobile ";
 import { HOCSheets } from "../sheetlist/hoc";
 import { HOCSheetsProblems } from "./hoc";
 const SheetProblemsPage = ({ sheets }) => {

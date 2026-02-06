@@ -1,5 +1,5 @@
 import { memo} from "react";
-import { SheetCard } from "../../../components/dsasheetComps/content-table/sheetstable"
+import { SheetCard } from "../../../components/DsasheetComps/sheetstable"
 import { HOCSheets } from "./hoc";
 import { FaThLarge } from 'react-icons/fa';
 
