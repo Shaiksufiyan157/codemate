@@ -55,9 +55,11 @@ function Navbar() {
           {/* ================= LEFT: LOGO ================= */}
           <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             {/* Logo Icon */}
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
-              <FaCode size={20} />
-            </div>
+<img 
+    src="/favicon.ico"   
+    alt="App Logo" 
+    className="w-5 h-5 object-contain" 
+  />
             <span className="font-mono font-bold text-xl tracking-widest text-white hidden md:block">
               CODEMATE
             </span>
