@@ -414,20 +414,6 @@ Output strictly valid JSON with no markdown:
                         </li>
                       </ul>
                     </div>
-
-                    <div>
-                      <h4 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
-                        <HiLightningBolt className="text-yellow-500" />
-                        Performance Optimization
-                      </h4>
-                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-5">
-                        <p className="text-slate-700 leading-relaxed">
-                          <strong>Streaming Response:</strong> Instead of waiting for the complete AI response, 
-                          the backend uses OpenRouter's streaming API to start processing as soon as chunks arrive. 
-                          This reduces perceived latency from 3-5 seconds to under 2 seconds for typical code snippets.
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
