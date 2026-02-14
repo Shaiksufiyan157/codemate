@@ -169,7 +169,7 @@ Your recall stays sharp.
 - React (Vite)  
 - Redux Toolkit  
 - Axios  
-- ESLint  
+
 
 ### Backend
 - Node.js  
