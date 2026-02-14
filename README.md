@@ -1,5 +1,32 @@
-# 🚀 CODEMATE  
-### Revise DSA Problems in Under a Minute — Without Re-Coding
+<div align="center">
+
+# 🚀 CODEMATE
+
+### *Revise DSA Problems in Under a Minute — Without Re-Coding*
+
+<br>
+
+![Last Commit](https://img.shields.io/badge/last%20commit-yesterday-blue)
+![Language](https://img.shields.io/badge/javascript-99.8%25-blue)
+![Languages](https://img.shields.io/badge/languages-3-blue)
+
+<br><br>
+
+## Built with modern, scalable technologies
+
+<p>
+  <img src="https://img.shields.io/badge/Express-black?style=for-the-badge&logo=express&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Mongoose-880000?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Passport-34E27A?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens"/>
+  <img src="https://img.shields.io/badge/OpenRouter-black?style=for-the-badge"/>
+</p>
+
+</div>
+
 
 DSA preparation is not about solving problems once.  
 It’s about remembering them when it matters — in interviews.
