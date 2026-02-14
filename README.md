@@ -2,7 +2,7 @@
 
 # 🚀 CODEMATE
 
-### *Revise DSA Problems in Under a Minute — Without Re-Coding*
+### *Revise DSA Problem in Under a Minute — Without Re-Coding*
 
 <br>
 
