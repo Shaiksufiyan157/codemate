@@ -157,8 +157,8 @@ Your recall stays sharp.
 
 ## 🧠 Who Is Codemate For?
 
-- Students preparing for product-based companies  
-- Developers revising DSA before interviews  
+- Students preparing for Big-Tech Companies  
+- Developers revising DSA before Interviews  
 - Anyone who wants long-term DSA retention, not streaks  
 
 ---
